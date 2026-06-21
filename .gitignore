@@ -1,6 +1,7 @@
 __pycache__/
 *.pyc
-dataset2026/        # upstream data; Kaggle notebook re-clones it
+dataset2026
+dataset2026/
 *.jsonl.out
 /tmp/
 .DS_Store
