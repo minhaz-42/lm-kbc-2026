@@ -42,16 +42,12 @@ for m in MODULES:
 cells += [
     code("!git clone -q --depth 1 https://github.com/lm-kbc/dataset2026.git\n"
          "print('data:', os.listdir('dataset2026/data'))"),
-    code(f"MODEL={MODEL!r}; SPLIT={SPLIT!r}; SC={SC}"),
-    code("INPUT=f'dataset2026/data/{SPLIT}.jsonl'; TRAIN='dataset2026/data/train.jsonl'\n"
-         "OUT=f'/content/preds_{SPLIT}.jsonl'\n"
-         "cmd=f'cd solution && python run.py --backend hf --model {MODEL} -i ../{INPUT} --train ../{TRAIN} -o {OUT} --sc-samples {SC} --string-samples 3'\n"
-         "print(cmd); import subprocess\n"
-         "p=subprocess.run(cmd,shell=True,capture_output=True,text=True)\n"
-         "print(p.stdout[-2000:]); print('ERR:', p.stderr[-2000:])"),
-    code("if SPLIT=='val':\n"
-         "    r=subprocess.run(f'cd solution && python eval.py -p {OUT} -g ../{INPUT}',shell=True,capture_output=True,text=True)\n"
-         "    print(r.stdout); print(r.stderr[-1000:])"),
+    code(f"MODEL={MODEL!r}; SPLIT={SPLIT!r}; SC={SC}\n"
+         "INPUT=f'dataset2026/data/{SPLIT}.jsonl'; TRAIN='dataset2026/data/train.jsonl'; OUT=f'/content/preds_{SPLIT}.jsonl'"),
+    # `!` streams output LIVE (download bar + per-relation progress) — never looks frozen.
+    code("!cd solution && python run.py --backend hf --model {MODEL} -i ../{INPUT} --train ../{TRAIN} -o {OUT} --sc-samples {SC} --string-samples 3"),
+    code("!cd solution && python eval.py -p {OUT} -g ../{INPUT}" if SPLIT == "val"
+         else "print('test split: submit', OUT, 'to Codabench')"),
     code("raw=OUT.replace('.jsonl','.raw.jsonl')\n"
          "for f in (OUT, raw):\n"
          "    print(f, os.path.getsize(f) if os.path.exists(f) else 'MISSING', 'bytes')\n"
