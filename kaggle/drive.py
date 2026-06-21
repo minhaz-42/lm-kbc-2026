@@ -19,10 +19,18 @@ OUTDIR = os.path.join(HERE, "output")
 
 
 def username():
-    if not os.path.exists(KAGGLE):
-        sys.exit(f"!! {KAGGLE} not found. Download your token from Kaggle->Settings->API.")
-    os.chmod(KAGGLE, 0o600)
-    return json.load(open(KAGGLE))["username"]
+    # works with either auth method: parse `kaggle config view`
+    r = subprocess.run(["kaggle", "config", "view"], capture_output=True, text=True)
+    for line in (r.stdout + r.stderr).splitlines():
+        if "username:" in line:
+            u = line.split("username:")[1].strip()
+            if u and u.lower() != "none":
+                return u
+    if os.environ.get("KAGGLE_USERNAME"):
+        return os.environ["KAGGLE_USERNAME"]
+    if os.path.exists(KAGGLE):
+        return json.load(open(KAGGLE))["username"]
+    sys.exit("could not determine Kaggle username; set KAGGLE_USERNAME or ~/.kaggle config")
 
 
 def kaggle(*args, capture=True):

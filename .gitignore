@@ -7,3 +7,7 @@ dataset2026/
 .DS_Store
 preds*.jsonl
 submission*.jsonl
+
+# colab generated notebook (regenerable)
+colab/lmkbc_colab.ipynb
+kaggle/diag/

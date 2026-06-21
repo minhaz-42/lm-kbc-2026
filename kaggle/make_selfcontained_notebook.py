@@ -26,7 +26,13 @@ def md(src): return {"cell_type": "markdown", "metadata": {}, "source": [l + "\n
 
 cells = [
     md(f"# LM-KBC 2026 — self-contained run ({SPLIT}, {MODEL})\nEmbeds the solution code; no external repo needed."),
-    code("import os\nos.makedirs('solution', exist_ok=True)\nprint('GPU check:'); import subprocess; print(subprocess.run(['nvidia-smi','--query-gpu=name,memory.total','--format=csv'],capture_output=True,text=True).stdout)"),
+    code("import os, shutil, subprocess\n"
+         "os.makedirs('solution', exist_ok=True)\n"
+         "try:\n"
+         "    import torch; print('cuda_available', torch.cuda.is_available(), torch.cuda.get_device_name(0) if torch.cuda.is_available() else '')\n"
+         "    assert torch.cuda.is_available(), 'NO GPU attached — enable Accelerator (and phone-verify the Kaggle account)'\n"
+         "except Exception as e:\n"
+         "    print('GPU CHECK:', e)"),
     code("!pip -q install 'transformers>=4.51.0' accelerate bitsandbytes 'numpy<2' 2>/dev/null\nprint('deps ok')"),
 ]
 
