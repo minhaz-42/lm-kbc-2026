@@ -162,32 +162,35 @@ recalling the numeric values and from knowing when \emph{not} to answer.
 \centering\footnotesize
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
- >={Stealth[length=2mm]}, node distance=5mm and 10mm,
- box/.style={draw,rounded corners,align=center,inner sep=3pt,minimum height=8mm,font=\footnotesize},
- dia/.style={draw,diamond,aspect=2.2,align=center,inner sep=1pt,font=\scriptsize},
- ex/.style={font=\scriptsize\itshape,text=black!55}]
-\node[box] (in) {$(s,r)$};
-\node[box,right=of in] (pr) {scope-grounded\\prompt $+$ few-shot\\(mixed empty/non-empty)};
-\node[dia,right=of pr] (d) {relation\\kind?};
-\node[box,right=16mm of d] (num) {numeric:\\median of $n{=}5$};
-\node[box,below=of num] (nul) {null-heavy string:\\vote, keep if $\ge\theta$;\\$\emptyset$ if inconsistent};
-\node[box,above=of num] (awd) {\textsc{awardWonBy}:\\enumerate};
-\node[box,right=14mm of num] (norm) {normalise\\(evaluator-identical)};
-\node[box,right=of norm] (out) {object set};
-\draw[->](in)--(pr); \draw[->](pr)--(d);
+ >={Stealth[length=2.4mm]}, node distance=7mm and 11mm,
+ stg/.style={draw,rounded corners,align=center,inner sep=4pt,minimum height=10mm,font=\footnotesize},
+ agg/.style={draw,rounded corners,align=center,inner sep=3.5pt,minimum height=9mm,font=\footnotesize,fill=green!7},
+ dia/.style={draw,diamond,aspect=2.1,align=center,inner sep=0pt,font=\scriptsize,fill=black!6},
+ ex/.style={draw,dashed,rounded corners,inner sep=2.5pt,font=\scriptsize\itshape,text=blue!45!black,fill=blue!3}]
+\node[stg,fill=blue!7] (in) {$(s,r)$};
+\node[stg,fill=blue!7,right=of in] (pr) {scope-grounded\\prompt $+$ few-shot\\(empty $+$ non-empty)};
+\node[stg,fill=black!4,right=of pr] (dec) {LLM\\sample $\times N$\\(cached)};
+\node[dia,right=10mm of dec] (d) {relation\\kind?};
+\node[agg,above right=10mm and 13mm of d] (awd) {\textsc{awardWonBy}:\\enumerate recipients};
+\node[agg,right=13mm of d] (num) {numeric:\\median of $n{=}5$};
+\node[agg,below right=10mm and 13mm of d] (nul) {null-heavy string:\\keep $o$ if vote $\ge\theta$,\\else $\emptyset$};
+\node[stg,fill=orange!10,right=13mm of num] (norm) {normalise\\(evaluator-\\identical)};
+\node[stg,fill=orange!10,right=of norm] (out) {object\\set};
+\draw[->](in)--(pr); \draw[->](pr)--(dec); \draw[->](dec)--(d);
 \draw[->](d)|-(awd); \draw[->](d)--(num); \draw[->](d)|-(nul);
 \draw[->](awd)-|(norm); \draw[->](num)--(norm); \draw[->](nul)-|(norm);
 \draw[->](norm)--(out);
-\node[ex,below=0.5mm of in]{Mauritius};
-\node[ex,below=0.5mm of out]{$\emptyset$ (island)};
+\node[ex,above=4mm of awd]{Nobel Prize in Physics $\to$ \{Einstein, Bohr, \dots\}};
+\node[ex,below=4mm of nul]{Mauritius $\to \emptyset$\ \ (island: no land border)};
 \end{tikzpicture}}
-\caption{System pipeline. Each $(s,r)$ maps to a scope-grounded chat prompt with
-mixed empty/non-empty few-shot exemplars; we decode $N$ cached samples and
-aggregate by relation kind---\emph{median} for numeric, consistency
-\emph{voting with abstention} for null-heavy strings, and \emph{enumeration} for
-\textsc{awardWonBy}---then normalise identically to the evaluator. The worked
-example (\textsc{Mauritius}, an island) yields the empty set. No trainable
-parameters.}
+\caption{System pipeline. Each $(s,r)$ is rendered into a scope-grounded chat
+prompt with mixed empty/non-empty exemplars; the model is sampled $N$ times
+(samples are cached), and the outputs are aggregated by relation kind:
+\emph{median} for numeric relations, consistency \emph{voting with abstention}
+for null-heavy strings, and \emph{enumeration} for \textsc{awardWonBy}. A final
+normalisation matches the evaluator exactly. Dashed boxes show worked examples;
+the island \textsc{Mauritius} correctly collapses to the empty set. The pipeline
+has no trainable parameters.}
 \label{fig:pipeline}
 \end{figure*}
 
