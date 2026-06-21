@@ -115,10 +115,12 @@ class VLLMGenerator(BaseGenerator):
 # transformers + bitsandbytes 4-bit fallback.
 # --------------------------------------------------------------------------- #
 class HFGenerator(BaseGenerator):
-    def __init__(self, model_path: str, load_in_4bit: bool = True):
+    def __init__(self, model_path: str, load_in_4bit: bool = True,
+                 device_map: str = "auto", dtype: str = "float16"):
         import torch
         from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
         self.torch = torch
+        td = getattr(torch, dtype)
         self.tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
         if self.tokenizer.pad_token is None:
             self.tokenizer.pad_token = self.tokenizer.eos_token
@@ -128,19 +130,25 @@ class HFGenerator(BaseGenerator):
             bnb_4bit_compute_dtype=torch.float16, bnb_4bit_use_double_quant=True,
         ) if load_in_4bit else None
         self.model = AutoModelForCausalLM.from_pretrained(
-            model_path, device_map="auto", quantization_config=qcfg,
-            torch_dtype=torch.float16, trust_remote_code=True)
+            model_path, device_map=device_map, quantization_config=qcfg,
+            torch_dtype=td, trust_remote_code=True)
         self.model.eval()
 
     def apply_template(self, messages):
-        return self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        try:  # Qwen3 etc.: force thinking OFF so we get terse JSON, not <think> blocks
+            return self.tokenizer.apply_chat_template(
+                messages, tokenize=False, add_generation_prompt=True, enable_thinking=False)
+        except TypeError:
+            return self.tokenizer.apply_chat_template(
+                messages, tokenize=False, add_generation_prompt=True)
 
     def generate(self, prompts, max_new_tokens, temperature=0.0, n=1, batch_size=8):
         torch = self.torch
         results: List[List[str]] = []
         do_sample = temperature > 0
-        for i in range(0, len(prompts), batch_size):
-            batch = prompts[i:i + batch_size]
+        eff_bs = max(1, batch_size // max(1, n))   # n return-seqs per prompt -> shrink batch to fit VRAM
+        for i in range(0, len(prompts), eff_bs):
+            batch = prompts[i:i + eff_bs]
             enc = self.tokenizer(batch, return_tensors="pt", padding=True, truncation=True).to(self.model.device)
             with torch.no_grad():
                 gen = self.model.generate(
