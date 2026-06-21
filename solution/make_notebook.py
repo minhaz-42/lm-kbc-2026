@@ -4,7 +4,7 @@ Run:  python solution/make_notebook.py
 """
 import json, os
 
-REPO_URL = "https://github.com/YOUR_USERNAME/lm-kbc-2026.git"  # <-- edit after you push
+REPO_URL = "https://github.com/minhaz-42/lm-kbc-2026.git"  # private until you flip it public
 
 def md(*lines): return {"cell_type": "markdown", "metadata": {}, "source": [l + "\n" for l in lines]}
 def code(*lines): return {"cell_type": "code", "metadata": {}, "execution_count": None,
