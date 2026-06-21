@@ -28,7 +28,9 @@ abstention* on null-heavy relations, (3) precision on the rest. So the design is
 | `prompts.py` | builds chat prompts + few-shot | no |
 | `parsing.py` | model-text → clean `List[str]` | no |
 | `generators.py` | vLLM / HF-4bit / mock backends | GPU for real ones |
-| `run.py` | end-to-end → `predictions.jsonl` | depends on backend |
+| `run.py` | end-to-end → `predictions.jsonl` **+ `*.raw.jsonl` cache** | depends on backend |
+| `decoding.py` | raw samples → ObjectEntities (parse + numeric median) | no |
+| `decode.py` | re-decode a raw cache → predictions | no |
 | `eval.py` | per-relation macro-F1 vs empty floor | no |
 | `test_parsing.py` | parser unit tests | no |
 | `kaggle_lmkbc.ipynb` | run on Kaggle 2×T4 | yes |
@@ -54,6 +56,18 @@ time is spent. Iterate on prompts/parsing here for free.
 3. Set `REPO_URL`, `MODEL`, `BACKEND`, `SPLIT` in cell 1; Run All.
 4. `SPLIT='val'` prints the per-relation scoreboard; `SPLIT='test'` produces the
    submission file for Codabench.
+
+### Iterate without burning GPU
+
+`run.py` writes `*.raw.jsonl` — the model's raw outputs. Download it once, then
+re-tune parsing/abstention/numeric aggregation locally for free:
+
+```bash
+python solution/decode.py -r raw_val.jsonl -o preds.jsonl   # no GPU
+python solution/eval.py   -p preds.jsonl   -g dataset2026/data/val.jsonl
+```
+
+Only re-run the Kaggle notebook when you change the *prompts* or the *model*.
 
 ## Submission checklist (deadline Aug 15 2026)
 
