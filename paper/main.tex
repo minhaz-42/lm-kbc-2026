@@ -1,9 +1,10 @@
 % LM-KBC 2026 shared-task system paper.
 % Build: cd paper && tectonic main.tex   (acl.sty + acl_natbib.bst vendored here)
-% Anonymous submission: keep [review]. Camera-ready: switch to [final] and add authors.
+% NB: this shows the author (mode = final). For the DOUBLE-BLIND OpenReview
+% submission, change [final] to [review] to re-anonymize the author block.
 % NB: do NOT add \bibliographystyle{acl_natbib} -- acl.sty sets it (duplicate => bibtex error).
 \documentclass[11pt]{article}
-\usepackage[review]{acl}
+\usepackage[final]{acl}
 \usepackage{times}
 \usepackage{latexsym}
 \usepackage[T1]{fontenc}
@@ -23,7 +24,9 @@
 
 \title{Closed-Book Knowledge Base Construction with Calibrated Abstention
 and Numeric Self-Consistency}
-\author{Anonymous submission \\ LM-KBC Shared Task 2026}
+\author{Tanvir Ahmed \\
+  North South University, Dhaka, Bangladesh \\
+  \texttt{tanvir.ahmed32@northsouth.edu}}
 
 \begin{document}
 \maketitle
@@ -254,12 +257,35 @@ per relation kind into an object set. It has no trainable parameters and targets
 the two analysis levers: abstention and numeric recall.
 
 \paragraph{Scope-grounded prompts.} Each relation's system message states the
-task, the \emph{exact} ground-truth scope (copied from the official definitions),
-and the answer shape; the model emits one JSON object
-\texttt{\{"answers":[\dots]\}} (Figure~\ref{fig:prompt}). This makes the empty
-case unambiguous. Few-shot exemplars come from the training split; for null-heavy
-relations we interleave empty and non-empty exemplars so abstention is
-demonstrated, not merely instructed. Even a 0.5B model emits valid JSON on 100\% of instances, so format is never a bottleneck.
+task, the \emph{exact} ground-truth scope (copied verbatim from the official
+definitions), and the required answer form (Table~\ref{tab:prompts}); the model
+emits one JSON object \texttt{\{"answers":[\dots]\}} (Figure~\ref{fig:prompt}),
+which makes the empty case unambiguous. Few-shot exemplars come from the training
+split; for null-heavy relations we interleave empty and non-empty exemplars so
+abstention is demonstrated, not merely instructed. Even a 0.5B model emits valid
+JSON on 100\% of instances, so format is never a bottleneck.
+
+\begin{table*}[t]
+\centering\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}l p{7.7cm} l@{}}
+\toprule
+Relation & Scope stated in the prompt & Answer form \\
+\midrule
+\textsc{countryLandBordersCountry} & countries sharing a \emph{land} border; maritime borders excluded; an island has none & countries, or [] \\
+\textsc{personHasCityOfDeath} & the \emph{city} where the subject died; empty if alive or the city is unknown & one city, or [] \\
+\textsc{companyTradesAtStockExchange} & stock exchange(s) on which the company is publicly listed; empty if unlisted & exchanges, or [] \\
+\textsc{awardWonBy} & every recipient of the award (often tens to hundreds) & names (long) \\
+\textsc{hasCapacity} & maximum spectator capacity in people; highest published value & one integer \\
+\textsc{hasArea} & total surface area in km$^2$ (land $+$ inland water) & one number \\
+\bottomrule
+\end{tabular}
+\caption{Per-relation prompt specification. Each system message states the
+relation's exact scope (copied from the official definitions) and the required
+answer form; the model replies with a single JSON object
+\texttt{\{"answers":[\dots]\}}.}
+\label{tab:prompts}
+\end{table*}
 
 \begin{figure}[t]
 \centering\scriptsize\ttfamily
@@ -317,19 +343,41 @@ parser scores $1.000$, confirming it is lossless.
 
 \section{Experimental Setup}
 \label{sec:setup}
-\paragraph{Model.} We use \textbf{Qwen2.5-14B-Instruct} \citep{qwen2024}
-(14.7B parameters, within budget). Several nominally ``32B'' models exceed the
-cap (Qwen2.5-32B at 32.5B; Qwen3-32B at 32.8B) and are disqualified; 14.7B was
-the largest model we could fit in 4-bit on our single 16\,GB GPU.
+\paragraph{Model.} All results use \textbf{Qwen2.5-14B-Instruct}
+\citep{qwen2024}, a 14.7B-parameter open-weight model. The choice is bounded by
+the 32B cap and our hardware: several nominally ``32B'' models in fact exceed the
+limit (Qwen2.5-32B at 32.5B and Qwen3-32B at 32.8B parameters) and are
+ineligible, and 14.7B was the largest model that fit in 4-bit on the single
+16\,GB GPU available to us. The same model serves every relation; only the prompt
+and the decoding strategy vary.
 
-\paragraph{Inference and reproducibility.} Inference runs on one NVIDIA T4
-(16\,GB) via 4-bit \texttt{bitsandbytes} (\texttt{nf4}), \texttt{float16}
-compute \citep{dettmers2023qlora}. We use 8-shot prompts
-\citep{brown2020gpt3} (2-shot for \textsc{awardWonBy}), with the submitted system fixing
-$\theta{=}0.5$, $N{=}3$, $n{=}5$, $\tau{=}0.7$. Generation writes a cache of raw
-samples; all post-processing---parsing, voting, median, threshold---is a
-deterministic GPU-free function of that cache, so every ablation below comes from
-one generation pass, reproducible without a GPU.
+\paragraph{Decoding.} Decoding is selected by relation kind
+(Section~\ref{sec:method}). The two numeric relations are sampled $n{=}5$ times
+at temperature $\tau{=}0.7$ and aggregated by the median. The three null-heavy
+relations are sampled $N{=}3$ times at $\tau{=}0.7$ and aggregated by consistency
+voting at threshold $\theta{=}0.5$ (Algorithm~\ref{alg:abstain}).
+\textsc{awardWonBy}, being recall-bound, is decoded once greedily with a large
+token budget so the model can enumerate freely. Prompts are 8-shot for every
+relation except \textsc{awardWonBy} (2-shot, since its exemplar lists are long),
+with exemplars drawn from the training split \citep{brown2020gpt3}.
+
+\paragraph{Hardware and implementation.} The system runs on a single NVIDIA T4
+(16\,GB) using HuggingFace Transformers, loading the model in 4-bit with
+\texttt{bitsandbytes} (\texttt{nf4} quantisation, \texttt{float16} compute)
+\citep{dettmers2023qlora}; quantisation only fits the hardware and does not
+change the counted parameter budget. The entire validation set (478 instances) is
+processed in one pass.
+
+\paragraph{Baselines.} We report two references on the same validation split: the
+\emph{empty} baseline, which predicts $\emptyset$ for every instance
+(Section~\ref{sec:task}), and the \emph{official} organiser baseline, a few-shot
+prompting system whose per-relation scores we take from the task repository.
+
+\paragraph{Reproducibility.} Generation writes a cache of every raw sample; all
+post-processing---parsing, consistency voting, median aggregation, and the
+threshold sweep---is a deterministic, GPU-free function of that cache. Every
+ablation in Section~\ref{sec:analysis} therefore comes from a single generation
+pass and reproduces without a GPU. We release all code and prompts.
 
 \section{Results}
 \label{sec:results}
