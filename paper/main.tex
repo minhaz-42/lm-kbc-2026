@@ -19,7 +19,7 @@
 \pgfplotsset{compat=1.18}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
-\emergencystretch=2em  % absorb long \textsc relation names without margin overflow
+\emergencystretch=3em  % absorb long \textsc relation names without margin overflow
 
 \title{Closed-Book Knowledge Base Construction with Calibrated Abstention
 and Numeric Self-Consistency}
@@ -35,8 +35,7 @@ EMNLP~2026). Given a subject and a relation, a system must return the
 \emph{complete} object set---empty, single, or up to hundreds of values---using
 only an open-weight model ($\le$32B parameters), with no retrieval, no external
 knowledge, and no fine-tuning. Our central observation is that the macro
-metric rewards \emph{abstention}: predicting the empty set everywhere already
-scores $0.175$ relation-averaged macro-F\textsubscript{1}, near the official
+metric rewards \emph{abstention}: predicting the empty set everywhere scores $0.175$ relation-averaged macro-F\textsubscript{1}, near the official
 baseline ($0.273$). We therefore treat \emph{when to answer} as a first-class
 decision and build a per-relation pipeline that (i)~grounds prompts in each
 relation's exact scope, (ii)~induces calibrated abstention by self-consistency
@@ -49,23 +48,17 @@ released.\footnote{\url{https://github.com/ANON/lm-kbc-2026}}
 \end{abstract}
 
 \section{Introduction}
-Pre-trained language models (LMs) store substantial factual knowledge
-\citep{petroni2019lama,roberts2020closedbook}, and a line of work probes and
-extracts it \citep{jiang2020lpaqa,zhong2021optiprompt,alkhamissi2022review}.
-Turning that knowledge into reliable knowledge-base (KB) entries---the goal of
-KB construction and completion \citep{dong2014knowledgevault,vrandecic2014wikidata}---is
-harder than answering one factual query. The LM-KBC shared task
+Pre-trained language models (LMs) store substantial factual knowledge \citep{petroni2019lama,roberts2020closedbook}, and prior work probes and extracts it \citep{jiang2020lpaqa,zhong2021optiprompt,alkhamissi2022review}.
+Turning that knowledge into reliable knowledge-base (KB) entries---the goal of KB construction and completion \citep{dong2014knowledgevault,vrandecic2014wikidata}---is harder than answering a single factual query. The LM-KBC shared task
 \citep{alivanistos2022prompting,kalo2023lmkbc,kalo2025lmkbc} formalises this:
 given a subject $s$ and relation $r$, predict the complete set of objects
 $\{o_1,\dots,o_k\}$ with $k\in\{0,1,\dots\}$. Unlike single-answer probes such
 as LAMA \citep{petroni2019lama}, it makes no cardinality assumption and grades
 by string normalisation and alias matching, not entity disambiguation.
 
-The 2026 edition is strictly \emph{closed-book}: any open-weight model up to
+What sets the 2026 edition apart is its strictly \emph{closed-book} regime: any open-weight model up to
 32B parameters, but no web search, no retrieval, no external corpus, and no
-additional training. This rules out the retrieval and fine-tuning that strong
-prior entries relied on \citep{zhang2023llmke,asai2024selfrag}, leaving
-parametric recall and \emph{prompt design} as the only levers. Scoring is by
+additional training. This rules out the retrieval and fine-tuning strong prior entries relied on \citep{zhang2023llmke,asai2024selfrag}, leaving parametric recall and \emph{prompt design} as the only levers. Scoring is by
 macro precision, recall, and F\textsubscript{1}; numeric relations use a 5\%
 relative tolerance.
 
@@ -91,8 +84,8 @@ Our contributions are:
 as cloze probing; follow-ups improved prompts \citep{jiang2020lpaqa,
 shin2020autoprompt,zhong2021optiprompt}, measured closed-book capacity
 \citep{roberts2020closedbook}, and questioned reliability
-\citep{cao2021knowledgeable}. We target the set-valued, alias-graded variant
-where the empty set is a valid answer.
+\citep{cao2021knowledgeable}. Unlike these single-answer probes, we target the set-valued, alias-graded variant
+in which the empty set is itself a valid answer---the property our whole approach exploits.
 
 \paragraph{The LM-KBC shared task.} Prior editions
 \citep{alivanistos2022prompting,kalo2023lmkbc,kalo2024lmkbc,kalo2025lmkbc}
@@ -101,19 +94,15 @@ generative systems and, in some tracks, retrieval or fine-tuning
 \citep{zhang2023llmke}. The 2026 closed-book, no-tuning, $\le$32B rules motivate
 our parametric-recall-plus-abstention design.
 
-\paragraph{Retrieval vs.\ closed book.} Retrieval augmentation
-\citep{lewis2020rag,guu2020realm,asai2024selfrag} is the usual route to
-knowledge-intensive accuracy and helps most exactly when parametric memory is
-weak \citep{mallen2023whennot}; the 2026 rules forbid it, so we lean entirely
-on parametric knowledge and decoding.
+\paragraph{Retrieval vs.\ closed-book.} The usual route to
+knowledge-intensive accuracy is retrieval augmentation
+\citep{lewis2020rag,guu2020realm,asai2024selfrag}, which helps most exactly when parametric memory is
+weak \citep{mallen2023whennot}. Because the 2026 rules forbid it, we lean entirely
+on parametric knowledge and decoding---making \emph{when to answer}, not \emph{what to retrieve}, the lever we can still pull.
 
 \paragraph{Self-consistency, calibration, and abstention.}
-Self-consistency \citep{wang2022selfconsistency,chen2023universalsc} aggregates
-sampled generations to select an answer. Abstaining when uncertain is the
-classic reject option \citep{geifman2017selective} and its NLP forms---calibration
-\citep{guo2017calibration}, unanswerable QA \citep{rajpurkar2018squad2},
-selective QA \citep{cole2023selective}, and self-knowledge
-\citep{kadavath2022know}. We use sample disagreement as a zero-parameter
+These threads converge in our method. Self-consistency \citep{wang2022selfconsistency,chen2023universalsc} aggregates
+sampled generations to select an answer. Abstaining when uncertain is the classic reject option \citep{geifman2017selective}, with NLP forms in calibration \citep{guo2017calibration}, unanswerable QA \citep{rajpurkar2018squad2}, selective QA \citep{cole2023selective}, and self-knowledge \citep{kadavath2022know}. We use sample disagreement as a zero-parameter
 confidence proxy \citep{kuhn2023semantic,manakul2023selfcheckgpt}, but in a
 setting where the empty set is itself a high-value prediction.
 
@@ -125,9 +114,7 @@ The task has six relations (Table~\ref{tab:data}): two numeric
 (\textsc{countryLandBordersCountry}, \textsc{personHasCityOfDeath},
 \textsc{companyTradesAtStockExchange}). Each has a precise scope (e.g.\ land-only
 borders; city-granular death location; highest published capacity) which we copy
-verbatim into the prompt. We report two summaries: \emph{relation-averaged}
-macro-F\textsubscript{1} (mean of six per-relation scores) and
-\emph{micro-averaged} (over all instances).
+verbatim into the prompt. We report two summaries: \emph{relation-averaged} macro-F\textsubscript{1} (mean of six per-relation scores) and \emph{micro-averaged} F\textsubscript{1} (over all instances).
 
 \begin{table}[t]
 \centering\small
@@ -148,9 +135,10 @@ per subject (max 641); three string relations are often legitimately empty.}
 \label{tab:data}
 \end{table}
 
-\paragraph{The metric makes abstention valuable.} Macro precision is $1$ when no
+\paragraph{The metric makes abstention valuable.} The key to this task lies in
+how the metric scores empty answers. Macro precision is $1$ when no
 objects are predicted and recall is $1$ when the gold set is empty, so an empty
-prediction against an empty gold set is a perfect $F_1$. Predicting the empty set
+prediction against an empty gold set is a perfect macro-F\textsubscript{1}. Predicting the empty set
 for \emph{every} validation instance therefore scores the ``Empty'' bars in
 Figure~\ref{fig:bars}, averaging $0.175$ over relations ($0.203$ micro)---on par
 with the official baseline's relation-averaged $0.273$ and \emph{above} it on the
@@ -197,7 +185,7 @@ has no trainable parameters.}
 \section{System}
 \label{sec:method}
 \paragraph{Architecture overview.} The pipeline (Figure~\ref{fig:pipeline}) maps
-each $(s,r)$ to one chat prompt, decodes one or more samples, and aggregates them
+each $(s,r)$ to one chat prompt, decodes $N$ or $n$ cached samples, and aggregates them
 per relation kind into an object set. It has no trainable parameters and targets
 the two analysis levers: abstention and numeric recall.
 
@@ -207,8 +195,7 @@ and the answer shape; the model emits one JSON object
 \texttt{\{"answers":[\dots]\}} (Figure~\ref{fig:prompt}). This makes the empty
 case unambiguous. Few-shot exemplars come from the training split; for null-heavy
 relations we interleave empty and non-empty exemplars so abstention is
-demonstrated, not merely instructed. Even a 0.5B model emits valid JSON on 100\%
-of instances, so format is never the bottleneck.
+demonstrated, not merely instructed. Even a 0.5B model emits valid JSON on 100\% of instances, so format is never a bottleneck.
 
 \begin{figure}[t]
 \centering\scriptsize\ttfamily
@@ -226,13 +213,13 @@ abstention; output is forced JSON.}
 \label{fig:prompt}
 \end{figure}
 
-\paragraph{Calibrated abstention via self-consistency.} A bare instruction to
+\paragraph{Calibrated abstention via self-consistency.} Scope grounding tells the model \emph{what} counts as an answer, but not \emph{when} to stay silent. A bare instruction to
 ``answer empty when unsure'' is unreliable: an unconstrained small model names a
 death-city for living people and invents stock exchanges, dropping precision
 \emph{below} the empty baseline (Section~\ref{sec:analysis}). Instead, for the
 three null-heavy relations we sample $N{=}3$ completions at temperature
 $\tau{=}0.7$ and keep an object only if it appears in at least a fraction
-$\theta$ of samples; single-valued relations abstain entirely if even the top
+$\theta$ of samples; single-object relations abstain entirely if even the top
 answer is below $\theta$ (Algorithm~\ref{alg:abstain}). When the model guesses,
 samples disagree and the prediction collapses to $\emptyset$---where the metric
 rewards silence. This is disabled for \textsc{awardWonBy} (recall-bound) and the
@@ -252,12 +239,12 @@ numeric relations.
 \end{algorithmic}
 \end{algorithm}
 
-\paragraph{Numeric aggregation.} \textsc{hasCapacity} and \textsc{hasArea} take a
+\paragraph{Numeric aggregation.} The numeric relations need a different aggregator. \textsc{hasCapacity} and \textsc{hasArea} take a
 single number graded within 5\%. We sample $n{=}5$ completions and take the
-\emph{median} of the parsed numbers \citep{wang2022selfconsistency} as a
-robustness measure.
+\emph{median} of the parsed numbers \citep{wang2022selfconsistency} for
+robustness.
 
-\paragraph{Robust parsing.} A relation-aware parser recovers the answer list from
+\paragraph{Robust parsing.} Whatever the relation kind, every sample passes through a common final stage. A relation-aware parser recovers the answer list from
 noisy output (code fences, prose), strips explicit empty markers, extracts one
 number for numeric relations (handling commas, units, scale words), and
 de-duplicates. Normalisation (lower-casing, diacritic/punctuation removal) is
@@ -274,15 +261,15 @@ the largest model we could fit in 4-bit on our single 16\,GB GPU.
 \paragraph{Inference and reproducibility.} Inference runs on one NVIDIA T4
 (16\,GB) via 4-bit \texttt{bitsandbytes} (\texttt{nf4}), \texttt{float16}
 compute \citep{dettmers2023qlora}. We use 8-shot prompts
-\citep{brown2020gpt3} (2-shot for \textsc{awardWonBy}); the submitted system uses
+\citep{brown2020gpt3} (2-shot for \textsc{awardWonBy}), with the submitted system fixing
 $\theta{=}0.5$, $N{=}3$, $n{=}5$, $\tau{=}0.7$. Generation writes a cache of raw
 samples; all post-processing---parsing, voting, median, threshold---is a
 deterministic GPU-free function of that cache, so every ablation below comes from
-one generation pass and is reproducible without a GPU.
+one generation pass, reproducible without a GPU.
 
 \section{Results}
 \label{sec:results}
-The system scores \textbf{0.416} relation-averaged macro-F\textsubscript{1}
+Putting the pipeline together, the system scores \textbf{0.416} relation-averaged macro-F\textsubscript{1}
 (\textbf{0.447} micro), versus $0.175$/$0.203$ (empty) and $0.273$/$0.284$
 (official baseline)---a same-axis gain on both. Figure~\ref{fig:bars} and
 Table~\ref{tab:results} give the per-relation picture: we beat the baseline on
@@ -290,7 +277,7 @@ five of six relations, the exception being \textsc{hasCapacity} ($0.09$ vs.\
 $0.10$), where exact capacities are essentially unknown to the model. The
 strongest relations are \textsc{countryLandBordersCountry} ($0.900$) and
 \textsc{companyTradesAtStockExchange} ($0.616$); the high precision on
-\textsc{personHasCityOfDeath} ($P{=}0.81$) is the signature of abstention.
+\textsc{personHasCityOfDeath} ($P{=}0.81$) is the signature of abstention at work.
 
 \begin{figure}[t]
 \centering
@@ -342,9 +329,7 @@ All ablations are decoded from the same cached samples.
 
 \paragraph{Abstention rescues weak models, refines strong ones.}
 Table~\ref{tab:ablation} isolates abstention on the three null-heavy relations.
-On a poorly-calibrated 0.5B model the effect is dramatic
-($0.173\!\to\!0.372$)---without voting it over-answers and falls \emph{below} the
-empty baseline ($0.350$). The 14B is already above empty without voting
+On a poorly-calibrated 0.5B model the effect is dramatic ($0.173\!\to\!0.372$): without voting it over-answers and falls \emph{below} the empty baseline ($0.350$). The 14B is already above empty without voting
 ($0.652$), so voting adds less ($0.652\!\to\!0.666$) but remains positive.
 Abstention buys precision: on \textsc{personHasCityOfDeath} it moves
 $P{=}0.77\!\to\!0.81\!\to\!0.89$ as $\theta$ rises, trading a little recall---it
@@ -366,6 +351,7 @@ null-heavy relations only. ``Off'' decodes a single sample.}
 \end{table}
 
 \paragraph{Threshold tracks the empty rate; numeric voting is neutral.}
+If abstention is what drives the string relations, the natural question is how its threshold should be set.
 Figure~\ref{fig:ablate} (left) sweeps $\theta$: the most null-heavy relation,
 \textsc{personHasCityOfDeath} (45\% empty), peaks at a \emph{lower} $\theta$,
 while the others tolerate aggressive voting---arguing for per-relation
@@ -382,7 +368,7 @@ band (e.g.\ Spartan Stadium: predicted $37{,}000$, gold $75{,}005$).
 \begin{axis}[name=ax1,width=7.6cm,height=4.6cm,xlabel={$\theta$ (voting threshold)},
  ylabel={macro-F1},
  ymin=0.4,ymax=0.95,xtick={0,0.34,0.5,0.67,1},tick label style={font=\small},
- title style={font=\small},title={null-heavy relations},
+ title style={font=\small},title={string relations},
  legend style={font=\scriptsize,at={(0.5,-0.26)},anchor=north,legend columns=3}]
 \addplot coordinates {(0,0.902)(0.34,0.900)(0.5,0.900)(0.67,0.907)(1,0.907)};
 \addplot coordinates {(0,0.603)(0.34,0.616)(0.5,0.616)(0.67,0.621)(1,0.621)};
@@ -399,21 +385,20 @@ band (e.g.\ Spartan Stadium: predicted $37{,}000$, gold $75{,}005$).
 \end{axis}
 \end{tikzpicture}
 \caption{Left: per-relation F\textsubscript{1} vs.\ voting threshold $\theta$
-(14B); the most null-heavy relation (\textsc{death}, 45\% empty) peaks at a lower
+(14B); the most null-heavy relation (\textsc{personHasCityOfDeath}, 45\% empty) peaks at a lower
 $\theta$ than the others. Right: numeric F\textsubscript{1} vs.\ number of median
-samples; aggregation is roughly neutral, indicating a knowledge-bound gap.}
+samples $n$; aggregation is roughly neutral, indicating a knowledge-bound gap.}
 \label{fig:ablate}
 \end{figure*}
 
-\paragraph{\textsc{awardWonBy} is recall-capped.} Gold sets average ${\sim}148$
+\paragraph{\textsc{awardWonBy} is recall-capped.} The one relation we never beat the baseline on comfortably exposes a different limit. Gold sets average ${\sim}148$
 recipients (max 641) but the 14B enumerates only ${\sim}11$ names---its outputs
 are \emph{not} truncated (it closes the JSON early)---capping recall near
 $11/148\approx0.07$. Listed names are often plausible-but-wrong ($P{=}0.36$).
-This relation is bounded by parametric recall and willingness to enumerate, where
-a larger in-budget model or multi-step decomposition would help most.
+Parametric recall and willingness to enumerate bound this relation, where a larger in-budget model or multi-step decomposition would help most.
 
 \section{Conclusion}
-Our system's design follows from a metric analysis: abstention is valuable,
+Every component of our system follows from a single metric analysis: abstention is valuable,
 numeric recall is scarce, and scope grounding curbs over- and under-prediction.
 With a single 14.7B open-weight model on commodity hardware it reaches $0.416$
 relation-averaged macro-F\textsubscript{1} ($0.447$ micro), beating the official
@@ -424,7 +409,7 @@ generation pass.
 The voting threshold $\theta$ is swept on the same validation split it is
 evaluated on, so per-relation optima are optimistic and not held-out; we report
 no test numbers yet. Several margins are within plausible decoding noise:
-\textsc{awardWonBy} has only $n{=}10$ subjects, and we did not measure
+\textsc{awardWonBy} has only 10 subjects, and we did not measure
 run-to-run variance of the stochastic decoding ($N{=}3$, $n{=}5$), so
 sub-$0.03$ deltas (e.g.\ the \textsc{personHasCityOfDeath} $+0.03$) are
 indicative only. Being closed-book, the system inherits the base model's
