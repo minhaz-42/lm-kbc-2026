@@ -11,3 +11,10 @@ submission*.jsonl
 # colab generated notebook (regenerable)
 colab/lmkbc_colab.ipynb
 kaggle/diag/
+
+# latex build artifacts
+paper/*.aux
+paper/*.log
+paper/*.blg
+paper/*.bbl
+paper/*.out
