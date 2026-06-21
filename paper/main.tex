@@ -29,45 +29,82 @@ and Numeric Self-Consistency}
 \maketitle
 
 \begin{abstract}
-We present our system for the LM-KBC~2026 shared task on knowledge base
-construction from language models (5th edition, at the AKBC workshop,
-EMNLP~2026). Given a subject and a relation, a system must return the
-\emph{complete} object set---empty, single, or up to hundreds of values---using
-only an open-weight model ($\le$32B parameters), with no retrieval, no external
-knowledge, and no fine-tuning. Our central observation is that the macro
-metric rewards \emph{abstention}: predicting the empty set everywhere scores $0.175$ relation-averaged macro-F\textsubscript{1}, near the official
-baseline ($0.273$). We therefore treat \emph{when to answer} as a first-class
-decision and build a per-relation pipeline that (i)~grounds prompts in each
-relation's exact scope, (ii)~induces calibrated abstention by self-consistency
-voting, and (iii)~aggregates numeric relations by median. With
-Qwen2.5-14B-Instruct in 4-bit on a single 16\,GB GPU, the system reaches
-$0.416$ relation-averaged macro-F\textsubscript{1} ($0.447$ micro), beating the
-official baseline on five of six relations. All generation is cached, so the
-entire decode stage is reproducible without a GPU. Code is
-released.\footnote{\url{https://github.com/ANON/lm-kbc-2026}}
+Large language models (LMs) store a remarkable amount of factual knowledge in
+their parameters, yet turning that knowledge into a reliable, \emph{set-valued}
+knowledge base---where a subject may have zero, one, or many objects---remains
+difficult. The LM-KBC~2026 shared task (5th edition, at the AKBC workshop,
+EMNLP~2026) poses exactly this in a strict \emph{closed-book} setting: an
+open-weight model of at most 32B parameters, with no retrieval, no external
+knowledge, and no fine-tuning. We start from the evaluation metric and observe
+that it rewards \emph{abstention}: predicting the empty set for every instance
+already scores $0.175$ relation-averaged macro-F\textsubscript{1}, close to the
+official baseline ($0.273$). We therefore treat \emph{when to answer} as a
+first-class decision and build a per-relation pipeline that (i)~grounds each
+prompt in the relation's exact scope, (ii)~induces calibrated abstention by
+\emph{self-consistency voting}---abstaining when repeated samples
+disagree---rather than by instruction, and (iii)~aggregates numeric relations by
+median. With Qwen2.5-14B-Instruct run in 4-bit on a single 16\,GB GPU, the
+system reaches $0.416$ relation-averaged macro-F\textsubscript{1} ($0.447$
+micro), improving over the official baseline ($0.273$/$0.284$) on five of six
+relations, with the largest gains where abstention matters most. All generation
+is cached, so the entire decode stage---including the abstention
+threshold---is reproducible without a GPU. We release our
+code.\footnote{\url{https://github.com/ANON/lm-kbc-2026}}
 \end{abstract}
 
 \section{Introduction}
-Pre-trained language models (LMs) store substantial factual knowledge \citep{petroni2019lama,roberts2020closedbook}, and prior work probes and extracts it \citep{jiang2020lpaqa,zhong2021optiprompt,alkhamissi2022review}.
-Turning that knowledge into reliable knowledge-base (KB) entries---the goal of KB construction and completion \citep{dong2014knowledgevault,vrandecic2014wikidata}---is harder than answering a single factual query. The LM-KBC shared task
-\citep{alivanistos2022prompting,kalo2023lmkbc,kalo2025lmkbc} formalises this:
-given a subject $s$ and relation $r$, predict the complete set of objects
-$\{o_1,\dots,o_k\}$ with $k\in\{0,1,\dots\}$. Unlike single-answer probes such
-as LAMA \citep{petroni2019lama}, it makes no cardinality assumption and grades
-by string normalisation and alias matching, not entity disambiguation.
+Pre-trained language models (LMs) store a remarkable amount of factual knowledge
+in their parameters, acquired during pre-training on large text corpora
+\citep{petroni2019lama,roberts2020closedbook}, and a body of work probes and
+extracts it \citep{jiang2020lpaqa,zhong2021optiprompt,alkhamissi2022review}.
+This raises the prospect of building a structured knowledge base (KB) directly
+from an LM rather than from curated sources \citep{dong2014knowledgevault,vrandecic2014wikidata}.
+Doing so reliably is harder than answering a single factual question: a KB entry
+is a \emph{complete set} of facts, so the model must decide not only what is true
+but how many objects---possibly none---a subject and relation admit.
 
-What sets the 2026 edition apart is its strictly \emph{closed-book} regime: any open-weight model up to
-32B parameters, but no web search, no retrieval, no external corpus, and no
-additional training. This rules out the retrieval and fine-tuning strong prior entries relied on \citep{zhang2023llmke,asai2024selfrag}, leaving parametric recall and \emph{prompt design} as the only levers. Scoring is by
-macro precision, recall, and F\textsubscript{1}; numeric relations use a 5\%
-relative tolerance.
+\paragraph{The LM-KBC 2026 task.} The shared task
+\citep{alivanistos2022prompting,kalo2023lmkbc,kalo2025lmkbc} formalises this as:
+given a subject $s$ and relation $r$, predict the complete object set
+$\{o_1,\dots,o_k\}$, where $k$ may be zero, one, or many. Predictions are scored
+by macro precision, recall, and F\textsubscript{1}, with string normalisation
+and alias matching for entities and a 5\% tolerance for numeric relations. The
+2026 edition is strictly \emph{closed-book}: a system may use any open-weight
+model up to 32B parameters, but no web search, no retrieval, no external corpus,
+and no fine-tuning. This rules out the retrieval and tuning that strong entries
+in earlier editions relied on \citep{zhang2023llmke,asai2024selfrag}, leaving
+parametric recall and \emph{prompt design} as the only levers.
 
-Our contributions are:
+\paragraph{Why this is hard.} Unlike single-answer probing benchmarks such as
+LAMA \citep{petroni2019lama}, which assume exactly one gold object and reward
+ranking it highly, this setting demands the \emph{entire} set---and the empty
+set is a legitimate, frequent answer (a living person has no recorded city of
+death; an island country has no land border). Three difficulties follow. First,
+LM outputs are stochastic and prompt-sensitive, so a single query yields
+unstable sets. Second, relations span very different cardinalities, from a single
+number to hundreds of award recipients, complicating aggregation. Third, the
+model must recognise when it does not know an answer and \emph{abstain} rather
+than fabricate one.
+
+\paragraph{Our approach.} We start from the evaluation metric itself. Because
+macro-F\textsubscript{1} scores an empty prediction against an empty gold set as
+perfect, simply predicting nothing everywhere already attains $0.175$
+relation-averaged macro-F\textsubscript{1} on validation---competitive with the
+official baseline ($0.273$) and better on the most null-heavy relations
+(Section~\ref{sec:task}). The lesson is that points come not from answering
+everything, but from recalling the few numeric values and, above all, knowing
+when \emph{not} to answer. We therefore make abstention a first-class decision:
+we sample each null-heavy relation several times and keep an object only when the
+samples agree, collapsing to the empty set when the model is internally
+inconsistent. Scope-grounded prompts and median aggregation for numeric relations
+complete the pipeline (Figure~\ref{fig:pipeline}).
+
+\medskip\noindent Our contributions are:
 \begin{enumerate}[noitemsep,topsep=2pt,leftmargin=*]
-  \item A metric analysis (Section~\ref{sec:task}) showing abstention is
-  high-value: the empty prediction alone scores $0.175$ relation-averaged
-  macro-F\textsubscript{1} and matches or beats the official baseline on the
-  most null-heavy relations.
+  \item A metric analysis (Section~\ref{sec:task}) showing that, under the macro
+  metric, abstention is a high-value action: the predict-nothing baseline already
+  rivals the official baseline, which reframes the task around \emph{when to
+  answer}.
   \item A per-relation pipeline (Figure~\ref{fig:pipeline}, Section~\ref{sec:method})
   that grounds prompts in exact scopes and induces \emph{calibrated abstention}
   via self-consistency voting, with no trained confidence model: it lifts a weak
