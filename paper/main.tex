@@ -1,0 +1,242 @@
+% LM-KBC 2026 shared-task system paper.
+% Build on Overleaf with the official ACL template (acl.sty, acl_natbib.bst):
+%   https://github.com/acl-org/acl-style-files  (or the EMNLP 2026 template).
+% Anonymous submission: keep [review]. For camera-ready switch to [] and fill authors.
+\documentclass[11pt]{article}
+\usepackage[review]{acl}
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{xcolor}
+
+% --- placeholder helpers: every \result / \TODO is a number/claim to fill after
+%     the final Kaggle run. Grep "TODO" before submitting. -----------------------
+\newcommand{\result}[1]{{\color{red}\textbf{#1}}}
+\newcommand{\TODO}[1]{{\color{blue}[TODO: #1]}}
+
+\title{Closed-Book Knowledge Base Construction with Calibrated Abstention
+and Numeric Self-Consistency}
+
+\author{Anonymous submission \\ LM-KBC Shared Task 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We describe our system for the AKBC~2026 shared task on knowledge base
+construction from language models. Given a subject and a relation, a system
+must return the \emph{complete} set of object strings---which may be empty, a
+single value, or hundreds of values---using only an open-weight model of at most
+32B parameters, with no retrieval, no external knowledge, and no fine-tuning.
+Our central observation is that the macro-averaged evaluation rewards
+\emph{abstention}: predicting the empty set for every test instance already
+attains a macro-F\textsubscript{1} of \result{0.175} on the validation split,
+which is competitive with the official baseline.
+We therefore treat \emph{when to answer} as a first-class modelling decision and
+build a per-relation prompting pipeline that (i)~states the exact ground-truth
+scope of each relation, (ii)~teaches calibrated abstention through balanced
+empty/non-empty exemplars, and (iii)~stabilises the two numeric relations with
+median self-consistency under the task's 5\% tolerance. With
+\result{<model>} our system reaches \result{XX.X} macro-F\textsubscript{1}
+on validation (\result{+XX.X} over the empty baseline and \result{+XX.X} over
+the official baseline). We release all code.\footnote{\url{https://github.com/ANON/lm-kbc-2026}}
+\end{abstract}
+
+\section{Introduction}
+Pre-trained language models store a large amount of factual knowledge
+\citep{petroni2019lama,alkhamissi2022review}, but turning that knowledge into
+reliable knowledge-base (KB) entries is harder than answering a single factual
+query. The AKBC~2026 shared task \citep{lmkbc2025} frames KB construction as:
+given a subject entity $s$ and a relation $r$, predict the complete set of
+object entities $\{o_1,\dots,o_k\}$, where $k$ may be zero, one, or many. Unlike
+probing benchmarks that assume a single answer \citep{petroni2019lama}, this
+setting makes no cardinality assumption and is graded on string normalisation
+and alias matching rather than entity disambiguation.
+
+The 2026 edition imposes a strict \emph{closed-book} regime: any open-weight
+model up to 32B total parameters, but no web search, no retrieval, no external
+factual corpus, and no additional training. Multi-step and agentic inference,
+and non-neural post-processing, are permitted. Submissions are evaluated by
+macro precision, recall, and F\textsubscript{1}; numeric relations use a 5\%
+relative tolerance.
+
+Our contributions are:
+\begin{enumerate}[noitemsep,topsep=2pt]
+  \item An analysis showing that the macro metric makes \emph{abstention} a
+  high-value action: the empty prediction already scores \result{0.175}
+  macro-F\textsubscript{1} on validation, and exceeds the official baseline on
+  the two most null-heavy relations (Section~\ref{sec:task}).
+  \item A per-relation prompting pipeline that encodes each relation's precise
+  ground-truth scope, demonstrates abstention with balanced exemplars, and
+  applies median self-consistency to numeric relations (Section~\ref{sec:method}).
+  \item A reproducible open-weight system that runs on commodity
+  ($2{\times}$T4) hardware and improves over the baseline by \result{+XX.X}
+  macro-F\textsubscript{1} (Sections~\ref{sec:setup}--\ref{sec:results}).
+\end{enumerate}
+
+\section{Task and Evaluation Analysis}
+\label{sec:task}
+\paragraph{Relations.} The task covers six relations
+(Table~\ref{tab:data}): two numeric (\textsc{hasCapacity},
+\textsc{hasArea}), one with very large object sets (\textsc{awardWonBy}), and
+three string relations where an empty answer is frequent
+(\textsc{countryLandBordersCountry}, \textsc{personHasCityOfDeath},
+\textsc{companyTradesAtStockExchange}). Each relation is defined by a precise
+scope---e.g.\ \emph{land} borders exclude maritime borders, \textsc{hasCapacity}
+uses the highest published capacity, and \textsc{personHasCityOfDeath} is
+city-granular and empty for living people.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lrr}
+\toprule
+Relation & \#val & empty\% \\
+\midrule
+\textsc{countryLandBordersCountry} & 68 & 25 \\
+\textsc{personHasCityOfDeath} & 100 & 45 \\
+\textsc{companyTradesAtStockExchange} & 100 & 35 \\
+\textsc{awardWonBy} & 10 & 0 \\
+\textsc{hasCapacity} & 100 & 0 \\
+\textsc{hasArea} & 100 & 0 \\
+\bottomrule
+\end{tabular}
+\caption{Validation statistics. \textsc{awardWonBy} has only ten subjects but
+averages ${\sim}148$ objects each (max 641). Three string relations have a
+large fraction of legitimately empty answers.}
+\label{tab:data}
+\end{table}
+
+\paragraph{Metric makes abstention valuable.} The macro metric scores precision
+as $1$ when no objects are predicted, and recall as $1$ when the gold set is
+empty; an empty prediction against an empty gold set is therefore a perfect
+$F_1=1$. We measured the consequence directly: predicting the empty set for
+\emph{every} validation instance yields the per-relation
+macro-F\textsubscript{1} in the ``Empty'' column of Table~\ref{tab:results},
+averaging \result{0.175} over relations (\result{0.203} over all pairs)---
+competitive with the official baseline's \result{0.284} all-pairs score, and
+strictly better on \textsc{personHasCityOfDeath} and
+\textsc{companyTradesAtStockExchange}. This reframes the task: gains come not
+from answering everything, but from (a)~recalling the two numeric values, and
+(b)~knowing precisely when \emph{not} to answer.
+
+\section{System}
+\label{sec:method}
+Our pipeline maps each $(s,r)$ to a single chat prompt, decodes one or more
+samples, and post-processes them into an answer set. It has no trainable
+parameters.
+
+\paragraph{Scope-grounded prompts.} For each relation we write a system message
+that states the task, the \emph{exact} ground-truth scope (copied from the
+official relation definitions), and the expected answer shape. The model is
+asked to emit a single JSON object \texttt{\{"answers":[\dots]\}}, which makes
+the empty case unambiguous and parsing robust.
+
+\paragraph{Few-shot exemplars and calibrated abstention.} We draw few-shot
+exemplars from the training split. For the three null-heavy relations we
+\emph{interleave} empty and non-empty exemplars so the model sees abstention as
+an expected, demonstrated behaviour, and we add an explicit instruction that a
+wrong guess is penalised whereas an empty answer is not. This directly targets
+the abstention lever identified in Section~\ref{sec:task}.
+\TODO{after Kaggle run: report abstention precision/recall on null relations.}
+
+\paragraph{Numeric self-consistency.} For \textsc{hasCapacity} and
+\textsc{hasArea} the answer is a single number graded within 5\% relative
+tolerance. We sample $n$ completions at temperature $\tau$ and take the
+\emph{median} of the parsed numbers \citep{wang2022selfconsistency}, which is
+robust to outlier hallucinations and well-matched to the tolerance metric. We
+ablate $n$ in Section~\ref{sec:results}.
+
+\paragraph{Robust parsing and normalisation.} A relation-aware parser recovers
+the answer list from possibly noisy output (code fences, prose, trailing text),
+strips explicit empty markers (``none'', ``still alive'', \dots), extracts a
+single number for numeric relations (handling commas, units, and scale words),
+and de-duplicates string answers. Normalisation (lower-casing, diacritic and
+punctuation removal) is byte-identical to the official evaluator, so internal
+de-duplication matches scoring.
+
+\paragraph{Large object sets.} For \textsc{awardWonBy} we lift the generation
+budget and prompt the model to enumerate as many recipients as it can recall.
+This relation is recall-bound by parametric memory and remains the hardest;
+\TODO{describe any multi-step enumeration used and its effect.}
+
+\section{Experimental Setup}
+\label{sec:setup}
+\paragraph{Model.} We use \result{<model id>}, an open-weight model with
+\result{XX.X}B total parameters (within the 32B budget; we verified that some
+nominally ``32B'' models exceed the cap). \TODO{final model + justification.}
+
+\paragraph{Inference.} Inference runs on $2{\times}$ NVIDIA T4 (32\,GB total) via
+\result{vLLM / 4-bit bitsandbytes} \citep{kwon2023vllm,dettmers2023qlora}.
+String relations are decoded greedily; numeric relations use $n=\result{5}$
+samples at $\tau=\result{0.7}$. We use \result{$k$}-shot prompting per relation.
+Quantisation is used only to fit the hardware and does not change the counted
+parameter budget.
+
+\paragraph{Reproducibility.} The generation step writes a cache of raw model
+outputs; all post-processing (parsing, abstention, numeric aggregation) is a
+deterministic, GPU-free function of that cache, so results are exactly
+reproducible and post-processing can be re-tuned without re-running the model.
+
+\section{Results}
+\label{sec:results}
+Table~\ref{tab:results} reports validation macro-F\textsubscript{1} per relation
+against the empty baseline. \TODO{fill from the final Kaggle run; add the test
+leaderboard score when released.}
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lrrr}
+\toprule
+Relation & Empty & Ours & $\Delta$ \\
+\midrule
+\textsc{countryLandBordersCountry} & 0.250 & \result{--} & \result{--} \\
+\textsc{personHasCityOfDeath}      & 0.450 & \result{--} & \result{--} \\
+\textsc{companyTradesAtStockExch.} & 0.350 & \result{--} & \result{--} \\
+\textsc{awardWonBy}                & 0.000 & \result{--} & \result{--} \\
+\textsc{hasCapacity}               & 0.000 & \result{--} & \result{--} \\
+\textsc{hasArea}                   & 0.000 & \result{--} & \result{--} \\
+\midrule
+Avg.\ of relations                 & 0.175 & \result{--} & \result{--} \\
+All pairs                          & 0.203 & \result{--} & \result{--} \\
+\bottomrule
+\end{tabular}
+\caption{Validation macro-F\textsubscript{1}. ``Empty'' is the predict-nothing
+baseline (measured). \result{Red} cells are filled after the final run.}
+\label{tab:results}
+\end{table}
+
+\paragraph{Ablations.} We report the effect of (i)~removing the abstention
+exemplars/instruction, (ii)~disabling numeric self-consistency ($n{=}1$), and
+(iii)~scaling model size. \TODO{ablation table.}
+
+\section{Analysis}
+\TODO{Error analysis once outputs are available: (a) abstention confusion on
+null relations; (b) numeric error distribution vs the 5\% band; (c) alias /
+normalisation misses; (d) \textsc{awardWonBy} recall ceiling.}
+
+\section{Conclusion}
+We presented a closed-book KB-construction system whose design follows directly
+from a metric analysis: abstention is valuable, numeric recall is the scarce
+resource, and precise scope grounding reduces over- and under-prediction. The
+system is fully reproducible on commodity hardware and improves over the
+baseline by \result{+XX.X} macro-F\textsubscript{1}.
+
+\section*{Limitations}
+Our system is closed-book and inherits the parametric coverage and recency
+limits of the base model; it cannot recover facts the model never stored,
+which caps \textsc{awardWonBy} recall and rare-venue numeric accuracy. Abstention
+is induced through prompting rather than calibrated against held-out confidence,
+so the empty/answer trade-off is not provably optimal. Alias coverage depends on
+the evaluator's alias sets; non-English or newly-coined aliases may be missed.
+Results are reported on the validation split; the test distribution may differ.
+
+\bibliography{refs}
+\bibliographystyle{acl_natbib}
+
+\end{document}
