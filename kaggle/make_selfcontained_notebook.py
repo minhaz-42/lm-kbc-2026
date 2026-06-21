@@ -50,7 +50,7 @@ cells += [
          "cfg = AutoConfig.from_pretrained(MODEL, trust_remote_code=True)\n"
          "print('config loaded for', MODEL)"),
     code("INPUT='dataset2026/data/%s.jsonl'%SPLIT; TRAIN='dataset2026/data/train.jsonl'; OUT='/kaggle/working/preds_%s.jsonl'%SPLIT\n"
-         "cmd=f'cd solution && python run.py --backend {BACKEND} --model {MODEL} -i ../{INPUT} --train ../{TRAIN} -o {OUT} --sc-samples {SC}'\n"
+         "cmd=f'cd solution && python run.py --backend {BACKEND} --model {MODEL} -i ../{INPUT} --train ../{TRAIN} -o {OUT} --sc-samples {SC} --string-samples 3'\n"
          "print(cmd)\n"
          "import subprocess,sys\n"
          "p=subprocess.run(cmd,shell=True,capture_output=True,text=True)\n"

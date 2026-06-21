@@ -45,18 +45,25 @@ cells += [
     code(f"MODEL={MODEL!r}; SPLIT={SPLIT!r}; SC={SC}"),
     code("INPUT=f'dataset2026/data/{SPLIT}.jsonl'; TRAIN='dataset2026/data/train.jsonl'\n"
          "OUT=f'/content/preds_{SPLIT}.jsonl'\n"
-         "cmd=f'cd solution && python run.py --backend hf --model {MODEL} -i ../{INPUT} --train ../{TRAIN} -o {OUT} --sc-samples {SC}'\n"
+         "cmd=f'cd solution && python run.py --backend hf --model {MODEL} -i ../{INPUT} --train ../{TRAIN} -o {OUT} --sc-samples {SC} --string-samples 3'\n"
          "print(cmd); import subprocess\n"
          "p=subprocess.run(cmd,shell=True,capture_output=True,text=True)\n"
          "print(p.stdout[-2000:]); print('ERR:', p.stderr[-2000:])"),
     code("if SPLIT=='val':\n"
          "    r=subprocess.run(f'cd solution && python eval.py -p {OUT} -g ../{INPUT}',shell=True,capture_output=True,text=True)\n"
          "    print(r.stdout); print(r.stderr[-1000:])"),
-    code("from google.colab import files\n"
-         "raw=OUT.replace('.jsonl','.raw.jsonl')\n"
-         "print('downloading', OUT, 'and', raw)\n"
-         "files.download(OUT)\n"
-         "if os.path.exists(raw): files.download(raw)"),
+    code("raw=OUT.replace('.jsonl','.raw.jsonl')\n"
+         "for f in (OUT, raw):\n"
+         "    print(f, os.path.getsize(f) if os.path.exists(f) else 'MISSING', 'bytes')\n"
+         "# Browser Colab: auto-download. VS Code Colab extension: right-click these\n"
+         "# paths in the file panel -> Download (into the EMNLP folder).\n"
+         "try:\n"
+         "    from google.colab import files\n"
+         "    files.download(OUT)\n"
+         "    if os.path.exists(raw): files.download(raw)\n"
+         "except Exception as e:\n"
+         "    print('(auto-download unavailable here:', e, ')')\n"
+         "    print('Download these two files manually:', OUT, raw)"),
 ]
 
 nb = {"cells": cells,

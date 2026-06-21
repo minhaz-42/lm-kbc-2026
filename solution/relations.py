@@ -30,6 +30,8 @@ class RelationSpec:
     few_shot: int = 6
     # unit hint for numeric relations
     unit: str = ""
+    # use self-consistency voting to abstain (set on null-heavy relations)
+    consistency_abstain: bool = False
 
 
 RELATIONS: dict[str, RelationSpec] = {
@@ -46,6 +48,7 @@ RELATIONS: dict[str, RelationSpec] = {
         answer_shape="A list of country names (English common name). Empty list if the country is an island with no land neighbour.",
         allow_empty=True,
         multi_valued=True,
+        consistency_abstain=True,
         max_new_tokens=128,
         few_shot=8,
     ),
@@ -61,6 +64,7 @@ RELATIONS: dict[str, RelationSpec] = {
         answer_shape="Exactly one city name, or an empty list if the person is alive / city unknown.",
         allow_empty=True,
         multi_valued=False,
+        consistency_abstain=True,
         max_new_tokens=48,
         few_shot=8,
     ),
@@ -76,6 +80,7 @@ RELATIONS: dict[str, RelationSpec] = {
         answer_shape="A list of stock exchange names (e.g. 'New York Stock Exchange', 'Tokyo Stock Exchange'). Empty if not publicly listed.",
         allow_empty=True,
         multi_valued=True,
+        consistency_abstain=True,
         max_new_tokens=64,
         few_shot=8,
     ),

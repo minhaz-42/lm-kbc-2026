@@ -46,7 +46,8 @@ def build_generator(args, gold_map):
                              max_model_len=args.max_model_len)
     if args.backend == "hf":
         from generators import HFGenerator
-        return HFGenerator(args.model, load_in_4bit=not args.no_4bit)
+        return HFGenerator(args.model, load_in_4bit=not args.no_4bit,
+                           device_map=args.device_map, dtype=args.dtype)
     raise ValueError(args.backend)
 
 
@@ -80,10 +81,16 @@ def run(args):
         prompts = [gen.apply_template(build_messages(spec, r["SubjectEntity"], train))
                    for r in rel_rows]
 
-        numeric_sc = spec.kind == "numeric" and args.sc_samples > 1 and args.backend in ("vllm", "hf")
+        real_backend = args.backend in ("vllm", "hf")
+        numeric_sc = spec.kind == "numeric" and args.sc_samples > 1 and real_backend
+        string_sc = (spec.consistency_abstain and args.string_samples > 1 and real_backend)
+        thr = args.string_consistency_threshold if string_sc else None
         if numeric_sc:
             comps = gen.generate(prompts, spec.max_new_tokens,
                                  temperature=args.sc_temperature, n=args.sc_samples)
+        elif string_sc:
+            comps = gen.generate(prompts, spec.max_new_tokens,
+                                 temperature=args.sc_temperature, n=args.string_samples)
         else:
             comps = gen.generate(prompts, spec.max_new_tokens, temperature=0.0, n=1)
 
@@ -96,7 +103,9 @@ def run(args):
             predictions.append({
                 "SubjectEntity": r["SubjectEntity"],
                 "Relation": rel,
-                "ObjectEntities": decode_samples(rel, sample_list, numeric_self_consistency=numeric_sc),
+                "ObjectEntities": decode_samples(rel, sample_list,
+                                                 numeric_self_consistency=numeric_sc,
+                                                 string_consistency_threshold=thr),
             })
         print(f"  [{rel}] {len(rel_rows)} rows done", file=sys.stderr)
 
@@ -125,7 +134,13 @@ def main():
     ap.add_argument("--quantization", default=None, help="e.g. awq, gptq, bitsandbytes")
     ap.add_argument("--max-model-len", type=int, default=4096, dest="max_model_len")
     ap.add_argument("--no-4bit", action="store_true", help="(hf) disable 4-bit")
+    ap.add_argument("--device-map", default="auto", dest="device_map", help="(hf) e.g. auto, cpu")
+    ap.add_argument("--dtype", default="float16", help="(hf) float16/float32/bfloat16")
     ap.add_argument("--sc-samples", type=int, default=5, help="self-consistency samples for numeric relations")
+    ap.add_argument("--string-samples", type=int, default=1,
+                    help="samples for null-heavy string relations (>1 enables consistency abstention)")
+    ap.add_argument("--string-consistency-threshold", type=float, default=0.5,
+                    help="keep a string answer only if it appears in >= this fraction of samples")
     ap.add_argument("--sc-temperature", type=float, default=0.7)
     ap.add_argument("--relations", default=None, help="comma-separated subset")
     ap.add_argument("--limit", type=int, default=0, help="max rows per relation (debug)")

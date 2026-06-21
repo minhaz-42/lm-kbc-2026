@@ -22,11 +22,15 @@ def main():
     ap.add_argument("-o", "--output", required=True)
     ap.add_argument("--no-numeric-sc", action="store_true",
                     help="disable median self-consistency for numeric relations")
+    ap.add_argument("--string-threshold", type=float, default=None,
+                    help="consistency-abstention threshold for null-heavy string relations "
+                         "(needs a cache with >1 sample); omit to use first sample only")
     args = ap.parse_args()
 
     with open(args.raw) as f:
         raw_rows = [json.loads(l) for l in f if l.strip()]
-    preds = decode_cache(raw_rows, numeric_self_consistency=not args.no_numeric_sc)
+    preds = decode_cache(raw_rows, numeric_self_consistency=not args.no_numeric_sc,
+                         string_consistency_threshold=args.string_threshold)
     with open(args.output, "w") as f:
         for p in preds:
             f.write(json.dumps(p, ensure_ascii=False) + "\n")
