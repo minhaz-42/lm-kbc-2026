@@ -1,0 +1,12 @@
+# inference (GPU / Kaggle)
+torch
+transformers>=4.51.0
+accelerate
+bitsandbytes
+vllm            # optional: faster backend
+# utilities
+pandas
+numpy
+tqdm
+loguru
+PyYAML
