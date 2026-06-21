@@ -118,40 +118,56 @@ complete the pipeline (Figure~\ref{fig:pipeline}).
 
 \section{Background and Related Work}
 \paragraph{LMs as knowledge bases.} \citet{petroni2019lama} cast factual recall
-as cloze probing; follow-ups improved prompts \citep{jiang2020lpaqa,
-shin2020autoprompt,zhong2021optiprompt}, measured closed-book capacity
-\citep{roberts2020closedbook}, and questioned reliability
-\citep{cao2021knowledgeable}. Unlike these single-answer probes, we target the set-valued, alias-graded variant
-in which the empty set is itself a valid answer---the property our whole approach exploits.
+as cloze probing; follow-ups sharpened the prompts \citep{jiang2020lpaqa,
+shin2020autoprompt,zhong2021optiprompt}, quantified how much knowledge a model's
+parameters hold \citep{roberts2020closedbook}, and questioned how reliably it can
+be read out \citep{cao2021knowledgeable,alkhamissi2022review}. These probes
+assume a single gold object and reward ranking it highly. We instead target the
+set-valued, alias-graded variant in which the empty set is a valid answer, which
+is closer to materialising an actual KB \citep{pan2023llmkg}.
 
-\paragraph{The LM-KBC shared task.} Prior editions
-\citep{alivanistos2022prompting,kalo2023lmkbc,kalo2024lmkbc,kalo2025lmkbc}
-moved from masked-LM probing and prompt ensembling toward instruction-tuned
-generative systems and, in some tracks, retrieval or fine-tuning
-\citep{zhang2023llmke}. The 2026 closed-book, no-tuning, $\le$32B rules motivate
-our parametric-recall-plus-abstention design.
+\paragraph{The LM-KBC shared task.} Across its editions
+\citep{alivanistos2022prompting,kalo2023lmkbc,kalo2024lmkbc,kalo2025lmkbc} the
+task has moved from masked-LM probing and prompt ensembling toward
+instruction-tuned generative systems, with some earlier tracks permitting
+retrieval or fine-tuning \citep{zhang2023llmke}. The 2026 edition's closed-book,
+no-tuning, $\le$32B rules remove those options---which is precisely what makes a
+parametric-recall-plus-abstention design necessary.
 
-\paragraph{Retrieval vs.\ closed-book.} The usual route to
-knowledge-intensive accuracy is retrieval augmentation
-\citep{lewis2020rag,guu2020realm,asai2024selfrag}, which helps most exactly when parametric memory is
-weak \citep{mallen2023whennot}. Because the 2026 rules forbid it, we lean entirely
-on parametric knowledge and decoding---making \emph{when to answer}, not \emph{what to retrieve}, the lever we can still pull.
+\paragraph{Retrieval vs.\ closed book.} The usual route to knowledge-intensive
+accuracy is retrieval augmentation \citep{lewis2020rag,guu2020realm}, which helps
+most exactly when parametric memory is weak \citep{mallen2023whennot}. Self-RAG
+\citep{asai2024selfrag} even lets the model decide \emph{when} to retrieve; we
+borrow the spirit of a model-driven, adaptive decision but, with retrieval
+forbidden, apply it to a different one---\emph{when to answer at all}, not what to
+fetch.
 
-\paragraph{Self-consistency, calibration, and abstention.}
-These threads converge in our method. Self-consistency \citep{wang2022selfconsistency,chen2023universalsc} aggregates
-sampled generations to select an answer. Abstaining when uncertain is the classic reject option \citep{geifman2017selective}, with NLP forms in calibration \citep{guo2017calibration}, unanswerable QA \citep{rajpurkar2018squad2}, selective QA \citep{cole2023selective}, and self-knowledge \citep{kadavath2022know}. We use sample disagreement as a zero-parameter
-confidence proxy \citep{kuhn2023semantic,manakul2023selfcheckgpt}, but in a
-setting where the empty set is itself a high-value prediction.
+\paragraph{Self-consistency, calibration, and abstention.} These threads converge
+in our method. Self-consistency \citep{wang2022selfconsistency,chen2023universalsc}
+samples a model repeatedly and aggregates the generations to pick a single
+answer. Abstaining when uncertain is the classic reject option
+\citep{geifman2017selective}, studied in NLP as calibration
+\citep{guo2017calibration}, unanswerable QA \citep{rajpurkar2018squad2}, and
+selective QA \citep{cole2023selective}, and LMs retain some awareness of what
+they know \citep{kadavath2022know}. We combine the two: cross-sample
+\emph{disagreement} \citep{kuhn2023semantic,manakul2023selfcheckgpt} is our
+zero-parameter confidence signal, and---unlike majority-vote self-consistency,
+which always emits an answer---we let it trigger \emph{abstention}, because here
+the empty set is itself a high-value prediction.
 
 \section{Task and Metric Analysis}
 \label{sec:task}
-The task has six relations (Table~\ref{tab:data}): two numeric
-(\textsc{hasCapacity}, \textsc{hasArea}), one with very large object sets
-(\textsc{awardWonBy}), and three string relations with frequent empty answers
+\paragraph{Relations.} The dataset comprises six Wikidata relations
+(Table~\ref{tab:data}) that fall into three groups. \emph{Numeric} relations
+(\textsc{hasCapacity}, \textsc{hasArea}) have a single scalar object;
+\emph{large-set} \textsc{awardWonBy} has up to hundreds of recipients per
+subject; and three \emph{null-heavy} string relations
 (\textsc{countryLandBordersCountry}, \textsc{personHasCityOfDeath},
-\textsc{companyTradesAtStockExchange}). Each has a precise scope (e.g.\ land-only
-borders; city-granular death location; highest published capacity) which we copy
-verbatim into the prompt. We report two summaries: \emph{relation-averaged} macro-F\textsubscript{1} (mean of six per-relation scores) and \emph{micro-averaged} F\textsubscript{1} (over all instances).
+\textsc{companyTradesAtStockExchange}) leave a large fraction of subjects with no
+valid object at all. Each relation carries a precise scope---land-only borders,
+city-granular death location, the highest published capacity---which we copy
+verbatim into the prompt so the model targets the same notion the gold set was
+built against.
 
 \begin{table}[t]
 \centering\small
@@ -172,16 +188,27 @@ per subject (max 641); three string relations are often legitimately empty.}
 \label{tab:data}
 \end{table}
 
-\paragraph{The metric makes abstention valuable.} The key to this task lies in
-how the metric scores empty answers. Macro precision is $1$ when no
-objects are predicted and recall is $1$ when the gold set is empty, so an empty
-prediction against an empty gold set is a perfect macro-F\textsubscript{1}. Predicting the empty set
-for \emph{every} validation instance therefore scores the ``Empty'' bars in
-Figure~\ref{fig:bars}, averaging $0.175$ over relations ($0.203$ micro)---on par
-with the official baseline's relation-averaged $0.273$ and \emph{above} it on the
-two most null-heavy relations (\textsc{personHasCityOfDeath} $0.45$ vs.\ $0.16$;
-\textsc{companyTradesAtStockExchange} $0.35$ vs.\ $0.32$). Gains thus come from
-recalling the numeric values and from knowing when \emph{not} to answer.
+\paragraph{Evaluation.} Predictions are scored against the gold object set by
+macro precision and recall. A predicted string is a true positive if its
+normalised form (lower-cased, diacritics and punctuation removed) matches any
+alias of a gold object, and a numeric prediction if it lies within 5\% of the
+gold value. Two boundary conventions drive everything that follows: precision is
+defined as $1$ when the prediction is empty, and recall as $1$ when the gold set
+is empty. We report \emph{relation-averaged} macro-F\textsubscript{1} (the mean
+of the six per-relation scores) and \emph{micro-averaged} F\textsubscript{1}
+(over all instances).
+
+\paragraph{The metric makes abstention valuable.} Those two conventions make an
+empty prediction against an empty gold set a perfect F\textsubscript{1}, with a
+large consequence: predicting the empty set for \emph{every} validation instance
+already scores the ``Empty'' bars in Figure~\ref{fig:bars}, averaging $0.175$
+relation-averaged macro-F\textsubscript{1} ($0.203$ micro). This is on par with
+the official baseline's $0.273$ and \emph{above} it on the two most null-heavy
+relations (\textsc{personHasCityOfDeath} $0.45$ vs.\ $0.16$;
+\textsc{companyTradesAtStockExchange} $0.35$ vs.\ $0.32$). The task therefore
+rewards not answering everything, but two narrower abilities: recalling the few
+numeric values, and abstaining precisely when no object exists. These are the
+levers our pipeline pulls.
 
 \begin{figure*}[t]
 \centering\footnotesize
