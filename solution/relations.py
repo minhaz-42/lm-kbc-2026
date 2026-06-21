@@ -87,7 +87,11 @@ RELATIONS: dict[str, RelationSpec] = {
     "awardWonBy": RelationSpec(
         name="awardWonBy",
         kind="string",
-        instruction="List as many recipients/winners of the subject award as you know.",
+        instruction=("Exhaustively list EVERY recipient/winner of the subject award you can "
+                     "recall — aim for as many as possible (dozens; these awards often have "
+                     "tens to hundreds of recipients). Do NOT stop at the few most famous; "
+                     "keep going until you genuinely cannot recall more. Only include names "
+                     "you are reasonably confident actually received THIS specific award."),
         definition=(
             "Entities (people or organisations) that have received the SPECIFIC award "
             "named by the subject. Predecessor/successor awards with different names are "

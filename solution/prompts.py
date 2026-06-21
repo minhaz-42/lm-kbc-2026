@@ -52,8 +52,9 @@ def select_few_shot(spec: RelationSpec, train_rows: List[Dict], k: int) -> List[
 def _exemplar_answer_json(spec: RelationSpec, row: Dict) -> str:
     answers = gold_answer_list(row)
     if spec.name == "awardWonBy":
-        # keep exemplar short: show a handful of winners, not hundreds
-        answers = answers[:12]
+        # show a long exemplar list (not hundreds) to teach the model to enumerate
+        # many recipients rather than stopping at the few most famous
+        answers = answers[:30]
     return json.dumps({"answers": answers}, ensure_ascii=False)
 
 
