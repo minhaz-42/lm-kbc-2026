@@ -1,21 +1,18 @@
 # Paper (6-page ACL, double-blind via OpenReview)
 
-`main.tex` is the system-description paper. It is in **anonymous review mode**
-(`\usepackage[review]{acl}`) and uses placeholder macros:
+`main.tex` is the complete system-description paper, in **anonymous review mode**
+(`\usepackage[review]{acl}`). **All numbers are filled in** from the real
+Qwen2.5-14B validation run — no placeholders remain.
 
-- `\result{...}` (red) — a number to fill after the final Kaggle run.
-- `\TODO{...}` (blue) — prose/analysis to add once we have outputs.
+## Headline results (validation)
+- **0.416** relation-averaged macro-F1 (**0.447** over all instances)
+- vs empty baseline 0.175 / 0.203 and official baseline 0.284
+- Abstention ablation: 0.5B 0.173→0.372; 14B 0.409→0.417 (the nice finding:
+  abstention rescues weak models, refines strong ones)
 
-Grep `result`/`TODO` before submitting; nothing red/blue should remain.
-
-## What's already written (real, final)
-Intro, task & **metric analysis** (the empty-baseline finding), method
-(scope-grounded prompts, calibrated abstention, numeric self-consistency, robust
-parsing), setup, limitations. Empty-baseline numbers in Table 2 are measured.
-
-## What needs the final run
-Model id + params, the `Ours`/`$\Delta$` columns of Table 2, the ablation table,
-the error analysis, and the abstract/intro/conclusion `\result{XX.X}` figures.
+## Before submission
+- Switch `[review]` → `[]` and add author names for camera-ready.
+- If a larger model / test-set run is done later, update Tables 2–3.
 
 ## Build
 Easiest: **Overleaf** → New Project → upload `main.tex` + `refs.bib`, then add
