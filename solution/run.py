@@ -48,6 +48,10 @@ def build_generator(args, gold_map):
         from generators import HFGenerator
         return HFGenerator(args.model, load_in_4bit=not args.no_4bit,
                            device_map=args.device_map, dtype=args.dtype)
+    if args.backend == "nvidia":
+        from generators import OpenAICompatGenerator
+        return OpenAICompatGenerator(args.model, base_url=args.base_url,
+                                     max_workers=args.workers)
     raise ValueError(args.backend)
 
 
@@ -81,7 +85,7 @@ def run(args):
         prompts = [gen.apply_template(build_messages(spec, r["SubjectEntity"], train))
                    for r in rel_rows]
 
-        real_backend = args.backend in ("vllm", "hf")
+        real_backend = args.backend in ("vllm", "hf", "nvidia")
         numeric_sc = spec.kind == "numeric" and args.sc_samples > 1 and real_backend
         string_sc = (spec.consistency_abstain and args.string_samples > 1 and real_backend)
         thr = args.string_consistency_threshold if string_sc else None
@@ -123,7 +127,7 @@ def run(args):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--backend", required=True, choices=["vllm", "hf", "oracle", "empty"])
+    ap.add_argument("--backend", required=True, choices=["vllm", "hf", "nvidia", "oracle", "empty"])
     ap.add_argument("--model", default=None)
     ap.add_argument("-i", "--input", required=True)
     ap.add_argument("--train", default=None)
@@ -142,6 +146,9 @@ def main():
     ap.add_argument("--string-consistency-threshold", type=float, default=0.5,
                     help="keep a string answer only if it appears in >= this fraction of samples")
     ap.add_argument("--sc-temperature", type=float, default=0.7)
+    ap.add_argument("--base-url", default="https://integrate.api.nvidia.com/v1",
+                    help="(nvidia) OpenAI-compatible API base URL")
+    ap.add_argument("--workers", type=int, default=4, help="(nvidia) concurrent API calls")
     ap.add_argument("--relations", default=None, help="comma-separated subset")
     ap.add_argument("--limit", type=int, default=0, help="max rows per relation (debug)")
     args = ap.parse_args()

@@ -10,3 +10,4 @@ numpy
 tqdm
 loguru
 PyYAML
+openai          # OpenAI-compatible API backend (NVIDIA hosted models)

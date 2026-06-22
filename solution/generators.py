@@ -6,6 +6,9 @@
         inner list  = n sampled completions for that prompt (n>=1)
 
 Backends:
+  * OpenAICompatGenerator - OpenAI-compatible chat API (e.g. NVIDIA
+                      integrate.api.nvidia.com): inference runs in the cloud, so
+                      NO local GPU is needed — runs from a laptop over HTTP.
   * VLLMGenerator   - fast batched inference (preferred on Kaggle 2xT4)
   * HFGenerator     - transformers + bitsandbytes 4-bit fallback
   * OracleMock      - no model; returns gold wrapped in noisy JSON (tests the
@@ -70,6 +73,60 @@ class OracleMock(BaseGenerator):
             gold = self.gold_map.get((subj, rel), [])
             blob = "```json\n" + json.dumps({"answers": gold}, ensure_ascii=False) + "\n```\nDone."
             out.append([blob] * n)
+        return out
+
+
+# --------------------------------------------------------------------------- #
+# OpenAI-compatible cloud API (NVIDIA build.nvidia.com / integrate.api.nvidia.com).
+# No local GPU: inference runs in the cloud, driven over HTTP from a laptop.
+# --------------------------------------------------------------------------- #
+class OpenAICompatGenerator(BaseGenerator):
+    def __init__(self, model_path: str,
+                 base_url: str = "https://integrate.api.nvidia.com/v1",
+                 api_key_env: str = "NVIDIA_API_KEY",
+                 max_workers: int = 4, max_retries: int = 6, timeout: float = 120.0):
+        import os
+        from openai import OpenAI                       # lazy; no torch needed
+        key = os.environ.get(api_key_env)
+        if not key:
+            raise SystemExit(f"set the {api_key_env} environment variable (your nvapi-... key)")
+        self.client = OpenAI(base_url=base_url, api_key=key, timeout=timeout)
+        self.model = model_path
+        self.max_workers = max_workers
+        self.max_retries = max_retries
+
+    def apply_template(self, messages):
+        return messages                                 # chat API consumes messages directly
+
+    def _call(self, messages, max_new_tokens, temperature):
+        """One chat completion with exponential backoff on rate-limit/transient errors."""
+        import time
+        delay = 2.0
+        for attempt in range(self.max_retries):
+            try:
+                r = self.client.chat.completions.create(
+                    model=self.model, messages=messages,
+                    temperature=float(temperature), max_tokens=max_new_tokens, n=1)
+                return r.choices[0].message.content or ""
+            except Exception as e:                      # 429 / 5xx / timeouts
+                if attempt == self.max_retries - 1:
+                    print(f"    !! API call failed after retries: {type(e).__name__}", flush=True)
+                    return ""
+                time.sleep(min(delay, 30.0)); delay *= 2
+        return ""
+
+    def generate(self, prompts, max_new_tokens, temperature=0.0, n=1):
+        from concurrent.futures import ThreadPoolExecutor
+        # one task per (prompt, sample): uniform handling of n>1 self-consistency
+        tasks = [(i, j) for i in range(len(prompts)) for j in range(n)]
+        out: List[List[str]] = [["" for _ in range(n)] for _ in prompts]
+
+        def work(t):
+            i, j = t
+            out[i][j] = self._call(prompts[i], max_new_tokens, temperature)
+
+        with ThreadPoolExecutor(max_workers=self.max_workers) as ex:
+            list(ex.map(work, tasks))
         return out
 
 
