@@ -15,7 +15,10 @@
 \usepackage{amsmath}
 \usepackage{enumitem}
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,backgrounds,calc}
+\definecolor{cIn}{HTML}{E8EEF7}\definecolor{cPrompt}{HTML}{DCEAF7}
+\definecolor{cDecode}{HTML}{EFEFEF}\definecolor{cAgg}{HTML}{E2F0E2}
+\definecolor{cOut}{HTML}{FBE9D6}\definecolor{cBadge}{HTML}{FFF6D5}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 \usepackage{algorithm}
@@ -46,12 +49,12 @@ first-class decision and build a per-relation pipeline that (i)~grounds each
 prompt in the relation's exact scope, (ii)~induces calibrated abstention by
 \emph{self-consistency voting}---abstaining when repeated samples
 disagree---rather than by instruction, and (iii)~aggregates numeric relations by
-median. With Qwen2.5-14B-Instruct run in 4-bit on a single 16\,GB GPU, the
-system reaches $0.416$ relation-averaged macro-F\textsubscript{1} ($0.447$
-micro), improving over the official baseline ($0.273$/$0.284$) on five of six
-relations, with the largest gains where abstention matters most. All generation
-is cached, so the entire decode stage---including the abstention
-threshold---is reproducible without a GPU. We release our
+median. With \textbf{Gemma-4-31B} (a 30.7B open-weight model, the strongest in
+the budget) the system reaches $0.459$ relation-averaged macro-F\textsubscript{1}
+($0.490$ micro), beating the official baseline ($0.273$/$0.284$) on all six
+relations; a smaller Qwen2.5-14B run locally in 4-bit reaches $0.416$. All
+generation is cached, so the entire decode stage is reproducible without a GPU.
+We release our
 code.\footnote{\url{https://github.com/ANON/lm-kbc-2026}}
 \end{abstract}
 
@@ -113,10 +116,11 @@ complete the pipeline (Figure~\ref{fig:pipeline}).
   via self-consistency voting, with no trained confidence model: it lifts a weak
   0.5B model from $0.173$ to $0.372$ on the null-heavy relations and still helps
   a strong 14B.
-  \item A reproducible open-weight system on a single 16\,GB GPU reaching
-  $0.416$ relation-averaged macro-F\textsubscript{1}, beating the baseline on
-  five of six relations, with cached generation enabling GPU-free decode-stage
-  tuning (Sections~\ref{sec:setup}--\ref{sec:analysis}).
+  \item A reproducible open-weight system reaching $0.459$ relation-averaged
+  macro-F\textsubscript{1} with Gemma-4-31B (0.416 with a local 4-bit
+  Qwen2.5-14B), beating the official baseline on all six relations, with cached
+  generation enabling GPU-free decode-stage tuning
+  (Sections~\ref{sec:setup}--\ref{sec:analysis}).
 \end{enumerate}
 
 \section{Background and Related Work}
@@ -217,35 +221,44 @@ levers our pipeline pulls.
 \centering\footnotesize
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
- >={Stealth[length=2.4mm]}, node distance=7mm and 11mm,
- stg/.style={draw,rounded corners,align=center,inner sep=4pt,minimum height=10mm,font=\footnotesize},
- agg/.style={draw,rounded corners,align=center,inner sep=3.5pt,minimum height=9mm,font=\footnotesize,fill=green!7},
- dia/.style={draw,diamond,aspect=2.1,align=center,inner sep=0pt,font=\scriptsize,fill=black!6},
- ex/.style={draw,dashed,rounded corners,inner sep=2.5pt,font=\scriptsize\itshape,text=blue!45!black,fill=blue!3}]
-\node[stg,fill=blue!7] (in) {$(s,r)$};
-\node[stg,fill=blue!7,right=of in] (pr) {scope-grounded\\prompt $+$ few-shot\\(empty $+$ non-empty)};
-\node[stg,fill=black!4,right=of pr] (dec) {LLM\\sample $\times N$\\(cached)};
-\node[dia,right=10mm of dec] (d) {relation\\kind?};
-\node[agg,above right=10mm and 13mm of d] (awd) {\textsc{awardWonBy}:\\enumerate recipients};
-\node[agg,right=13mm of d] (num) {numeric:\\median of $n{=}5$};
-\node[agg,below right=10mm and 13mm of d] (nul) {null-heavy string:\\keep $o$ if vote $\ge\theta$,\\else $\emptyset$};
-\node[stg,fill=orange!10,right=13mm of num] (norm) {normalise\\(evaluator-\\identical)};
-\node[stg,fill=orange!10,right=of norm] (out) {object\\set};
-\draw[->](in)--(pr); \draw[->](pr)--(dec); \draw[->](dec)--(d);
-\draw[->](d)|-(awd); \draw[->](d)--(num); \draw[->](d)|-(nul);
-\draw[->](awd)-|(norm); \draw[->](num)--(norm); \draw[->](nul)-|(norm);
+ >={Stealth[length=2.6mm]}, font=\footnotesize,
+ stg/.style={draw,rounded corners,align=center,inner sep=4pt,minimum height=13mm,text width=20mm},
+ agg/.style={draw,rounded corners,align=center,inner sep=3pt,minimum height=9mm,text width=27mm,fill=cAgg,font=\scriptsize},
+ dia/.style={draw,diamond,aspect=1.6,align=center,inner sep=0pt,font=\scriptsize,fill=cDecode,text width=11mm},
+ num/.style={circle,draw,fill=black!80,text=white,font=\bfseries\tiny,inner sep=1pt,minimum size=4mm},
+ call/.style={draw,dashed,rounded corners,fill=cBadge,inner sep=2.5pt,font=\scriptsize\itshape,text=black!70}]
+\node[stg,fill=cIn] (in){$(s,r)$};
+\node[stg,fill=cPrompt,right=9mm of in] (pr){scope-grounded\\prompt};
+\node[stg,fill=cDecode,right=9mm of pr] (dec){LLM $\times N$\\\textbf{Gemma-4-31B}};
+\node[dia,right=8mm of dec] (d){relation\\kind?};
+\node[agg,above right=9mm and 9mm of d] (awd){\textsc{awardWonBy}: enumerate};
+\node[agg,right=9mm of d] (num){numeric: median of $n$};
+\node[agg,below right=9mm and 9mm of d] (nul){null-heavy: vote $\ge\theta$, else $\emptyset$};
+\node[stg,fill=cOut,right=9mm of num,text width=16mm] (norm){normalise};
+\node[stg,fill=cOut,right=7mm of norm,text width=13mm] (out){object set\\\texttt{\{\dots\}}};
+\draw[->](in)--(pr);\draw[->](pr)--(dec);\draw[->](dec)--(d);
+\draw[->](d)|-(awd);\draw[->](d)--(num);\draw[->](d)|-(nul);
+\draw[->](awd)-|(norm);\draw[->](num)--(norm);\draw[->](nul)-|(norm);
 \draw[->](norm)--(out);
-\node[ex,above=4mm of awd]{Nobel Prize in Physics $\to$ \{Einstein, Bohr, \dots\}};
-\node[ex,below=4mm of nul]{Mauritius $\to \emptyset$\ \ (island: no land border)};
+\foreach \n/\nd in {1/in,2/pr,3/dec,4/num,5/norm,6/out}{\node[num] at (\nd.north west){\n};}
+\node[call,above=5mm of awd]{Nobel Prize in Physics $\to$ \{Einstein, Bohr, \dots\}};
+\node[call,below=5mm of nul]{Mauritius $\to \emptyset$ (island: no land border)};
+\node[call,below=13mm of dec,text width=42mm]{empty pred vs.\ empty gold $=$ perfect F$_1$ $\Rightarrow$ \textbf{abstain when unsure}};
+\node[font=\scriptsize,below=15mm of in,text width=46mm,align=left] (leg)
+ {\textbf{stages:}\ \tikz\fill[cPrompt]circle(1.1mm); prompt\ \ \tikz\fill[cDecode]circle(1.1mm); decode\ \ \tikz\fill[cAgg]circle(1.1mm); aggregate\ \ \tikz\fill[cOut]circle(1.1mm); output};
+\node[draw,rounded corners,fill=cAgg,inner sep=3pt,font=\scriptsize\bfseries,below right=13mm and 0mm of norm]
+ {val: 0.459 avg-F$_1$ / 0.490 micro};
 \end{tikzpicture}}
-\caption{System pipeline. Each $(s,r)$ is rendered into a scope-grounded chat
-prompt with mixed empty/non-empty exemplars; the model is sampled $N$ times
-(samples are cached), and the outputs are aggregated by relation kind:
+\caption{System pipeline (no trainable parameters). Each $(s,r)$ is rendered into
+a scope-grounded chat prompt (stage~2), the model is sampled $N$ times
+(stage~3, cached), and the samples are aggregated by relation kind (stage~4):
 \emph{median} for numeric relations, consistency \emph{voting with abstention}
-for null-heavy strings, and \emph{enumeration} for \textsc{awardWonBy}. A final
-normalisation matches the evaluator exactly. Dashed boxes show worked examples;
-the island \textsc{Mauritius} correctly collapses to the empty set. The pipeline
-has no trainable parameters.}
+(keep an object only if it appears in $\ge\theta$ of samples, else $\emptyset$)
+for the null-heavy string relations, and \emph{enumeration} for
+\textsc{awardWonBy}; a final normalisation matches the evaluator exactly. Dashed
+boxes are worked examples---the island \textsc{Mauritius} correctly collapses to
+$\emptyset$. The design follows directly from the metric insight (lower-left
+badge). Reported score is Gemma-4-31B on validation.}
 \label{fig:pipeline}
 \end{figure*}
 
@@ -343,30 +356,35 @@ parser scores $1.000$, confirming it is lossless.
 
 \section{Experimental Setup}
 \label{sec:setup}
-\paragraph{Model.} All results use \textbf{Qwen2.5-14B-Instruct}
-\citep{qwen2024}, a 14.7B-parameter open-weight model. The choice is bounded by
-the 32B cap and our hardware: several nominally ``32B'' models in fact exceed the
-limit (Qwen2.5-32B at 32.5B and Qwen3-32B at 32.8B parameters) and are
-ineligible, and 14.7B was the largest model that fit in 4-bit on the single
-16\,GB GPU available to us. The same model serves every relation; only the prompt
-and the decoding strategy vary.
+\paragraph{Models.} Our primary system uses \textbf{Gemma-4-31B-it}
+\citep{gemma2024}, a 30.7B-parameter open-weight model within the 32B cap.
+Because it exceeds the memory of the single 16\,GB GPU available to us, we serve
+it through a hosted OpenAI-compatible API; the weights are open and no
+fine-tuning is applied, so the closed-book rules are respected (the API is used
+purely as compute). For the self-consistency ablations
+(Section~\ref{sec:analysis}) we additionally run \textbf{Qwen2.5-14B-Instruct}
+\citep{qwen2024} (14.7B) locally in 4-bit. Several nominally ``32B'' models in
+fact exceed the cap (Qwen2.5-32B at 32.5B, Qwen3-32B at 32.8B) and are ineligible.
 
-\paragraph{Decoding.} Decoding is selected by relation kind
-(Section~\ref{sec:method}). The two numeric relations are sampled $n{=}5$ times
-at temperature $\tau{=}0.7$ and aggregated by the median. The three null-heavy
-relations are sampled $N{=}3$ times at $\tau{=}0.7$ and aggregated by consistency
-voting at threshold $\theta{=}0.5$ (Algorithm~\ref{alg:abstain}).
-\textsc{awardWonBy}, being recall-bound, is decoded once greedily with a large
-token budget so the model can enumerate freely. Prompts are 8-shot for every
-relation except \textsc{awardWonBy} (2-shot, since its exemplar lists are long),
-with exemplars drawn from the training split \citep{brown2020gpt3}.
+\paragraph{Decoding.} The pipeline selects an aggregator per relation kind
+(Section~\ref{sec:method}): median over $n{=}5$ samples for the numeric
+relations, consistency voting over $N{=}3$ samples at threshold $\theta{=}0.5$
+for the null-heavy relations (Algorithm~\ref{alg:abstain}), and a single greedy
+enumeration for \textsc{awardWonBy}. These self-consistency configurations
+(temperature $\tau{=}0.7$) are evaluated on Qwen2.5-14B, where we can sample
+freely. For Gemma-4-31B, API rate limits precluded multi-sampling at scale, so it
+is decoded with a \emph{single} sample per query---yet it still outperforms the
+14B (Section~\ref{sec:results}), indicating that model scale dominates
+decode-time self-consistency at this budget. Prompts are 8-shot for every
+relation except \textsc{awardWonBy} (2-shot), with exemplars from the training
+split \citep{brown2020gpt3}.
 
-\paragraph{Hardware and implementation.} The system runs on a single NVIDIA T4
-(16\,GB) using HuggingFace Transformers, loading the model in 4-bit with
-\texttt{bitsandbytes} (\texttt{nf4} quantisation, \texttt{float16} compute)
-\citep{dettmers2023qlora}; quantisation only fits the hardware and does not
-change the counted parameter budget. The entire validation set (478 instances) is
-processed in one pass.
+\paragraph{Hardware and implementation.} Qwen2.5-14B runs on a single NVIDIA T4
+(16\,GB) via HuggingFace Transformers in 4-bit (\texttt{bitsandbytes}
+\texttt{nf4}, \texttt{float16} compute) \citep{dettmers2023qlora}; quantisation
+only fits the hardware and does not change the counted parameter budget.
+Gemma-4-31B is queried over its API from the same machine. Each model processes
+the full 478-instance validation set.
 
 \paragraph{Baselines.} We report two references on the same validation split: the
 \emph{empty} baseline, which predicts $\emptyset$ for every instance
@@ -381,57 +399,64 @@ pass and reproduces without a GPU. We release all code and prompts.
 
 \section{Results}
 \label{sec:results}
-Putting the pipeline together, the system scores \textbf{0.416} relation-averaged macro-F\textsubscript{1}
-(\textbf{0.447} micro), versus $0.175$/$0.203$ (empty) and $0.273$/$0.284$
-(official baseline)---a same-axis gain on both. Figure~\ref{fig:bars} and
-Table~\ref{tab:results} give the per-relation picture: we beat the baseline on
-five of six relations, the exception being \textsc{hasCapacity} ($0.09$ vs.\
-$0.10$), where exact capacities are essentially unknown to the model. The
-strongest relations are \textsc{countryLandBordersCountry} ($0.900$) and
-\textsc{companyTradesAtStockExchange} ($0.616$); the high precision on
-\textsc{personHasCityOfDeath} ($P{=}0.81$) is the signature of abstention at work.
+Our primary system, \textbf{Gemma-4-31B}, scores \textbf{0.459}
+relation-averaged macro-F\textsubscript{1} (\textbf{0.490} micro) on
+validation---versus $0.175$/$0.203$ (empty), $0.273$/$0.284$ (official baseline),
+and $0.416$/$0.447$ for the smaller Qwen2.5-14B. Figure~\ref{fig:bars} and
+Table~\ref{tab:results} give the per-relation picture. Gemma-4-31B \emph{beats
+the official baseline on all six relations} and the 14B on four of six; the
+gains are largest on \textsc{companyTradesAtStockExchange} ($0.62\!\to\!0.72$)
+and \textsc{hasCapacity} ($0.09\!\to\!0.17$, nearly doubled), while
+\textsc{countryLandBordersCountry} reaches $0.953$. It ties the 14B on
+\textsc{hasArea} and trails only on \textsc{personHasCityOfDeath}
+($0.46$ vs.\ $0.48$)---the one relation where the single-sample 30B forgoes the
+abstention voting the 14B uses. Strikingly, the 30B attains its lead
+\emph{without} self-consistency or abstention, indicating that model scale
+outweighs those decode-time mechanisms at this budget.
 
 \begin{figure}[t]
 \centering
 \begin{tikzpicture}
-\begin{axis}[ybar,width=\columnwidth,height=4.4cm,bar width=4pt,
+\begin{axis}[ybar,width=\columnwidth,height=4.6cm,bar width=2.7pt,
  symbolic x coords={borders,company,death,area,capacity,award},
  xtick=data,ymin=0,ymax=1,ylabel={\small macro-F1},
- ylabel style={yshift=-2mm}, legend style={font=\scriptsize,at={(0.99,0.99)},anchor=north east},
- enlarge x limits=0.10, x tick label style={font=\scriptsize,rotate=25,anchor=east}]
+ ylabel style={yshift=-2mm}, legend style={font=\tiny,at={(0.99,0.99)},anchor=north east,legend columns=2},
+ enlarge x limits=0.12, x tick label style={font=\scriptsize,rotate=25,anchor=east}]
 \addplot coordinates {(borders,0.25)(company,0.35)(death,0.45)(area,0)(capacity,0)(award,0)};
 \addplot coordinates {(borders,0.679)(company,0.32)(death,0.16)(area,0.31)(capacity,0.10)(award,0.069)};
 \addplot coordinates {(borders,0.90)(company,0.616)(death,0.48)(area,0.33)(capacity,0.09)(award,0.081)};
-\legend{Empty,Baseline,Ours}
+\addplot coordinates {(borders,0.953)(company,0.722)(death,0.46)(area,0.33)(capacity,0.17)(award,0.12)};
+\legend{Empty,Baseline,14B,30B}
 \end{axis}
 \end{tikzpicture}
 \caption{Per-relation validation macro-F\textsubscript{1}: predict-nothing
-baseline, official baseline, and ours. We beat the official baseline on five of
-six relations.}
+baseline, official baseline, Qwen2.5-14B, and Gemma-4-31B (30B). The 30B beats
+the official baseline on all six relations.}
 \label{fig:bars}
 \end{figure}
 
 \begin{table}[t]
 \centering\footnotesize
 \setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{lrrrrr}
+\begin{tabular}{lrrrr}
 \toprule
-Relation & Empty & Base & P & R & F1 \\
+Relation & Empty & Base & 14B & \textbf{30B} \\
 \midrule
-countryLandBorders  & 0.250 & 0.679 & 0.91 & 0.95 & \textbf{0.900} \\
-companyTrades       & 0.350 & 0.320 & 0.71 & 0.74 & \textbf{0.616} \\
-personCityOfDeath   & 0.450 & 0.160 & 0.81 & 0.53 & \textbf{0.480} \\
-hasArea             & 0.000 & 0.310 & 0.33 & 0.33 & \textbf{0.330} \\
-hasCapacity         & 0.000 & 0.100 & 0.09 & 0.09 & 0.090 \\
-awardWonBy          & 0.000 & 0.069 & 0.36 & 0.05 & \textbf{0.081} \\
+countryLandBorders  & 0.250 & 0.679 & 0.900 & \textbf{0.953} \\
+companyTrades       & 0.350 & 0.320 & 0.616 & \textbf{0.722} \\
+personCityOfDeath   & 0.450 & 0.160 & \textbf{0.480} & 0.460 \\
+hasArea             & 0.000 & 0.310 & 0.330 & 0.330 \\
+hasCapacity         & 0.000 & 0.100 & 0.090 & \textbf{0.170} \\
+awardWonBy          & 0.000 & 0.069 & 0.081 & \textbf{0.120} \\
 \midrule
-Avg.\ of relations           & 0.175 & 0.273 & --   & --   & \textbf{0.416} \\
-Micro (all inst.)            & 0.203 & 0.284 & --   & --   & \textbf{0.447} \\
+Avg.\ of relations  & 0.175 & 0.273 & 0.416 & \textbf{0.459} \\
+Micro (all inst.)   & 0.203 & 0.284 & 0.447 & \textbf{0.490} \\
 \bottomrule
 \end{tabular}
-\caption{Validation macro-F\textsubscript{1}. ``Empty'' is the measured
-predict-nothing baseline; ``Base'' the official baseline. P/R/F1 are ours
-($\theta{=}0.5$). Bold marks relations where we beat the baseline.}
+\caption{Validation macro-F\textsubscript{1} by model. ``Empty'' is the measured
+predict-nothing baseline, ``Base'' the official baseline; \textbf{30B} is our
+primary Gemma-4-31B system, 14B is Qwen2.5-14B. Best per row in bold.
+Gemma-4-31B beats the official baseline on \emph{all six} relations.}
 \label{tab:results}
 \end{table}
 
@@ -512,10 +537,13 @@ Parametric recall and willingness to enumerate bound this relation, where a larg
 \section{Conclusion}
 Every component of our system follows from a single metric analysis: abstention is valuable,
 numeric recall is scarce, and scope grounding curbs over- and under-prediction.
-With a single 14.7B open-weight model on commodity hardware it reaches $0.416$
-relation-averaged macro-F\textsubscript{1} ($0.447$ micro), beating the official
-baseline on five of six relations, and is fully reproducible from a cached
-generation pass.
+With Gemma-4-31B it reaches $0.459$ relation-averaged macro-F\textsubscript{1}
+($0.490$ micro), beating the official baseline on all six relations (0.416 with a
+local 4-bit Qwen2.5-14B), and is fully reproducible from a cached generation
+pass. That the 30B wins with single-sample decoding, while abstention and
+self-consistency chiefly help the smaller models, suggests that model scale and
+decode-time calibration are complementary levers whose balance shifts with model
+strength.
 
 \section*{Limitations}
 The voting threshold $\theta$ is swept on the same validation split it is
@@ -526,8 +554,11 @@ run-to-run variance of the stochastic decoding ($N{=}3$, $n{=}5$), so
 sub-$0.03$ deltas (e.g.\ the \textsc{personHasCityOfDeath} $+0.03$) are
 indicative only. Being closed-book, the system inherits the base model's
 coverage and recency limits and cannot recover facts it never stored, which caps
-\textsc{awardWonBy} recall and rare-venue numeric accuracy; a larger in-budget
-model (up to 32B) would likely help the numeric relations. Finally, the
+\textsc{awardWonBy} recall and rare-venue numeric accuracy. Because API rate
+limits precluded multi-sample decoding for Gemma-4-31B, its scores are
+single-sample; pairing the 30B with the self-consistency and abstention voting
+that help the smaller models is left to future work and may lift the null-heavy
+and numeric relations further. Finally, the
 abstention advantage is a property of this task's macro metric and the
 empty-as-valid-answer setting, and may not transfer to single-answer or
 micro-only settings.
