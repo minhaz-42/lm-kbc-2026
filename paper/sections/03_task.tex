@@ -1,0 +1,99 @@
+\section{Task and Metric Analysis}
+\label{sec:task}
+\paragraph{Relations.} The dataset comprises six Wikidata relations
+(Table~\ref{tab:data}) that fall into three groups. \emph{Numeric} relations
+(\textsc{hasCapacity}, \textsc{hasArea}) have a single scalar object;
+\emph{large-set} \textsc{awardWonBy} has up to hundreds of recipients per
+subject; and three \emph{null-heavy} string relations
+(\textsc{countryLandBordersCountry}, \textsc{personHasCityOfDeath},
+\textsc{companyTradesAtStockExchange}) leave a large fraction of subjects with no
+valid object at all. Each relation carries a precise scope---land-only borders,
+city-granular death location, the highest published capacity---which we copy
+verbatim into the prompt so the model targets the same notion the gold set was
+built against.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lrr}
+\toprule
+Relation & \#val & empty\% \\
+\midrule
+\textsc{countryLandBordersCountry} & 68 & 25 \\
+\textsc{personHasCityOfDeath} & 100 & 45 \\
+\textsc{companyTradesAtStockExchange} & 100 & 35 \\
+\textsc{awardWonBy} & 10 & 0 \\
+\textsc{hasCapacity} & 100 & 0 \\
+\textsc{hasArea} & 100 & 0 \\
+\bottomrule
+\end{tabular}
+\caption{Validation statistics. \textsc{awardWonBy} averages ${\sim}148$ objects
+per subject (max 641); three string relations are often legitimately empty.}
+\label{tab:data}
+\end{table}
+
+\paragraph{Evaluation.} Predictions are scored against the gold object set by
+macro precision and recall. A predicted string is a true positive if its
+normalised form (lower-cased, diacritics and punctuation removed) matches any
+alias of a gold object, and a numeric prediction if it lies within 5\% of the
+gold value. Two boundary conventions drive everything that follows: precision is
+defined as $1$ when the prediction is empty, and recall as $1$ when the gold set
+is empty. We report \emph{relation-averaged} macro-F\textsubscript{1} (the mean
+of the six per-relation scores) and \emph{micro-averaged} F\textsubscript{1}
+(over all instances).
+
+\paragraph{The metric makes abstention valuable.} Those two conventions make an
+empty prediction against an empty gold set a perfect F\textsubscript{1}, with a
+large consequence: predicting the empty set for \emph{every} validation instance
+already scores the ``Empty'' bars in Figure~\ref{fig:bars}, averaging $0.175$
+relation-averaged macro-F\textsubscript{1} ($0.203$ micro). This is on par with
+the official baseline's $0.273$ and \emph{above} it on the two most null-heavy
+relations (\textsc{personHasCityOfDeath} $0.45$ vs.\ $0.16$;
+\textsc{companyTradesAtStockExchange} $0.35$ vs.\ $0.32$). The task therefore
+rewards not answering everything, but two narrower abilities: recalling the few
+numeric values, and abstaining precisely when no object exists. These are the
+levers our pipeline pulls.
+
+\begin{figure*}[t]
+\centering\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+ >={Stealth[length=2.6mm]}, font=\footnotesize,
+ stg/.style={draw,rounded corners,align=center,inner sep=4pt,minimum height=13mm,text width=20mm},
+ agg/.style={draw,rounded corners,align=center,inner sep=3pt,minimum height=9mm,text width=27mm,fill=cAgg,font=\scriptsize},
+ dia/.style={draw,diamond,aspect=1.6,align=center,inner sep=0pt,font=\scriptsize,fill=cDecode,text width=11mm},
+ num/.style={circle,draw,fill=black!80,text=white,font=\bfseries\tiny,inner sep=1pt,minimum size=4mm},
+ call/.style={draw,dashed,rounded corners,fill=cBadge,inner sep=2.5pt,font=\scriptsize\itshape,text=black!70}]
+\node[stg,fill=cIn] (in){$(s,r)$};
+\node[stg,fill=cPrompt,right=9mm of in] (pr){scope-grounded\\prompt};
+\node[stg,fill=cDecode,right=9mm of pr] (dec){LLM $\times N$\\\textbf{Gemma-4-31B}};
+\node[dia,right=8mm of dec] (d){relation\\kind?};
+\node[agg,above right=9mm and 9mm of d] (awd){\textsc{awardWonBy}: enumerate};
+\node[agg,right=9mm of d] (num){numeric: median of $n$};
+\node[agg,below right=9mm and 9mm of d] (nul){null-heavy: vote $\ge\theta$, else $\emptyset$};
+\node[stg,fill=cOut,right=9mm of num,text width=16mm] (norm){normalise};
+\node[stg,fill=cOut,right=7mm of norm,text width=13mm] (out){object set\\\texttt{\{\dots\}}};
+\draw[->](in)--(pr);\draw[->](pr)--(dec);\draw[->](dec)--(d);
+\draw[->](d)|-(awd);\draw[->](d)--(num);\draw[->](d)|-(nul);
+\draw[->](awd)-|(norm);\draw[->](num)--(norm);\draw[->](nul)-|(norm);
+\draw[->](norm)--(out);
+\foreach \n/\nd in {1/in,2/pr,3/dec,4/num,5/norm,6/out}{\node[num] at (\nd.north west){\n};}
+\node[call,above=5mm of awd]{Nobel Prize in Physics $\to$ \{Einstein, Bohr, \dots\}};
+\node[call,below=5mm of nul]{Mauritius $\to \emptyset$ (island: no land border)};
+\node[call,below=13mm of dec,text width=42mm]{empty pred vs.\ empty gold $=$ perfect F$_1$ $\Rightarrow$ \textbf{abstain when unsure}};
+\node[font=\scriptsize,below=15mm of in,text width=46mm,align=left] (leg)
+ {\textbf{stages:}\ \tikz\fill[cPrompt]circle(1.1mm); prompt\ \ \tikz\fill[cDecode]circle(1.1mm); decode\ \ \tikz\fill[cAgg]circle(1.1mm); aggregate\ \ \tikz\fill[cOut]circle(1.1mm); output};
+\node[draw,rounded corners,fill=cAgg,inner sep=3pt,font=\scriptsize\bfseries,below right=13mm and 0mm of norm]
+ {val: 0.459 avg-F$_1$ / 0.490 micro};
+\end{tikzpicture}}
+\caption{System pipeline (no trainable parameters). Each $(s,r)$ is rendered into
+a scope-grounded chat prompt (stage~2), the model is sampled $N$ times
+(stage~3, cached), and the samples are aggregated by relation kind (stage~4):
+\emph{median} for numeric relations, consistency \emph{voting with abstention}
+(keep an object only if it appears in $\ge\theta$ of samples, else $\emptyset$)
+for the null-heavy string relations, and \emph{enumeration} for
+\textsc{awardWonBy}; a final normalisation matches the evaluator exactly. Dashed
+boxes are worked examples---the island \textsc{Mauritius} correctly collapses to
+$\emptyset$. The design follows directly from the metric insight (lower-left
+badge). Reported score is Gemma-4-31B on validation.}
+\label{fig:pipeline}
+\end{figure*}

@@ -1,0 +1,91 @@
+\section{System}
+\label{sec:method}
+\paragraph{Architecture overview.} The pipeline (Figure~\ref{fig:pipeline}) maps
+each $(s,r)$ to one chat prompt, decodes $N$ or $n$ cached samples, and aggregates them
+per relation kind into an object set. It has no trainable parameters and targets
+the two analysis levers: abstention and numeric recall.
+
+\paragraph{Scope-grounded prompts.} Each relation's system message states the
+task, the \emph{exact} ground-truth scope (copied verbatim from the official
+definitions), and the required answer form (Table~\ref{tab:prompts}); the model
+emits one JSON object \texttt{\{"answers":[\dots]\}} (Figure~\ref{fig:prompt}),
+which makes the empty case unambiguous. Few-shot exemplars come from the training
+split; for null-heavy relations we interleave empty and non-empty exemplars so
+abstention is demonstrated, not merely instructed. Even a 0.5B model emits valid
+JSON on 100\% of instances, so format is never a bottleneck.
+
+\begin{table*}[t]
+\centering\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}l p{7.7cm} l@{}}
+\toprule
+Relation & Scope stated in the prompt & Answer form \\
+\midrule
+\textsc{countryLandBordersCountry} & countries sharing a \emph{land} border; maritime borders excluded; an island has none & countries, or [] \\
+\textsc{personHasCityOfDeath} & the \emph{city} where the subject died; empty if alive or the city is unknown & one city, or [] \\
+\textsc{companyTradesAtStockExchange} & stock exchange(s) on which the company is publicly listed; empty if unlisted & exchanges, or [] \\
+\textsc{awardWonBy} & every recipient of the award (often tens to hundreds) & names (long) \\
+\textsc{hasCapacity} & maximum spectator capacity in people; highest published value & one integer \\
+\textsc{hasArea} & total surface area in km$^2$ (land $+$ inland water) & one number \\
+\bottomrule
+\end{tabular}
+\caption{Per-relation prompt specification. Each system message states the
+relation's exact scope (copied from the official definitions) and the required
+answer form; the model replies with a single JSON object
+\texttt{\{"answers":[\dots]\}}.}
+\label{tab:prompts}
+\end{table*}
+
+\begin{figure}[t]
+\centering\scriptsize\ttfamily
+\fbox{\parbox{0.86\columnwidth}{%
+SYS: precise KB engine (closed book).\\
+TASK: city where the subject died.\\
+SCOPE: city granularity; [] if alive/unknown.\\
+Reply only \{"answers":[...]\}.\\[2pt]
+U: Egbert Mulder\\ \ \ A: \{"answers":["Groningen"]\}\\
+U: Dave Keon\\ \ \ A: \{"answers":[]\}\\
+U: \textit{<query>}\ \ A:
+}}
+\caption{Abbreviated prompt for a null-heavy relation. Mixed exemplars teach
+abstention; output is forced JSON.}
+\label{fig:prompt}
+\end{figure}
+
+\paragraph{Calibrated abstention via self-consistency.} Scope grounding tells the model \emph{what} counts as an answer, but not \emph{when} to stay silent. A bare instruction to
+``answer empty when unsure'' is unreliable: an unconstrained small model names a
+death-city for living people and invents stock exchanges, dropping precision
+\emph{below} the empty baseline (Section~\ref{sec:analysis}). Instead, for the
+three null-heavy relations we sample $N{=}3$ completions at temperature
+$\tau{=}0.7$ and keep an object only if it appears in at least a fraction
+$\theta$ of samples; single-object relations abstain entirely if even the top
+answer is below $\theta$ (Algorithm~\ref{alg:abstain}). When the model guesses,
+samples disagree and the prediction collapses to $\emptyset$---where the metric
+rewards silence. This is disabled for \textsc{awardWonBy} (recall-bound) and the
+numeric relations.
+
+\begin{algorithm}[t]
+\small
+\caption{\textsc{CalibratedAbstention}}
+\label{alg:abstain}
+\begin{algorithmic}[1]
+\Require samples $S{=}\{s_1,\dots,s_N\}$, threshold $\theta$, \textit{multi}
+\State $c[o] \gets \#\{s_i : o \in \textsc{parse}(s_i)\}$ for each object $o$
+\If{\textit{multi}} \Return $\{o : c[o]/N \ge \theta\}$
+\Else
+  \State $o^* \gets \arg\max_o c[o]$;\ \ \Return $c[o^*]/N \ge \theta \,?\, \{o^*\} : \emptyset$
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Numeric aggregation.} The numeric relations need a different aggregator. \textsc{hasCapacity} and \textsc{hasArea} take a
+single number graded within 5\%. We sample $n{=}5$ completions and take the
+\emph{median} of the parsed numbers \citep{wang2022selfconsistency} for
+robustness.
+
+\paragraph{Robust parsing.} Whatever the relation kind, every sample passes through a common final stage. A relation-aware parser recovers the answer list from
+noisy output (code fences, prose), strips explicit empty markers, extracts one
+number for numeric relations (handling commas, units, scale words), and
+de-duplicates. Normalisation (lower-casing, diacritic/punctuation removal) is
+byte-identical to the official evaluator; pushing gold answers back through the
+parser scores $1.000$, confirming it is lossless.

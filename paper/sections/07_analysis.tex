@@ -1,0 +1,103 @@
+\section{Analysis}
+\label{sec:analysis}
+All ablations are decoded from the same cached samples.
+
+\paragraph{Abstention rescues weak models, refines strong ones.}
+Table~\ref{tab:ablation} isolates abstention on the three null-heavy relations.
+On a poorly-calibrated 0.5B model the effect is dramatic ($0.173\!\to\!0.372$): without voting it over-answers and falls \emph{below} the empty baseline ($0.350$). The 14B is already above empty without voting
+($0.652$), so voting adds less ($0.652\!\to\!0.666$) but remains positive.
+Abstention buys precision: on \textsc{personHasCityOfDeath} it moves
+$P{=}0.77\!\to\!0.81\!\to\!0.89$ as $\theta$ rises, trading a little recall---it
+suppresses wrong guesses, not correct answers.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lrrr}
+\toprule
+ & Off & $\theta{=}0.5$ & $\theta{=}0.67$ \\
+\midrule
+0.5B (avg of 3 null-heavy) & 0.173 & 0.363 & \textbf{0.372} \\
+14B (avg of 3 null-heavy)  & 0.652 & 0.665 & \textbf{0.666} \\
+\bottomrule
+\end{tabular}
+\caption{Self-consistency abstention, relation-averaged over the three
+null-heavy relations only. ``Off'' decodes a single sample.}
+\label{tab:ablation}
+\end{table}
+
+\paragraph{Threshold tracks the empty rate; numeric voting is neutral.}
+If abstention is what drives the string relations, the natural question is how its threshold should be set.
+Figure~\ref{fig:ablate} (left) sweeps $\theta$: the most null-heavy relation,
+\textsc{personHasCityOfDeath} (45\% empty), peaks at a \emph{lower} $\theta$,
+while the others tolerate aggressive voting---arguing for per-relation
+thresholds. Figure~\ref{fig:ablate} (right) varies the number of numeric
+samples: median aggregation is non-monotonic on \textsc{hasArea} and actually
+slightly \emph{hurts} \textsc{hasCapacity} (single sample $0.10$ vs.\ median-5
+$0.09$). Decode variance is not the bottleneck---the gap is knowledge-bound; the
+model's capacity guesses are the right order of magnitude but outside the 5\%
+band (e.g.\ Spartan Stadium: predicted $37{,}000$, gold $75{,}005$).
+
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[name=ax1,width=7.6cm,height=4.6cm,xlabel={$\theta$ (voting threshold)},
+ ylabel={macro-F1},
+ ymin=0.4,ymax=0.95,xtick={0,0.34,0.5,0.67,1},tick label style={font=\small},
+ title style={font=\small},title={string relations},
+ legend style={font=\scriptsize,at={(0.5,-0.26)},anchor=north,legend columns=3}]
+\addplot coordinates {(0,0.902)(0.34,0.900)(0.5,0.900)(0.67,0.907)(1,0.907)};
+\addplot coordinates {(0,0.603)(0.34,0.616)(0.5,0.616)(0.67,0.621)(1,0.621)};
+\addplot coordinates {(0,0.450)(0.34,0.480)(0.5,0.480)(0.67,0.470)(1,0.470)};
+\legend{borders,company,death}
+\end{axis}
+\begin{axis}[at={(9cm,0)},width=7.6cm,height=4.6cm,xlabel={\#samples $n$ (median)},
+ ylabel={macro-F1},ymin=0,ymax=0.4,xtick={1,2,3,4,5},tick label style={font=\small},
+ title style={font=\small},title={numeric relations},
+ legend style={font=\scriptsize,at={(0.5,-0.26)},anchor=north,legend columns=2}]
+\addplot coordinates {(1,0.30)(2,0.28)(3,0.31)(4,0.30)(5,0.33)};
+\addplot coordinates {(1,0.10)(2,0.04)(3,0.08)(4,0.06)(5,0.09)};
+\legend{hasArea,hasCapacity}
+\end{axis}
+\end{tikzpicture}
+\caption{Left: per-relation F\textsubscript{1} vs.\ voting threshold $\theta$
+(14B); the most null-heavy relation (\textsc{personHasCityOfDeath}, 45\% empty) peaks at a lower
+$\theta$ than the others. Right: numeric F\textsubscript{1} vs.\ number of median
+samples $n$; aggregation is roughly neutral, indicating a knowledge-bound gap.}
+\label{fig:ablate}
+\end{figure*}
+
+\paragraph{\textsc{awardWonBy} is recall-capped.} The one relation we never beat the baseline on comfortably exposes a different limit. Gold sets average ${\sim}148$
+recipients (max 641) but the 14B enumerates only ${\sim}11$ names---its outputs
+are \emph{not} truncated (it closes the JSON early)---capping recall near
+$11/148\approx0.07$. Listed names are often plausible-but-wrong ($P{=}0.36$).
+Parametric recall and willingness to enumerate bound this relation, where a larger in-budget model or multi-step decomposition would help most.
+
+\paragraph{Qualitative behaviour.} Table~\ref{tab:qual} shows representative
+Gemma-4-31B outputs. The model is exact on well-known facts
+(\textsc{personHasCityOfDeath}, \textsc{hasCapacity}) and near-complete on
+borders, but the two error modes are visible: a numeric near-miss on
+\textsc{hasArea}, and on \textsc{awardWonBy} a list of globally famous names
+rather than the actual (obscurer) Stockholm honorary doctors---plausible but
+wrong, the recall/hallucination limit quantified above.
+
+\begin{table*}[t]
+\centering\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llp{4.2cm}p{4.9cm}c@{}}
+\toprule
+Relation & Subject & Gold (abbrev.) & Gemma-4-31B output & \\
+\midrule
+borders & Ethiopia & Djibouti, Eritrea, Kenya, Somalia, S.\ Sudan, Sudan & Djibouti, Eritrea, Kenya, Somalia, S.\ Sudan & \checkmark\,5/6 \\
+death & Vito Acconci & New York City & New York City & \checkmark \\
+company & Bharti Airtel & Bombay Stock Exchange & NSE of India; Bombay Stock Exchange & \checkmark \\
+capacity & Gileno de Carli & 5000 & 5000 & \checkmark \\
+area & Lo\v{s}inj & 74.36 & 123.3 & $\times$ \\
+award & Stockholm hon.\ dr & Torvalds, B.\ Andersson, Gates, \dots(40) & Mandela, Tutu, Annan, Yunus, \dots & $\times$ \\
+\bottomrule
+\end{tabular}
+\caption{Qualitative examples: Gemma-4-31B vs.\ gold. Exact hits on
+\textsc{personCityOfDeath}/\textsc{hasCapacity}, near-complete borders; the
+numeric near-miss (\textsc{hasArea}) and plausible-but-wrong enumeration
+(\textsc{awardWonBy}) are the knowledge-bound errors of Section~\ref{sec:analysis}.}
+\label{tab:qual}
+\end{table*}
