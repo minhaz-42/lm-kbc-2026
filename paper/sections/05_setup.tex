@@ -7,7 +7,7 @@ It exceeds the memory of our single 16\,GB GPU, so we serve it through a hosted 
 \citep{qwen2024} (14.7B) locally in 4-bit. Several nominally ``32B'' models in
 fact exceed the cap (Qwen2.5-32B at 32.5B, Qwen3-32B at 32.8B) and are ineligible.
 
-\paragraph{Decoding.} The pipeline selects an aggregator per relation kind (Section~\ref{sec:method}): the median over $n{=}5$ samples for numeric relations, consistency voting over $N{=}3$ samples at threshold $\theta{=}0.5$ for null-heavy relations (Algorithm~\ref{alg:abstain}), and a single greedy enumeration for \textsc{awardWonBy}. We evaluate these self-consistency configurations (temperature $\tau{=}0.7$) on Qwen2.5-14B, which we can sample freely. API rate limits preclude multi-sampling Gemma-4-31B at scale, so we decode it with a \emph{single} sample per query---yet it still outperforms the 14B (Section~\ref{sec:results}), indicating that model scale dominates decode-time self-consistency at this budget. Prompts are 8-shot for every
+\paragraph{Decoding.} The pipeline selects an aggregator per relation kind (Section~\ref{sec:method}): the median over $n{=}5$ samples for numeric relations, consistency voting over $N{=}3$ samples at threshold $\theta{=}0.5$ for null-heavy relations (Algorithm~\ref{alg:abstain}), and a single greedy enumeration for \textsc{awardWonBy}. We evaluate these self-consistency configurations (temperature $\tau{=}0.7$) on Qwen2.5-14B, which we can sample freely. API rate limits preclude multi-sampling Gemma-4-31B at scale, so we decode it with a \emph{single} sample per query, yet it still outperforms the 14B (Section~\ref{sec:results}), indicating that model scale dominates decode-time self-consistency at this budget. Prompts are 8-shot for every
 relation except \textsc{awardWonBy} (2-shot), with exemplars from the training
 split \citep{brown2020gpt3}.
 
@@ -20,4 +20,4 @@ the full 478-instance validation set.
 (Section~\ref{sec:task}), and the \emph{official} organiser baseline, a few-shot
 prompting system whose per-relation scores we take from the task repository.
 
-\paragraph{Reproducibility.} Generation caches every raw sample; all post-processing---parsing, consistency voting, median aggregation, and the threshold sweep---is a deterministic, GPU-free function of that cache. Every ablation in Section~\ref{sec:analysis} therefore comes from a single generation pass and reproduces without a GPU. We release all code and prompts.
+\paragraph{Reproducibility.} Generation caches every raw sample; all post-processing (parsing, consistency voting, median aggregation, and the threshold sweep) is a deterministic, GPU-free function of that cache. Every ablation in Section~\ref{sec:analysis} therefore comes from a single generation pass and reproduces without a GPU. We release all code and prompts.

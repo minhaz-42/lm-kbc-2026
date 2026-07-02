@@ -20,6 +20,19 @@
 \definecolor{cIn}{HTML}{E8EEF7}\definecolor{cPrompt}{HTML}{DCEAF7}
 \definecolor{cDecode}{HTML}{EFEFEF}\definecolor{cAgg}{HTML}{E2F0E2}
 \definecolor{cOut}{HTML}{FBE9D6}\definecolor{cBadge}{HTML}{FFF6D5}
+% ---- tiny entity-type icons for Figure 1 (pure TikZ; the LM-KBC data has no images) ----
+\newcommand{\dsicon}[1]{\tikz[baseline=-0.55ex,scale=0.10]{#1}}
+\newcommand{\iconglobe}{\dsicon{%
+  \draw[line width=0.8pt] (0,0) circle (1);
+  \draw[line width=0.5pt] (0,-1)--(0,1);
+  \draw[line width=0.5pt] (-1,0)--(1,0);
+  \draw[line width=0.5pt] (0,0) ellipse (0.5 and 1);}}
+\newcommand{\iconperson}{\dsicon{%
+  \draw[line width=0.8pt,fill=black!12] (0,0.5) circle (0.42);
+  \draw[line width=0.8pt,fill=black!12] (-0.8,-1) .. controls (-0.85,0.2) and (0.85,0.2) .. (0.8,-1) -- cycle;}}
+\newcommand{\iconbuilding}{\dsicon{%
+  \draw[line width=0.8pt,fill=black!8] (-0.75,-1) rectangle (0.75,1);
+  \foreach \y in {-0.55,-0.05,0.45}\foreach \x in {-0.5,0.05}{\fill[black!45] (\x,\y) rectangle (\x+0.3,\y+0.3);}}}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 \usepackage{algorithm}

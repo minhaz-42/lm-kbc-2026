@@ -19,7 +19,9 @@ plt.rcParams.update({
     "axes.spines.top": False, "axes.spines.right": False,
     "axes.axisbelow": True, "savefig.bbox": "tight", "savefig.pad_inches": 0.02,
 })
-C = {"empty": "#999999", "base": "#D55E00", "14b": "#0072B2", "30b": "#009E73"}
+# distinct palette (slate / purple / teal / warm-orange headline)
+C = {"empty": "#9AA0A6", "base": "#8E44AD", "14b": "#16A085", "30b": "#E67E22"}
+C3 = "#C0392B"  # third accent (crimson) for a per-relation line in the sweep
 
 def save(fig, name):
     fig.savefig(os.path.join(OUT, name + ".pdf"))
@@ -46,7 +48,7 @@ fig, (a1, a2) = plt.subplots(1, 2, figsize=(7.0, 2.5))
 th = [0, 0.34, 0.5, 0.67, 1.0]
 a1.plot(th, [0.902,0.900,0.900,0.907,0.907], "o-", color=C["14b"], label="borders", ms=4)
 a1.plot(th, [0.603,0.616,0.616,0.621,0.621], "s-", color=C["base"], label="company", ms=4)
-a1.plot(th, [0.450,0.480,0.480,0.470,0.470], "^-", color="#8C564B", label="death", ms=4)
+a1.plot(th, [0.450,0.480,0.480,0.470,0.470], "^-", color=C3, label="death", ms=4)
 a1.set_xlabel(r"voting threshold $\theta$"); a1.set_ylabel("macro-F1"); a1.set_ylim(0.4,0.98)
 a1.set_title("null-heavy relations"); a1.legend(frameon=False, loc="center right")
 n = [1,2,3,4,5]
@@ -60,7 +62,7 @@ save(fig, "fig_ablation")
 fig, ax = plt.subplots(figsize=(3.3, 2.4))
 names = ["Empty", "Baseline", "0.5B", "14B", "30B"]
 avg6  = [0.175, 0.273, 0.108, 0.416, 0.459]
-cols  = [C["empty"], C["base"], "#CCCCCC", C["14b"], C["30b"]]
+cols  = [C["empty"], C["base"], "#C9CCD1", C["14b"], C["30b"]]
 b = ax.bar(names, avg6, color=cols, edgecolor="black", linewidth=0.3)
 ax.set_ylabel("avg-of-6 macro-F1"); ax.set_ylim(0, 0.52)
 for r, v in zip(b, avg6): ax.text(r.get_x()+r.get_width()/2, v+0.008, f"{v:.3f}", ha="center", fontsize=7)

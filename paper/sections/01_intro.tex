@@ -7,7 +7,7 @@ This raises the prospect of building a structured knowledge base (KB) directly
 from an LM rather than from curated sources \citep{dong2014knowledgevault,vrandecic2014wikidata}.
 Doing so reliably is harder than answering a single factual question: a KB entry
 is a \emph{complete set} of facts, so the model must decide not only what is true
-but how many objects---possibly none---a subject and relation admit.
+but how many objects, possibly none, a subject and relation admit.
 
 \paragraph{The LM-KBC 2026 task.} The shared task
 \citep{alivanistos2022prompting,kalo2023lmkbc,kalo2025lmkbc} formalises this as:
@@ -23,7 +23,7 @@ parametric recall and \emph{prompt design} as the only levers.
 
 \paragraph{Why this is hard.} Unlike single-answer probing benchmarks such as
 LAMA \citep{petroni2019lama}, which assume exactly one gold object and reward
-ranking it highly, this setting demands the \emph{entire} set---and the empty
+ranking it highly, this setting demands the \emph{entire} set, and the empty
 set is a legitimate, frequent answer (a living person has no recorded city of
 death; an island country has no land border). Three difficulties follow. First,
 LM outputs are stochastic and prompt-sensitive, so a single query yields an
@@ -35,7 +35,7 @@ than fabricate one.
 \paragraph{Our approach.} We start from the evaluation metric itself. Because
 macro-F\textsubscript{1} scores an empty prediction against an empty gold set as
 perfect, simply predicting nothing everywhere already attains $0.175$
-relation-averaged macro-F\textsubscript{1} on validation---competitive with the
+relation-averaged macro-F\textsubscript{1} on validation, competitive with the
 official baseline ($0.273$) and better on the most null-heavy relations
 (Section~\ref{sec:task}). The lesson is that points come not from answering
 everything, but from recalling the few numeric values and, above all, knowing
@@ -45,21 +45,17 @@ collapsing to the empty set when the model is internally inconsistent.
 Scope-grounded prompts and median-of-samples aggregation for numeric relations
 complete the pipeline (Figure~\ref{fig:pipeline}).
 
-\medskip\noindent Our contributions are:
-\begin{enumerate}[noitemsep,topsep=2pt,leftmargin=*]
-  \item A metric analysis (Section~\ref{sec:task}) showing that, under the macro
-  metric, abstention is a high-value action: the predict-nothing baseline already
-  rivals the official baseline, which reframes the task around \emph{when to
-  answer}.
-  \item A per-relation pipeline (Figure~\ref{fig:pipeline}, Section~\ref{sec:method})
-  that grounds prompts in exact scopes and induces \emph{calibrated abstention}
-  via self-consistency voting, with no trained confidence model: it lifts a weak
-  0.5B model from $0.173$ to $0.372$ on the null-heavy relations and still helps
-  a strong 14B.
-  \item A reproducible open-weight system reaching $0.459$ relation-averaged
-  macro-F\textsubscript{1} with Gemma-4-31B, our headline model, which beats the
-  official baseline ($0.273$) on all six relations; a local 4-bit Qwen2.5-14B
-  reaches $0.416$ under the same pipeline. Because generations are cached, the
-  entire decode-stage aggregation and abstention logic is tuned offline without
-  re-running the model (Sections~\ref{sec:setup}--\ref{sec:analysis}).
-\end{enumerate}
+\medskip\noindent This paper makes three contributions. First, a metric analysis
+(Section~\ref{sec:task}) shows that under the macro metric abstention is a
+high-value action: the predict-nothing baseline already rivals the official
+baseline, which reframes the task around \emph{when to answer}. Second, we build a
+per-relation pipeline (Figure~\ref{fig:pipeline}, Section~\ref{sec:method}) that
+grounds prompts in exact scopes and induces \emph{calibrated abstention} via
+self-consistency voting, with no trained confidence model; it lifts a weak 0.5B
+model from $0.173$ to $0.372$ on the null-heavy relations and still helps a strong
+14B. Third, the resulting open-weight system reaches $0.459$ relation-averaged
+macro-F\textsubscript{1} with Gemma-4-31B, our headline model, beating the
+official baseline ($0.273$) on all six relations, while a local 4-bit Qwen2.5-14B
+reaches $0.416$ under the same pipeline. Because generations are cached, the
+entire decode-stage aggregation and abstention logic is tuned offline without
+re-running the model (Sections~\ref{sec:setup} to~\ref{sec:analysis}).

@@ -7,7 +7,7 @@ Table~\ref{tab:ablation} isolates abstention on the three null-heavy relations.
 On a poorly-calibrated 0.5B model the effect is dramatic ($0.173\!\to\!0.372$): without voting it over-answers and falls \emph{below} the empty baseline ($0.350$). The 14B is already above that baseline without voting
 ($0.652$), so voting adds less ($0.652\!\to\!0.666$) but still helps.
 Abstention buys precision: on \textsc{personHasCityOfDeath} it moves
-$P{=}0.77\!\to\!0.81\!\to\!0.89$ as $\theta$ rises, trading a little recall---it
+$P{=}0.77\!\to\!0.81\!\to\!0.89$ as $\theta$ rises, trading a little recall: it
 suppresses wrong guesses, not correct answers.
 
 \begin{table}[t]
@@ -29,7 +29,7 @@ null-heavy relations only. ``Off'' decodes a single sample.}
 If abstention drives the string relations, the natural next question is how to set its threshold.
 Figure~\ref{fig:ablate} (left) sweeps $\theta$: the most null-heavy relation,
 \textsc{personHasCityOfDeath} (45\% empty), peaks at a \emph{lower} $\theta$,
-while the others tolerate aggressive voting---arguing for per-relation
+while the others tolerate aggressive voting, arguing for per-relation
 thresholds. Figure~\ref{fig:ablate} (right) varies the number of numeric
 samples: median aggregation is non-monotonic on \textsc{hasArea} and actually
 slightly \emph{hurts} \textsc{hasCapacity} (single sample $0.10$ vs.\ median-5
@@ -49,8 +49,8 @@ gap.}
 \end{figure*}
 
 \paragraph{\textsc{awardWonBy} is recall-capped.} The one relation we beat the baseline on only narrowly exposes a different limit, and it constrains both models. Gold sets average ${\sim}148$
-recipients (max 641), but in the 14B ablation the model enumerates only ${\sim}11$ names---its outputs
-are \emph{not} truncated; it closes the JSON early---capping recall near
+recipients (max 641), but in the 14B ablation the model enumerates only ${\sim}11$ names; its outputs
+are \emph{not} truncated, it closes the JSON early, capping recall near
 $11/148\approx0.07$. The listed names are often plausible but wrong ($P{=}0.36$).
 Parametric recall and a reluctance to enumerate bound this relation, so a larger in-budget model or multi-step decomposition would help most.
 
@@ -59,7 +59,7 @@ Gemma-4-31B outputs. The model is exact on well-known facts
 (\textsc{personHasCityOfDeath}, \textsc{hasCapacity}) and near-complete on
 borders, but the two error modes are visible: a numeric near-miss on
 \textsc{hasArea}, and on \textsc{awardWonBy} a list of globally famous names
-rather than the actual (obscurer) Stockholm honorary doctors---plausible but
+rather than the actual (obscurer) Stockholm honorary doctors, plausible but
 wrong, the recall/hallucination limit quantified above.
 
 \begin{table*}[t]

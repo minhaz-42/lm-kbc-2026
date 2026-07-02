@@ -1,7 +1,7 @@
 \begin{abstract}
 Large language models (LMs) store a remarkable amount of factual knowledge in
 their parameters, yet turning that knowledge into a reliable, \emph{set-valued}
-knowledge base---where a subject may have zero, one, or many objects---remains
+knowledge base, where a subject may have zero, one, or many objects, remains
 difficult. The LM-KBC~2026 shared task (5th edition, at the AKBC workshop,
 EMNLP~2026) poses exactly this in a strict \emph{closed-book} setting: an
 open-weight model of at most 32B parameters, with no retrieval, no external
@@ -16,7 +16,7 @@ by median. With \textbf{Gemma-4-31B} (a 30.7B open-weight model, the strongest i
 the budget) a single sample per instance reaches $0.459$ relation-averaged
 macro-F\textsubscript{1} ($0.490$ micro), beating the official baseline
 ($0.273$/$0.284$) on all six relations. We further ablate decode-time
-\emph{self-consistency voting}---abstaining when repeated samples disagree---on a
+\emph{self-consistency voting} (abstaining when repeated samples disagree) on a
 smaller Qwen2.5-14B run locally in 4-bit ($0.416$), and find that model scale
 outweighs self-consistency at this budget. All
 generation is cached, so the entire decode stage is reproducible without a GPU.
