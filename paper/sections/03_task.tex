@@ -10,7 +10,7 @@ subject; and three \emph{null-heavy} string relations
 valid object at all. Each relation carries a precise scope---land-only borders,
 city-granular death location, the highest published capacity---which we copy
 verbatim into the prompt so the model targets the same notion the gold set was
-built against.
+constructed under.
 
 \begin{table}[t]
 \centering\small
@@ -45,13 +45,13 @@ of the six per-relation scores) and \emph{micro-averaged} F\textsubscript{1}
 empty prediction against an empty gold set a perfect F\textsubscript{1}, with a
 large consequence: predicting the empty set for \emph{every} validation instance
 already scores the ``Empty'' bars in Figure~\ref{fig:bars}, averaging $0.175$
-relation-averaged macro-F\textsubscript{1} ($0.203$ micro). This is on par with
-the official baseline's $0.273$ and \emph{above} it on the two most null-heavy
-relations (\textsc{personHasCityOfDeath} $0.45$ vs.\ $0.16$;
+relation-averaged macro-F\textsubscript{1} ($0.203$ micro). This nearly matches
+the official baseline's $0.273$ relation-averaged macro-F\textsubscript{1} and \emph{beats} it on the two most
+null-heavy relations (\textsc{personHasCityOfDeath} $0.45$ vs.\ $0.16$;
 \textsc{companyTradesAtStockExchange} $0.35$ vs.\ $0.32$). The task therefore
-rewards not answering everything, but two narrower abilities: recalling the few
-numeric values, and abstaining precisely when no object exists. These are the
-levers our pipeline pulls.
+rewards two narrow abilities rather than answering everything: recalling the
+numeric values, and abstaining precisely when no object exists. Our pipeline
+pulls exactly these two levers.
 
 \begin{figure*}[t]
 \centering\footnotesize

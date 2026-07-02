@@ -1,17 +1,14 @@
 \section*{Limitations}
-The voting threshold $\theta$ is swept on the same validation split it is
-evaluated on, so per-relation optima are optimistic and not held-out; we report
-no test numbers yet. Several margins are within plausible decoding noise:
-\textsc{awardWonBy} has only 10 subjects, and we did not measure
-run-to-run variance of the stochastic decoding ($N{=}3$, $n{=}5$), so
-sub-$0.03$ deltas (e.g.\ the \textsc{personHasCityOfDeath} $+0.03$) are
-indicative only. Being closed-book, the system inherits the base model's
-coverage and recency limits and cannot recover facts it never stored, which caps
-\textsc{awardWonBy} recall and rare-venue numeric accuracy. Because API rate
-limits precluded multi-sample decoding for Gemma-4-31B, its scores are
-single-sample; pairing the 30B with the self-consistency and abstention voting
-that help the smaller models is left to future work and may lift the null-heavy
-and numeric relations further. Finally, the
-abstention advantage is a property of this task's macro metric and the
-empty-as-valid-answer setting, and may not transfer to single-answer or
-micro-only settings.
+We report no test-set numbers yet, and the voting threshold $\theta$ is swept on
+the same validation split it is evaluated on, so its per-relation optima are
+optimistic rather than held-out. Several margins are within plausible decoding noise. \textsc{awardWonBy} has only
+10 subjects, and because we did not measure the run-to-run variance of the
+stochastic decoding ($N{=}3$, $n{=}5$), sub-$0.03$ deltas (e.g.\ the
+\textsc{personHasCityOfDeath} $+0.03$) are indicative only. Being closed-book, the system inherits the base model's coverage and recency
+limits: it cannot recover facts the model never stored, which caps
+\textsc{awardWonBy} recall and rare-venue numeric accuracy. Because API rate limits precluded multi-sample decoding, our Gemma-4-31B scores
+are single-sample; pairing the 30B with the self-consistency and abstention
+voting that help the smaller models is left to future work and may further lift
+the null-heavy and numeric relations. Finally, the abstention advantage stems from this task's macro metric and its
+empty-as-valid-answer setting, so it may not transfer to single-answer or
+micro-only regimes.

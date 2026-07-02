@@ -26,8 +26,8 @@ LAMA \citep{petroni2019lama}, which assume exactly one gold object and reward
 ranking it highly, this setting demands the \emph{entire} set---and the empty
 set is a legitimate, frequent answer (a living person has no recorded city of
 death; an island country has no land border). Three difficulties follow. First,
-LM outputs are stochastic and prompt-sensitive, so a single query yields
-unstable sets. Second, relations span very different cardinalities, from a single
+LM outputs are stochastic and prompt-sensitive, so a single query yields an
+unstable set. Second, relations span very different cardinalities, from a single
 number to hundreds of award recipients, complicating aggregation. Third, the
 model must recognise when it does not know an answer and \emph{abstain} rather
 than fabricate one.
@@ -39,10 +39,10 @@ relation-averaged macro-F\textsubscript{1} on validation---competitive with the
 official baseline ($0.273$) and better on the most null-heavy relations
 (Section~\ref{sec:task}). The lesson is that points come not from answering
 everything, but from recalling the few numeric values and, above all, knowing
-when \emph{not} to answer. We therefore make abstention a first-class decision:
-we sample each null-heavy relation several times and keep an object only when the
-samples agree, collapsing to the empty set when the model is internally
-inconsistent. Scope-grounded prompts and median aggregation for numeric relations
+when \emph{not} to answer. We therefore make abstention a first-class decision: for each null-heavy
+relation we take several samples and keep an object only when the samples agree,
+collapsing to the empty set when the model is internally inconsistent.
+Scope-grounded prompts and median-of-samples aggregation for numeric relations
 complete the pipeline (Figure~\ref{fig:pipeline}).
 
 \medskip\noindent Our contributions are:
@@ -57,8 +57,9 @@ complete the pipeline (Figure~\ref{fig:pipeline}).
   0.5B model from $0.173$ to $0.372$ on the null-heavy relations and still helps
   a strong 14B.
   \item A reproducible open-weight system reaching $0.459$ relation-averaged
-  macro-F\textsubscript{1} with Gemma-4-31B (0.416 with a local 4-bit
-  Qwen2.5-14B), beating the official baseline on all six relations, with cached
-  generation enabling GPU-free decode-stage tuning
-  (Sections~\ref{sec:setup}--\ref{sec:analysis}).
+  macro-F\textsubscript{1} with Gemma-4-31B, our headline model, which beats the
+  official baseline ($0.273$) on all six relations; a local 4-bit Qwen2.5-14B
+  reaches $0.416$ under the same pipeline. Because generations are cached, the
+  entire decode-stage aggregation and abstention logic is tuned offline without
+  re-running the model (Sections~\ref{sec:setup}--\ref{sec:analysis}).
 \end{enumerate}

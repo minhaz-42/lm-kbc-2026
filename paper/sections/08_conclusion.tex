@@ -1,10 +1,10 @@
 \section{Conclusion}
-Every component of our system follows from a single metric analysis: abstention is valuable,
+Every component of our system follows from one metric analysis: abstention pays off,
 numeric recall is scarce, and scope grounding curbs over- and under-prediction.
 With Gemma-4-31B it reaches $0.459$ relation-averaged macro-F\textsubscript{1}
-($0.490$ micro), beating the official baseline on all six relations (0.416 with a
-local 4-bit Qwen2.5-14B), and is fully reproducible from a cached generation
-pass. That the 30B wins with single-sample decoding, while abstention and
+($0.490$ micro), beating the official baseline on all six relations, and is fully
+reproducible from a cached generation pass. A smaller Qwen2.5-14B, run locally in
+4-bit, reaches $0.416$. That the 30B wins with single-sample decoding, while abstention and
 self-consistency chiefly help the smaller models, suggests that model scale and
-decode-time calibration are complementary levers whose balance shifts with model
-strength.
+decode-time calibration are complementary levers whose balance shifts as models
+get stronger.

@@ -5,27 +5,27 @@ shin2020autoprompt,zhong2021optiprompt}, quantified how much knowledge a model's
 parameters hold \citep{roberts2020closedbook}, and questioned how reliably it can
 be read out \citep{cao2021knowledgeable,alkhamissi2022review}. These probes
 assume a single gold object and reward ranking it highly. We instead target the
-set-valued, alias-graded variant in which the empty set is a valid answer, which
-is closer to materialising an actual KB \citep{pan2023llmkg}.
+set-valued, alias-graded variant in which the empty set is a valid answer---a
+setting closer to materialising an actual KB \citep{pan2023llmkg}.
 
 \paragraph{The LM-KBC shared task.} Across its editions
 \citep{alivanistos2022prompting,kalo2023lmkbc,kalo2024lmkbc,kalo2025lmkbc} the
 task has moved from masked-LM probing and prompt ensembling toward
 instruction-tuned generative systems, with some earlier tracks permitting
 retrieval or fine-tuning \citep{zhang2023llmke}. The 2026 edition's closed-book,
-no-tuning, $\le$32B rules remove those options---which is precisely what makes a
-parametric-recall-plus-abstention design necessary.
+no-tuning, $\le$32B rules remove those options---which is precisely what makes our
+parametric-recall-with-abstention design necessary.
 
 \paragraph{Retrieval vs.\ closed book.} The usual route to knowledge-intensive
 accuracy is retrieval augmentation \citep{lewis2020rag,guu2020realm}, which helps
 most exactly when parametric memory is weak \citep{mallen2023whennot}. Self-RAG
 \citep{asai2024selfrag} even lets the model decide \emph{when} to retrieve; we
-borrow the spirit of a model-driven, adaptive decision but, with retrieval
-forbidden, apply it to a different one---\emph{when to answer at all}, not what to
-fetch.
+borrow the spirit of a model-driven, adaptive decision but, since retrieval is
+forbidden, redirect it to a different question---\emph{when to answer at all},
+rather than what to fetch.
 
-\paragraph{Self-consistency, calibration, and abstention.} These threads converge
-in our method. Self-consistency \citep{wang2022selfconsistency,chen2023universalsc}
+\paragraph{Self-consistency, calibration, and abstention.} These three threads
+converge in our method. Self-consistency \citep{wang2022selfconsistency,chen2023universalsc}
 samples a model repeatedly and aggregates the generations to pick a single
 answer. Abstaining when uncertain is the classic reject option
 \citep{geifman2017selective}, studied in NLP as calibration
@@ -35,4 +35,4 @@ they know \citep{kadavath2022know}. We combine the two: cross-sample
 \emph{disagreement} \citep{kuhn2023semantic,manakul2023selfcheckgpt} is our
 zero-parameter confidence signal, and---unlike majority-vote self-consistency,
 which always emits an answer---we let it trigger \emph{abstention}, because here
-the empty set is itself a high-value prediction.
+the empty set is itself a valid, high-value prediction.
