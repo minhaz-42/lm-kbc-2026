@@ -38,25 +38,15 @@ relation-averaged macro-F\textsubscript{1} on validation, competitive with the
 official baseline ($0.273$) and higher on the most null-heavy relations
 (Section~\ref{sec:task}). The lesson is that points come not from answering
 everything, but from recalling the few numeric values and, above all, from knowing
-when \emph{not} to answer. We therefore make abstention a first-class decision that
-addresses the incompleteness and hallucination difficulties above directly: for
+when \emph{not} to answer. We therefore make abstention a first-class decision: for
 each null-heavy relation we take several samples and keep an object only when the
 samples agree, collapsing to the empty set when the model is internally
-inconsistent. Scope-grounded prompts and median-of-samples aggregation for numeric
-relations complete the pipeline (Figure~\ref{fig:pipeline}).
-
-Our system handles all six relations of the task, spanning entity-valued relations
-(\textsc{countryLandBordersCountry}, \textsc{personHasCityOfDeath},
-\textsc{companyTradesAtStockExchange}, \textsc{awardWonBy}) and numeric relations
-(\textsc{hasCapacity}, \textsc{hasArea}), with a per-relation strategy that pairs
-each prompt with the relation's official scope and induces abstention from the
-generated set (Section~\ref{sec:method}). Our headline model is Gemma-4-31B, a
-30.7B open-weight model that is the strongest within the 32B budget; we also report
-a Qwen2.5-14B (14.7B) system run locally in 4-bit, and study decode-time
-self-consistency voting as an ablation (Section~\ref{sec:setup}). Because all
-generation is cached, the entire decode, aggregation, and abstention stage is a
-deterministic function of the cache that runs without a GPU, so it can be tuned and
-reproduced offline.
+inconsistent, while scope-grounded prompts and median-of-samples aggregation handle
+the remaining relations (Figure~\ref{fig:pipeline}). We apply this single pipeline
+to all six relations of the task with one open-weight model, Gemma-4-31B (30.7B,
+the strongest within the 32B budget), and reuse a cached set of generations so that
+the entire decode and abstention stage is a deterministic, GPU-free function of
+that cache.
 
 This paper makes three contributions. First, a metric analysis
 (Section~\ref{sec:task}) shows that under the macro metric abstention is a

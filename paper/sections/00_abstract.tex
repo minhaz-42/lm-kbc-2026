@@ -1,26 +1,22 @@
 \begin{abstract}
-Large language models (LMs) store a remarkable amount of factual knowledge in
-their parameters, yet turning that knowledge into a reliable, \emph{set-valued}
-knowledge base, where a subject may have zero, one, or many objects, remains
-difficult. The LM-KBC~2026 shared task (5th edition, at the AKBC workshop,
-EMNLP~2026) poses exactly this in a strict \emph{closed-book} setting: an
-open-weight model of at most 32B parameters, with no retrieval, no external
-knowledge, and no fine-tuning, which forecloses the retrieval and tuning that
-strong entries in earlier editions leaned on. We start from the evaluation metric
-and observe that it rewards \emph{abstention}: because macro-F\textsubscript{1}
-scores an empty prediction against an empty gold set as perfect, predicting the
-empty set for every instance already reaches $0.175$ relation-averaged
-macro-F\textsubscript{1}, close to the official baseline ($0.273$) and higher on
-the most null-heavy relations. We therefore treat \emph{when to answer} as a
-first-class decision and build a per-relation pipeline that grounds each prompt in
-the relation's exact scope, decides abstention from the generated set rather than
-by instruction, and aggregates numeric relations by median. With
-\textbf{Gemma-4-31B} (a 30.7B open-weight model, the strongest in the budget) a
-single sample per instance reaches $0.459$ relation-averaged macro-F\textsubscript{1}
-($0.490$ micro), beating the official baseline ($0.273$/$0.284$) on all six
-relations. As an ablation, decode-time \emph{self-consistency voting} on a smaller
-Qwen2.5-14B run locally in 4-bit reaches only $0.416$, showing that model scale
-outweighs decode-time voting at this budget. All generation is cached, so the
-entire decode stage is a deterministic, GPU-free function of the cache. We release
-our code.\footnote{\url{https://github.com/ANON/lm-kbc-2026}}
+Large language models (LMs) store a remarkable amount of factual knowledge, yet
+turning it into a reliable, \emph{set-valued} knowledge base, where a subject may
+have zero, one, or many objects, remains difficult. The LM-KBC~2026 shared task
+(EMNLP~2026) poses this in a strict \emph{closed-book} setting: an open-weight
+model of at most 32B parameters, with no retrieval, no external knowledge, and no
+fine-tuning. We start from the evaluation metric and observe that it rewards
+\emph{abstention}: because macro-F\textsubscript{1} scores an empty prediction
+against an empty gold set as perfect, predicting nothing everywhere already reaches
+$0.175$ relation-averaged macro-F\textsubscript{1}, close to the official baseline
+($0.273$). We therefore treat \emph{when to answer} as a first-class decision and
+build a per-relation pipeline that grounds each prompt in the relation's exact
+scope, decides abstention from the generated set rather than by instruction, and
+aggregates numeric relations by median. With \textbf{Gemma-4-31B} (a 30.7B
+open-weight model, the strongest in the budget) a single sample per instance
+reaches $0.459$ relation-averaged macro-F\textsubscript{1} ($0.490$ micro), beating
+the official baseline ($0.273$/$0.284$) on all six relations; decode-time
+self-consistency voting on a smaller 4-bit Qwen2.5-14B reaches only $0.416$,
+showing that model scale outweighs voting at this budget. All generation is cached,
+so the decode stage is reproducible without a GPU. We release our
+code.\footnote{\url{https://github.com/ANON/lm-kbc-2026}}
 \end{abstract}

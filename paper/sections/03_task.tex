@@ -81,9 +81,9 @@ pulls exactly these two levers.
 \node[agg,below right=8mm and 8mm of d] (nul){null-heavy: vote $\ge\theta$, else $\emptyset$};
 \node[stg,fill=cOut,right=8mm of num,text width=15mm] (norm){normalise};
 \node[stg,fill=cOut,right=6mm of norm,text width=13mm] (out){object set\\\texttt{\{\dots\}}};
-\draw[fl](e1.east)-|(pr.north);
+\draw[fl](e1.east)--([yshift=3mm]pr.west);
 \draw[fl](e2.east)--(pr.west);
-\draw[fl](e3.east)-|(pr.south);
+\draw[fl](e3.east)--([yshift=-3mm]pr.west);
 \draw[fl](pr)--(dec);\draw[fl](dec)--(d);
 \draw[fl](d)|-(awd);\draw[fl](d)--(num);\draw[fl](d)|-(nul);
 \draw[fl](awd)-|(norm);\draw[fl](num)--(norm);\draw[fl](nul)-|(norm);
