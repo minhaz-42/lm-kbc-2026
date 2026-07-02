@@ -57,7 +57,8 @@ pulls exactly these two levers.
 \centering\footnotesize
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
- >={Stealth[length=2.6mm]}, font=\footnotesize,
+ >={Stealth[length=3.4mm,width=2.8mm]}, font=\footnotesize,
+ fl/.style={->,line width=1.0pt,draw=black!78},
  ex/.style={draw,rounded corners,align=left,inner sep=3pt,minimum height=7mm,text width=36mm,font=\scriptsize,fill=cIn},
  stg/.style={draw,rounded corners,align=center,inner sep=4pt,minimum height=13mm,text width=20mm},
  agg/.style={draw,rounded corners,align=center,inner sep=3pt,minimum height=9mm,text width=27mm,fill=cAgg,font=\scriptsize},
@@ -80,13 +81,13 @@ pulls exactly these two levers.
 \node[agg,below right=8mm and 8mm of d] (nul){null-heavy: vote $\ge\theta$, else $\emptyset$};
 \node[stg,fill=cOut,right=8mm of num,text width=15mm] (norm){normalise};
 \node[stg,fill=cOut,right=6mm of norm,text width=13mm] (out){object set\\\texttt{\{\dots\}}};
-\draw[->](e1.east)-|(pr.north);
-\draw[->](e2.east)--(pr.west);
-\draw[->](e3.east)-|(pr.south);
-\draw[->](pr)--(dec);\draw[->](dec)--(d);
-\draw[->](d)|-(awd);\draw[->](d)--(num);\draw[->](d)|-(nul);
-\draw[->](awd)-|(norm);\draw[->](num)--(norm);\draw[->](nul)-|(norm);
-\draw[->](norm)--(out);
+\draw[fl](e1.east)-|(pr.north);
+\draw[fl](e2.east)--(pr.west);
+\draw[fl](e3.east)-|(pr.south);
+\draw[fl](pr)--(dec);\draw[fl](dec)--(d);
+\draw[fl](d)|-(awd);\draw[fl](d)--(num);\draw[fl](d)|-(nul);
+\draw[fl](awd)-|(norm);\draw[fl](num)--(norm);\draw[fl](nul)-|(norm);
+\draw[fl](norm)--(out);
 \foreach \n/\nd in {1/inbox,2/pr,3/dec,4/num,5/norm,6/out}{\node[num] at (\nd.north west){\n};}
 \node[call,above=4mm of awd,text width=53mm]{honorary doctor of Stockholm Univ.\ $\to$ \{Torvalds, Hedlund, \dots\} (40)};
 \node[call,below=4mm of nul,text width=53mm]{Antigua \& Barbuda $\to \emptyset$ (island: no land border)};
