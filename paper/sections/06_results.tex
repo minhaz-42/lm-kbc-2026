@@ -15,26 +15,14 @@ abstention voting the 14B uses. Strikingly, the 30B attains its lead
 \emph{without} self-consistency or abstention, indicating that model scale
 outweighs those decode-time mechanisms at this budget.
 
-\begin{figure}[t]
+\begin{figure*}[t]
 \centering
-\begin{tikzpicture}
-\begin{axis}[ybar,width=\columnwidth,height=4.6cm,bar width=2.7pt,
- symbolic x coords={borders,company,death,area,capacity,award},
- xtick=data,ymin=0,ymax=1,ylabel={\small macro-F1},
- ylabel style={yshift=-2mm}, legend style={font=\tiny,at={(0.99,0.99)},anchor=north east,legend columns=2},
- enlarge x limits=0.12, x tick label style={font=\scriptsize,rotate=25,anchor=east}]
-\addplot coordinates {(borders,0.25)(company,0.35)(death,0.45)(area,0)(capacity,0)(award,0)};
-\addplot coordinates {(borders,0.679)(company,0.32)(death,0.16)(area,0.31)(capacity,0.10)(award,0.069)};
-\addplot coordinates {(borders,0.90)(company,0.616)(death,0.48)(area,0.33)(capacity,0.09)(award,0.081)};
-\addplot coordinates {(borders,0.953)(company,0.722)(death,0.46)(area,0.33)(capacity,0.17)(award,0.12)};
-\legend{Empty,Baseline,14B,30B}
-\end{axis}
-\end{tikzpicture}
+\includegraphics[width=0.86\textwidth]{figures/fig_bars.pdf}
 \caption{Per-relation validation macro-F\textsubscript{1}: predict-nothing
-baseline, official baseline, Qwen2.5-14B, and Gemma-4-31B (30B). The 30B beats
-the official baseline on all six relations.}
+baseline, official baseline, Qwen2.5-14B, and Gemma-4-31B. Gemma-4-31B beats the
+official baseline on all six relations.}
 \label{fig:bars}
-\end{figure}
+\end{figure*}
 
 \begin{table}[t]
 \centering\footnotesize

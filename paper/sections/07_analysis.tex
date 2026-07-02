@@ -39,30 +39,12 @@ band (e.g.\ Spartan Stadium: predicted $37{,}000$, gold $75{,}005$).
 
 \begin{figure*}[t]
 \centering
-\begin{tikzpicture}
-\begin{axis}[name=ax1,width=7.6cm,height=4.6cm,xlabel={$\theta$ (voting threshold)},
- ylabel={macro-F1},
- ymin=0.4,ymax=0.95,xtick={0,0.34,0.5,0.67,1},tick label style={font=\small},
- title style={font=\small},title={string relations},
- legend style={font=\scriptsize,at={(0.5,-0.26)},anchor=north,legend columns=3}]
-\addplot coordinates {(0,0.902)(0.34,0.900)(0.5,0.900)(0.67,0.907)(1,0.907)};
-\addplot coordinates {(0,0.603)(0.34,0.616)(0.5,0.616)(0.67,0.621)(1,0.621)};
-\addplot coordinates {(0,0.450)(0.34,0.480)(0.5,0.480)(0.67,0.470)(1,0.470)};
-\legend{borders,company,death}
-\end{axis}
-\begin{axis}[at={(9cm,0)},width=7.6cm,height=4.6cm,xlabel={\#samples $n$ (median)},
- ylabel={macro-F1},ymin=0,ymax=0.4,xtick={1,2,3,4,5},tick label style={font=\small},
- title style={font=\small},title={numeric relations},
- legend style={font=\scriptsize,at={(0.5,-0.26)},anchor=north,legend columns=2}]
-\addplot coordinates {(1,0.30)(2,0.28)(3,0.31)(4,0.30)(5,0.33)};
-\addplot coordinates {(1,0.10)(2,0.04)(3,0.08)(4,0.06)(5,0.09)};
-\legend{hasArea,hasCapacity}
-\end{axis}
-\end{tikzpicture}
+\includegraphics[width=0.86\textwidth]{figures/fig_ablation.pdf}
 \caption{Left: per-relation F\textsubscript{1} vs.\ voting threshold $\theta$
-(14B); the most null-heavy relation (\textsc{personHasCityOfDeath}, 45\% empty) peaks at a lower
-$\theta$ than the others. Right: numeric F\textsubscript{1} vs.\ number of median
-samples $n$; aggregation is roughly neutral, indicating a knowledge-bound gap.}
+(Qwen2.5-14B); the most null-heavy relation (\textsc{death}, 45\% empty) peaks at
+a lower $\theta$ than the others. Right: numeric F\textsubscript{1} vs.\ number of
+median samples $n$; aggregation is roughly neutral, indicating a knowledge-bound
+gap.}
 \label{fig:ablate}
 \end{figure*}
 
