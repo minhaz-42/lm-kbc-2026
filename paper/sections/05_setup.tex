@@ -1,23 +1,44 @@
 \section{Experimental Setup}
 \label{sec:setup}
-Our primary system uses \textbf{Gemma-4-31B-it}
-\citep{gemma2024}, a 30.7B-parameter open-weight model within the 32B cap.
-It exceeds the memory of our single 16\,GB GPU, so we serve it through a hosted OpenAI-compatible API. The weights are open and we apply no fine-tuning, so the closed-book rules are respected: the API is used purely as compute. For the self-consistency ablations
+\paragraph{Models.}
+Our primary system uses \textbf{Gemma-4-31B-it} \citep{gemma2024}, a
+30.7B-parameter open-weight model within the 32B cap. It exceeds the memory of our
+single 16\,GB GPU, so we serve it through a hosted OpenAI-compatible API. The
+weights are open and we apply no fine-tuning, so the closed-book rules are
+respected: the API is used purely as compute. For the self-consistency ablations
 (Section~\ref{sec:analysis}) we additionally run \textbf{Qwen2.5-14B-Instruct}
-\citep{qwen2024} (14.7B) locally in 4-bit. Several nominally ``32B'' models in
-fact exceed the cap (Qwen2.5-32B at 32.5B, Qwen3-32B at 32.8B) and are ineligible.
+\citep{qwen2024} (14.7B) locally in 4-bit. Several nominally ``32B'' models in fact
+exceed the cap (Qwen2.5-32B at 32.5B, Qwen3-32B at 32.8B) and are ineligible.
 
-At decode time, the pipeline selects an aggregator per relation kind (Section~\ref{sec:method}): the median over $n{=}5$ samples for numeric relations, consistency voting over $N{=}3$ samples at threshold $\theta{=}0.5$ for null-heavy relations (Algorithm~\ref{alg:abstain}), and a single greedy enumeration for \textsc{awardWonBy}. We evaluate these self-consistency configurations (temperature $\tau{=}0.7$) on Qwen2.5-14B, which we can sample freely. API rate limits preclude multi-sampling Gemma-4-31B at scale, so we decode it with a \emph{single} sample per query, yet it still outperforms the 14B (Section~\ref{sec:results}), indicating that model scale dominates decode-time self-consistency at this budget. Prompts are 8-shot for every
-relation except \textsc{awardWonBy} (2-shot), with exemplars from the training
-split \citep{brown2020gpt3}.
+\paragraph{Decoding.}
+At decode time, the pipeline selects an aggregator per relation kind
+(Section~\ref{sec:method}): the median over $n{=}5$ samples for numeric relations,
+consistency voting over $N{=}3$ samples at threshold $\theta{=}0.5$ for null-heavy
+relations (Algorithm~\ref{alg:abstain}), and a single greedy enumeration for
+\textsc{awardWonBy}. We evaluate these self-consistency configurations (temperature
+$\tau{=}0.7$) on Qwen2.5-14B, which we can sample freely. API rate limits preclude
+multi-sampling Gemma-4-31B at scale, so we decode it with a \emph{single} sample
+per query and confine the self-consistency ablations to the 14B
+(Section~\ref{sec:results}). Prompts are 8-shot for every relation except
+\textsc{awardWonBy} (2-shot), with exemplars from the training split
+\citep{brown2020gpt3}.
 
-On hardware, Qwen2.5-14B runs on a single NVIDIA T4 (16\,GB) via HuggingFace Transformers in 4-bit (\texttt{bitsandbytes} \texttt{nf4}, \texttt{float16} compute) \citep{dettmers2023qlora}; quantisation only fits the model to the hardware and does not change the counted parameter budget.
-Gemma-4-31B is queried over its API from the same machine. Each model processes
-the full 478-instance validation set.
+\paragraph{Hardware.}
+Qwen2.5-14B runs on a single NVIDIA T4 (16\,GB) via HuggingFace Transformers in
+4-bit (\texttt{bitsandbytes} \texttt{nf4}, \texttt{float16} compute)
+\citep{dettmers2023qlora}; quantisation only fits the model to the hardware and
+does not change the counted parameter budget. Gemma-4-31B is queried over its API
+from the same machine. Each model processes the full 478-instance validation set.
 
-We compare against two references on the same validation split: the
-\emph{empty} baseline, which predicts $\emptyset$ for every instance
-(Section~\ref{sec:task}), and the \emph{official} organiser baseline, a few-shot
-prompting system whose per-relation scores we take from the task repository.
+\paragraph{Baselines.}
+We compare against two references on the same validation split: the \emph{empty}
+baseline, which predicts $\emptyset$ for every instance (Section~\ref{sec:task}),
+and the \emph{official} organiser baseline, a few-shot prompting system whose
+per-relation scores we take from the task repository.
 
-The pipeline caches every raw sample, so all post-processing (parsing, consistency voting, median aggregation, and the threshold sweep) is a deterministic, GPU-free function of that cache. Every ablation in Section~\ref{sec:analysis} therefore comes from a single generation pass and reproduces without a GPU. We release all code and prompts.
+\paragraph{Reproducibility.}
+The pipeline caches every raw sample, so all post-processing (parsing, consistency
+voting, median aggregation, and the threshold sweep) is a deterministic, GPU-free
+function of that cache. Every ablation in Section~\ref{sec:analysis} therefore
+comes from a single generation pass and reproduces without a GPU. We release all
+code and prompts.
