@@ -1,11 +1,11 @@
 \section{System}
 \label{sec:method}
-\paragraph{Architecture overview.} The pipeline (Figure~\ref{fig:pipeline}) maps
+The pipeline (Figure~\ref{fig:pipeline}) maps
 each subject--relation pair $(s,r)$ to one chat prompt, decodes a cached set of samples ($N$ for voting, $n$ for the numeric median), and aggregates them
 per relation kind into an object set. It has no trainable parameters and targets
 the two analysis levers: abstention and numeric recall.
 
-\paragraph{Scope-grounded prompts.} Each relation's system message states the
+Each relation's system message states the
 task, the \emph{exact} ground-truth scope (copied verbatim from the official
 definitions), and the required answer form (Table~\ref{tab:prompts}); the model
 emits one JSON object \texttt{\{"answers":[\dots]\}} (Figure~\ref{fig:prompt}),
@@ -52,7 +52,7 @@ abstention; output is forced JSON.}
 \label{fig:prompt}
 \end{figure}
 
-\paragraph{Calibrated abstention via self-consistency.} Scope grounding tells the model \emph{what} counts as an answer, but not \emph{when} to stay silent. A bare instruction to
+Scope grounding tells the model \emph{what} counts as an answer, but not \emph{when} to stay silent. A bare instruction to
 ``answer empty when unsure'' is unreliable: left unconstrained, a small model names a
 death-city for living people and invents stock exchanges, dropping precision
 \emph{below} the empty baseline (Section~\ref{sec:analysis}). Instead, for the
@@ -78,11 +78,11 @@ numeric relations.
 \end{algorithmic}
 \end{algorithm}
 
-\paragraph{Numeric aggregation.} The numeric relations need a different aggregator: \textsc{hasCapacity} and \textsc{hasArea} take a
+The numeric relations need a different aggregator: \textsc{hasCapacity} and \textsc{hasArea} take a
 single number graded within 5\%. We sample $n{=}5$ completions and take the
 \emph{median} of the parsed numbers \citep{wang2022selfconsistency}, which resists outlier hallucinations.
 
-\paragraph{Robust parsing.} Whatever the relation kind, every sample passes through a common final stage: a relation-aware parser recovers the answer list from
+Whatever the relation kind, every sample passes through a common final stage: a relation-aware parser recovers the answer list from
 noisy output (code fences, prose), strips explicit empty markers, extracts one
 number for numeric relations (handling commas, units, scale words), and
 de-duplicates. Normalisation (lower-casing, diacritic/punctuation removal) is

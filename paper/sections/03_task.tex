@@ -1,16 +1,16 @@
 \section{Task and Metric Analysis}
 \label{sec:task}
-\paragraph{Relations.} The dataset comprises six Wikidata relations
-(Table~\ref{tab:data}) that fall into three groups. \emph{Numeric} relations
-(\textsc{hasCapacity}, \textsc{hasArea}) have a single scalar object;
-\emph{large-set} \textsc{awardWonBy} has up to hundreds of recipients per
-subject; and three \emph{null-heavy} string relations
-(\textsc{countryLandBordersCountry}, \textsc{personHasCityOfDeath},
-\textsc{companyTradesAtStockExchange}) leave a large fraction of subjects with no
+The dataset comprises six Wikidata relations (Table~\ref{tab:data}) that fall
+into three groups with sharply different answer shapes. The \emph{numeric}
+relations \textsc{hasCapacity} and \textsc{hasArea} have a single scalar object;
+the \emph{large-set} relation \textsc{awardWonBy} has up to hundreds of
+recipients per subject; and three \emph{null-heavy} string relations,
+\textsc{countryLandBordersCountry}, \textsc{personHasCityOfDeath}, and
+\textsc{companyTradesAtStockExchange}, leave a large fraction of subjects with no
 valid object at all. Each relation carries a precise scope (land-only borders,
 city-granular death location, the highest published capacity), which we copy
-verbatim into the prompt so the model targets the same notion the gold set was
-constructed under.
+verbatim into the prompt so that the model targets the same notion the gold set
+was constructed under.
 
 \begin{table}[t]
 \centering\small
@@ -31,26 +31,25 @@ per subject (max 641); three string relations are often legitimately empty.}
 \label{tab:data}
 \end{table}
 
-\paragraph{Evaluation.} Predictions are scored against the gold object set by
-macro precision and recall. A predicted string is a true positive if its
-normalised form (lower-cased, diacritics and punctuation removed) matches any
-alias of a gold object, and a numeric prediction if it lies within 5\% of the
-gold value. Two boundary conventions drive everything that follows: precision is
-defined as $1$ when the prediction is empty, and recall as $1$ when the gold set
-is empty. We report \emph{relation-averaged} macro-F\textsubscript{1} (the mean
-of the six per-relation scores) and \emph{micro-averaged} F\textsubscript{1}
-(over all instances).
+Predictions are scored against the gold object set by macro precision and recall.
+A predicted string counts as a true positive if its normalised form (lower-cased,
+with diacritics and punctuation removed) matches any alias of a gold object, and
+a numeric prediction counts if it lies within 5\% of the gold value. Two boundary
+conventions drive everything that follows: precision is defined as $1$ when the
+prediction is empty, and recall as $1$ when the gold set is empty. We report
+\emph{relation-averaged} macro-F\textsubscript{1} (the mean of the six per-relation
+scores) and \emph{micro-averaged} F\textsubscript{1} (over all instances).
 
-\paragraph{The metric makes abstention valuable.} Those two conventions make an
-empty prediction against an empty gold set a perfect F\textsubscript{1}, with a
-large consequence: predicting the empty set for \emph{every} validation instance
-already scores the ``Empty'' bars in Figure~\ref{fig:bars}, averaging $0.175$
-relation-averaged macro-F\textsubscript{1} ($0.203$ micro). This nearly matches
-the official baseline's $0.273$ relation-averaged macro-F\textsubscript{1} and \emph{beats} it on the two most
-null-heavy relations (\textsc{personHasCityOfDeath} $0.45$ vs.\ $0.16$;
-\textsc{companyTradesAtStockExchange} $0.35$ vs.\ $0.32$). The task therefore
-rewards two narrow abilities rather than answering everything: recalling the
-numeric values, and abstaining precisely when no object exists. Our pipeline
+Those two conventions have a large consequence, because together they make an
+empty prediction against an empty gold set a perfect F\textsubscript{1}: predicting
+the empty set for \emph{every} validation instance already scores the ``Empty''
+bars in Figure~\ref{fig:bars}, averaging $0.175$ relation-averaged
+macro-F\textsubscript{1} ($0.203$ micro). This nearly matches the official
+baseline's $0.273$ relation-averaged macro-F\textsubscript{1} and \emph{beats} it
+on the two most null-heavy relations (\textsc{personHasCityOfDeath} $0.45$ vs.\
+$0.16$; \textsc{companyTradesAtStockExchange} $0.35$ vs.\ $0.32$). The metric
+therefore rewards two narrow abilities rather than answering everything: recalling
+the numeric values, and abstaining precisely when no object exists. Our pipeline
 pulls exactly these two levers.
 
 \begin{figure*}[t]
