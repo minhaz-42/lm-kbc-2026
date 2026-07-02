@@ -42,7 +42,7 @@ inconsistent, while scope-grounded prompts and median aggregation handle the res
 
 This paper makes three contributions. First, a metric analysis
 (Section~\ref{sec:task}) shows that abstention is a high-value action: the
-predict-nothing baseline already rivals the official baseline, which reframes the
+empty baseline already rivals the official baseline, which reframes the
 task around \emph{when to answer}. Second, we build a per-relation pipeline
 (Section~\ref{sec:method}) that grounds prompts in exact scopes and induces
 \emph{calibrated abstention} via self-consistency voting, with no trained
@@ -50,5 +50,5 @@ confidence model; it lifts a weak 0.5B model from $0.173$ to $0.372$ on the
 null-heavy relations. Third, the resulting open-weight system reaches $0.459$
 relation-averaged macro-F\textsubscript{1} ($0.490$ micro) with Gemma-4-31B,
 beating the official baseline on all six relations, while a 4-bit Qwen2.5-14B
-reaches $0.416$ and shows that at this budget model scale outweighs decode-time
+reaches $0.416$ and shows that at this budget model scale dominates decode-time
 self-consistency (Section~\ref{sec:analysis}).

@@ -1,26 +1,30 @@
 \section{Results}
 \label{sec:results}
 Our primary system, \textbf{Gemma-4-31B}, scores \textbf{0.459}
-relation-averaged macro-F\textsubscript{1} (\textbf{0.490} micro) on
-validation, versus $0.175$/$0.203$ (empty), $0.273$/$0.284$ (official baseline),
-and $0.416$/$0.447$ for the smaller Qwen2.5-14B. Figure~\ref{fig:bars} and
-Table~\ref{tab:results} give the per-relation picture. Gemma-4-31B \emph{beats
-the official baseline on all six relations} and the 14B on four of six; the
-largest gains are on \textsc{companyTradesAtStockExchange} ($0.62\!\to\!0.72$)
-and \textsc{hasCapacity} ($0.09\!\to\!0.17$, nearly doubled), while
+relation-averaged macro-F\textsubscript{1} (\textbf{0.490} micro) on validation,
+versus $0.175$/$0.203$ for the empty baseline, $0.273$/$0.284$ for the official
+baseline, and $0.416$/$0.447$ for the smaller Qwen2.5-14B. Figure~\ref{fig:bars}
+and Table~\ref{tab:results} give the per-relation picture. Gemma-4-31B \emph{beats
+the official baseline on all six relations} and the 14B on four of six. The gains concentrate
+where headroom is largest: the biggest jumps are on
+\textsc{companyTradesAtStockExchange} ($0.62\!\to\!0.72$) and \textsc{hasCapacity}
+($0.09\!\to\!0.17$, nearly doubled), while the near-saturated
 \textsc{countryLandBordersCountry} reaches $0.953$. It ties the 14B on
-\textsc{hasArea} and trails only on \textsc{personHasCityOfDeath}
-($0.46$ vs.\ $0.48$), the sole relation where the single-sample 30B forgoes the
-abstention voting that the 14B uses. Strikingly, the 30B attains this lead
-\emph{without} self-consistency or abstention, showing that model scale
-outweighs these decode-time mechanisms at this budget.
+\textsc{hasArea} and trails only on \textsc{personHasCityOfDeath} ($0.46$ vs.\
+$0.48$), the sole relation where the single-sample 30B forgoes the abstention
+voting that the 14B uses, so the one loss is a deliberate consequence of the
+decoding budget rather than a knowledge gap. Strikingly, the 30B attains this
+overall lead \emph{without} self-consistency or abstention, from a single sample.
+At this budget model scale dominates these decode-time mechanisms, though the two
+are complementary levers whose balance shifts as models strengthen; we isolate each
+in Section~\ref{sec:analysis}.
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=0.86\textwidth]{figures/fig_bars.pdf}
-\caption{Per-relation validation macro-F\textsubscript{1}: predict-nothing
-baseline, official baseline, Qwen2.5-14B, and Gemma-4-31B. Gemma-4-31B beats the
-official baseline on all six relations.}
+\includegraphics[width=0.70\textwidth]{figures/fig_bars.pdf}
+\caption{Per-relation validation macro-F\textsubscript{1}: empty baseline,
+official baseline, Qwen2.5-14B, and Gemma-4-31B. Gemma-4-31B beats the official
+baseline on all six relations.}
 \label{fig:bars}
 \end{figure*}
 
@@ -43,8 +47,8 @@ Micro (all inst.)   & 0.203 & 0.284 & 0.447 & \textbf{0.490} \\
 \bottomrule
 \end{tabular}
 \caption{Validation macro-F\textsubscript{1} by model. ``Empty'' is the measured
-predict-nothing baseline, ``Base'' the official baseline; \textbf{30B} is our
-primary Gemma-4-31B system, 14B is Qwen2.5-14B. Best per row in bold.
-Gemma-4-31B beats the official baseline on \emph{all six} relations.}
+empty baseline (predict nothing everywhere), ``Base'' the official baseline;
+\textbf{30B} is our primary Gemma-4-31B system, 14B is Qwen2.5-14B. Best per row
+in bold. Gemma-4-31B beats the official baseline on \emph{all six} relations.}
 \label{tab:results}
 \end{table}

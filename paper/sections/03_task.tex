@@ -34,8 +34,9 @@ per subject (max 641); three string relations are often legitimately empty.}
 
 Predictions are scored against the gold object set by macro precision and recall.
 A predicted string counts as a true positive if its normalised form (lower-cased,
-with diacritics and punctuation removed) matches any alias of a gold object, and
-a numeric prediction counts if it lies within 5\% of the gold value. Two boundary
+with diacritics and punctuation removed) matches any alias of a gold object, where
+each gold object is given as a set of surface aliases; a numeric prediction counts
+if it lies within 5\% of the gold value. Two boundary
 conventions drive everything that follows: precision is defined as $1$ when the
 prediction is empty, and recall as $1$ when the gold set is empty. We report
 \emph{relation-averaged} macro-F\textsubscript{1} (the mean of the six per-relation

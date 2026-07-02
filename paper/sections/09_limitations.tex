@@ -1,14 +1,34 @@
 \section*{Limitations}
-We report no test-set numbers yet, and the voting threshold $\theta$ is swept on
-the same validation split it is evaluated on, so its per-relation optima are
-optimistic rather than held-out. Several margins are within plausible decoding noise. \textsc{awardWonBy} has only
-10 subjects, and because we did not measure the run-to-run variance of the
-stochastic decoding ($N{=}3$, $n{=}5$), sub-$0.03$ deltas (e.g.\ the
-\textsc{personHasCityOfDeath} $+0.03$) are indicative only. Being closed-book, the system inherits the base model's coverage and recency
-limits: it cannot recover facts the model never stored, which caps
-\textsc{awardWonBy} recall and rare-venue numeric accuracy. Because API rate limits precluded multi-sample decoding, our Gemma-4-31B scores
-are single-sample; pairing the 30B with the self-consistency and abstention
-voting that help the smaller models is left to future work and may further lift
-the null-heavy and numeric relations. Finally, the abstention advantage stems from this task's macro metric and its
-empty-as-valid-answer setting, so it may not transfer to single-answer or
-micro-only regimes.
+\paragraph{Held-out evaluation.}
+We report validation results only; no test-set numbers are available yet.
+Moreover, the abstention threshold $\theta$ is swept on the same validation split
+on which it is scored, so its per-relation optima are optimistic rather than
+held-out, and the reported gains should be read as an upper bound on what a fixed,
+pre-registered threshold would deliver.
+
+\paragraph{Decoding variance.}
+We did not measure the run-to-run variance of the stochastic decoding ($N{=}3$,
+$n{=}5$), and \textsc{awardWonBy} has only 10 subjects. Several margins are within
+plausible decoding noise, so sub-$0.03$ deltas, such as the $+0.03$ on
+\textsc{personHasCityOfDeath}, are indicative only and should not be read as
+reliable per-relation orderings.
+
+\paragraph{Model coverage.}
+Being closed-book, the system inherits the base model's coverage and recency
+limits and cannot recover facts the model never stored. This caps
+\textsc{awardWonBy} recall and rare-venue numeric accuracy, and it means our gains
+reflect parametric recall rather than any external grounding.
+
+\paragraph{Single-sample 30B.}
+Because API rate limits precluded multi-sample decoding, our Gemma-4-31B scores are
+single-sample. We therefore cannot report how the 30B behaves under the
+self-consistency and abstention voting that help the smaller models; pairing them
+is left to future work and may further lift the null-heavy and numeric relations,
+so our 30B numbers are likely a floor rather than a ceiling.
+
+\paragraph{Metric specificity.}
+The abstention advantage stems from this task's macro metric and its
+empty-as-valid-answer setting. It may not transfer to single-answer or micro-only
+regimes, and practitioners porting the method to other benchmarks should re-verify
+that abstention is still a positive-value action before adopting the voting
+machinery.

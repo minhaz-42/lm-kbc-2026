@@ -3,9 +3,9 @@
 \paragraph{Overview.}
 The pipeline (Figure~\ref{fig:pipeline}) maps each subject--relation pair $(s,r)$
 to one chat prompt, decodes a cached set of samples ($N$ for voting, $n$ for the
-numeric median), and aggregates them per relation kind into an object set. It has
-no trainable parameters and targets the two analysis levers: abstention and
-numeric recall.
+numeric median), and aggregates them per relation kind into an object set. It adds
+no trainable parameters of its own and targets the two analysis levers: abstention
+and numeric recall.
 
 \paragraph{Scope-grounded prompts.}
 Each relation's system message states the task, the \emph{exact} ground-truth
