@@ -8,7 +8,8 @@ and Table~\ref{tab:results} give the per-relation picture. Gemma-4-31B \emph{bea
 the official baseline on all six relations} and the 14B on four of six. The gains concentrate
 where headroom is largest: the biggest jumps are on
 \textsc{companyTradesAtStockExchange} ($0.62\!\to\!0.72$) and \textsc{hasCapacity}
-($0.09\!\to\!0.17$, nearly doubled), while the near-saturated
+($0.09\!\to\!0.17$, nearly doubled but still low in absolute terms), while the
+near-saturated
 \textsc{countryLandBordersCountry} reaches $0.953$. It ties the 14B on
 \textsc{hasArea} and trails only on \textsc{personHasCityOfDeath} ($0.46$ vs.\
 $0.48$), the sole relation where the single-sample 30B forgoes the abstention
@@ -21,7 +22,7 @@ in Section~\ref{sec:analysis}.
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=0.70\textwidth]{figures/fig_bars.pdf}
+\includegraphics[width=0.64\textwidth]{figures/fig_bars.pdf}
 \caption{Per-relation validation macro-F\textsubscript{1}: empty baseline,
 official baseline, Qwen2.5-14B, and Gemma-4-31B. Gemma-4-31B beats the official
 baseline on all six relations.}

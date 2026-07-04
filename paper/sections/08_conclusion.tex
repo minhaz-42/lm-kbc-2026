@@ -1,13 +1,12 @@
 \section{Conclusion}
 We treated \emph{when to answer} as the central decision in closed-book,
-set-valued KB construction, deriving every component from one metric fact: because
-macro-F\textsubscript{1} rewards a correct empty set, abstention pays off, numeric
-recall is scarce, and scope grounding curbs over- and under-prediction. Instantiated with Gemma-4-31B, the system reaches $0.459$
-relation-averaged macro-F\textsubscript{1} ($0.490$ micro), beats the official
-baseline on all six relations, and is reproducible from a cached generation pass;
-a smaller 4-bit Qwen2.5-14B reaches $0.416$. The durable lesson is comparative:
-the 30B wins with single-sample decoding, while
-abstention and self-consistency chiefly rescue the smaller and weaker models. At
-this budget model scale dominates the decode-time voting, but the two are
-complementary levers whose balance shifts as models strengthen. Pairing this
-machinery with the 30B, which API limits blocked here, is the clearest next step.
+set-valued KB construction, and derived each component from one metric fact:
+because macro-F\textsubscript{1} rewards a correct empty set, abstention pays off,
+numeric recall is scarce, and scope grounding curbs over- and under-prediction.
+Instantiated with Gemma-4-31B, the system reaches $0.459$/$0.490$
+(relation-averaged/micro) and beats the official baseline on all six relations,
+reproducibly from a cached pass. The durable lesson is comparative: the 30B wins
+with single-sample decoding, while abstention and self-consistency chiefly rescue
+weaker models like the 14B, so at this budget model scale dominates decode-time
+voting even though the two remain complementary levers. Pairing the voting with the
+30B, which API limits blocked here, is the clearest next step.

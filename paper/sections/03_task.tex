@@ -42,11 +42,11 @@ prediction is empty, and recall as $1$ when the gold set is empty. We report
 \emph{relation-averaged} macro-F\textsubscript{1} (the mean of the six per-relation
 scores) and \emph{micro-averaged} F\textsubscript{1} (over all instances).
 
-Those two conventions have a large consequence, because together they make an
-empty prediction against an empty gold set a perfect F\textsubscript{1}: predicting
-the empty set for \emph{every} validation instance already scores the ``Empty''
-bars in Figure~\ref{fig:bars}, averaging $0.175$ relation-averaged
-macro-F\textsubscript{1} ($0.203$ micro). This nearly matches the official
+These conventions follow directly from the metric definition, but their effect is
+easy to underestimate: because an empty prediction against an empty gold set is a
+perfect F\textsubscript{1}, predicting the empty set for \emph{every} validation
+instance already scores the ``Empty'' bars in Figure~\ref{fig:bars}, averaging
+$0.175$ relation-averaged macro-F\textsubscript{1} ($0.203$ micro). This nearly matches the official
 baseline's $0.273$ relation-averaged macro-F\textsubscript{1} and \emph{beats} it
 on the two most null-heavy relations (\textsc{personHasCityOfDeath} $0.45$ vs.\
 $0.16$; \textsc{companyTradesAtStockExchange} $0.35$ vs.\ $0.32$). The metric

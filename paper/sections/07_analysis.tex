@@ -1,9 +1,8 @@
 \section{Analysis}
 \label{sec:analysis}
 Because the headline 30B result is single-sample, we isolate the decode-time
-levers on the 14B and 0.5B models, which we can sample freely. All ablations below
-are decoded from the same cached samples, and matter most where the metric is
-unforgiving: the null-heavy and high-cardinality relations.
+levers on the 14B and 0.5B models, which we can sample freely; all ablations use
+the same cached samples.
 
 \paragraph{Abstention.}
 Abstention rescues weak models and refines strong ones.
@@ -32,16 +31,20 @@ null-heavy relations only. ``Off'' decodes a single sample.}
 
 \paragraph{Setting the threshold.}
 If abstention drives the string relations, the natural next question is how to set
-its threshold, and here the empty rate is the guide while numeric voting stays
-neutral. Figure~\ref{fig:ablate} (left) sweeps $\theta$: the most null-heavy
-relation, \textsc{personHasCityOfDeath} (45\% empty), peaks at a \emph{lower}
-$\theta$, while the others tolerate aggressive voting, arguing for per-relation
-thresholds. Figure~\ref{fig:ablate} (right) varies the number of numeric samples:
+its threshold. Our deployed systems use a single fixed $\theta{=}0.5$ (a simple
+majority of three samples); the sweep in Figure~\ref{fig:ablate} (left) is
+diagnostic, and since it is run on the split we report on, its per-relation optima
+are optimistic rather than values we tune back in. It still tells a consistent
+story: \textsc{personHasCityOfDeath} (45\% empty) peaks at a \emph{lower} $\theta$
+while the others tolerate aggressive voting, so a fixed majority leaves little on
+the table. Figure~\ref{fig:ablate} (right) varies the number of numeric samples:
 median aggregation is non-monotonic on \textsc{hasArea} and actually slightly
 \emph{hurts} \textsc{hasCapacity} (single sample $0.10$ vs.\ median-5 $0.09$).
 Decode variance is not the bottleneck; the gap is knowledge-bound. The model's
 capacity guesses are the right order of magnitude but fall outside the 5\% band
-(e.g.\ Spartan Stadium: predicted $37{,}000$, gold $75{,}005$).
+(e.g.\ Spartan Stadium: predicted $37{,}000$, gold $75{,}005$). Both stay low in
+absolute terms ($0.17$, $0.33$): the median guards against outliers but cannot
+supply missing knowledge.
 
 \begin{figure*}[t]
 \centering
@@ -62,8 +65,8 @@ ${\sim}148$ recipients (max 641), but in the 14B ablation the model enumerates
 only ${\sim}11$ names; its outputs are \emph{not} truncated, it closes the JSON
 early, capping recall near $11/148\approx0.07$. The listed names are often
 plausible but wrong ($P{=}0.36$). Parametric recall and a reluctance to enumerate
-bound this relation, so a larger in-budget model or multi-step decomposition would
-help most.
+bound this relation; within a closed-book single model it is largely unsolved, and
+a larger in-budget model or multi-step decomposition would help most.
 
 \paragraph{Qualitative behaviour.}
 Table~\ref{tab:qual} shows representative Gemma-4-31B outputs. The model is exact
