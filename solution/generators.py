@@ -84,12 +84,13 @@ class OpenAICompatGenerator(BaseGenerator):
     def __init__(self, model_path: str,
                  base_url: str = "https://integrate.api.nvidia.com/v1",
                  api_key_env: str = "NVIDIA_API_KEY",
-                 max_workers: int = 4, max_retries: int = 6, timeout: float = 120.0):
+                 max_workers: int = 4, max_retries: int = 10, timeout: float = 120.0):
         import os
         from openai import OpenAI                       # lazy; no torch needed
-        key = os.environ.get(api_key_env)
+        key = (os.environ.get(api_key_env) or os.environ.get("LLM_API_KEY")
+               or os.environ.get("NVIDIA_API_KEY") or os.environ.get("TOGETHER_API_KEY"))
         if not key:
-            raise SystemExit(f"set the {api_key_env} environment variable (your nvapi-... key)")
+            raise SystemExit(f"set {api_key_env} (or LLM_API_KEY) to your provider API key")
         self.client = OpenAI(base_url=base_url, api_key=key, timeout=timeout)
         self.model = model_path
         self.max_workers = max_workers
@@ -99,20 +100,26 @@ class OpenAICompatGenerator(BaseGenerator):
         return messages                                 # chat API consumes messages directly
 
     def _call(self, messages, max_new_tokens, temperature):
-        """One chat completion with exponential backoff on rate-limit/transient errors."""
+        """One chat completion. Rate-limit-aware backoff: on 429 we WAIT and keep
+        retrying (longer waits) rather than giving up, so the run self-throttles
+        to the provider's limit instead of dropping rows."""
         import time
-        delay = 2.0
         for attempt in range(self.max_retries):
             try:
                 r = self.client.chat.completions.create(
                     model=self.model, messages=messages,
                     temperature=float(temperature), max_tokens=max_new_tokens, n=1)
                 return r.choices[0].message.content or ""
-            except Exception as e:                      # 429 / 5xx / timeouts
+            except Exception as e:
+                name = type(e).__name__
                 if attempt == self.max_retries - 1:
-                    print(f"    !! API call failed after retries: {type(e).__name__}", flush=True)
+                    print(f"    !! API call failed after retries: {name}", flush=True)
                     return ""
-                time.sleep(min(delay, 30.0)); delay *= 2
+                # rate limits: back off harder and longer; transient: quick retry
+                if "RateLimit" in name or "429" in str(e):
+                    time.sleep(min(5.0 * (attempt + 1), 60.0))
+                else:
+                    time.sleep(min(2.0 ** attempt, 20.0))
         return ""
 
     def generate(self, prompts, max_new_tokens, temperature=0.0, n=1):

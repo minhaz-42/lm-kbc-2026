@@ -18,3 +18,8 @@ paper/*.log
 paper/*.blg
 paper/*.bbl
 paper/*.out
+
+# unrelated project data (ACCV video captioning) — never commit here
+msrvtt/
+msvd/
+viddata_mini_150/

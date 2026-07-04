@@ -80,6 +80,16 @@ def run(args):
 
     raw_rows: List[Dict] = []          # the expensive-to-produce generation cache
     predictions: List[Dict] = []
+    raw_path = args.raw_out or (os.path.splitext(args.output)[0] + ".raw.jsonl")
+
+    def flush():                       # write after each relation so a crash keeps progress
+        with open(raw_path, "w") as f:
+            for r in raw_rows:
+                f.write(json.dumps(r, ensure_ascii=False) + "\n")
+        with open(args.output, "w") as f:
+            for p in predictions:
+                f.write(json.dumps(p, ensure_ascii=False) + "\n")
+
     for rel, rel_rows in by_rel.items():
         spec = RELATIONS[rel]
         prompts = [gen.apply_template(build_messages(spec, r["SubjectEntity"], train))
@@ -111,16 +121,10 @@ def run(args):
                                                  numeric_self_consistency=numeric_sc,
                                                  string_consistency_threshold=thr),
             })
+        flush()                        # incremental: persist completed relations
         print(f"  [{rel}] {len(rel_rows)} rows done", file=sys.stderr)
 
-    # raw cache: re-decode locally with decode.py instead of re-running the model
-    raw_path = args.raw_out or (os.path.splitext(args.output)[0] + ".raw.jsonl")
-    with open(raw_path, "w") as f:
-        for r in raw_rows:
-            f.write(json.dumps(r, ensure_ascii=False) + "\n")
-    with open(args.output, "w") as f:
-        for p in predictions:
-            f.write(json.dumps(p, ensure_ascii=False) + "\n")
+    flush()
     print(f"wrote {len(predictions)} predictions -> {args.output}", file=sys.stderr)
     print(f"wrote raw generation cache -> {raw_path}", file=sys.stderr)
 
