@@ -5,24 +5,23 @@ relation-averaged macro-F\textsubscript{1} (\textbf{0.490} micro) on validation,
 versus $0.175$/$0.203$ for the empty baseline, $0.273$/$0.284$ for the official
 baseline, and $0.416$/$0.447$ for the smaller Qwen2.5-14B. Figure~\ref{fig:bars}
 and Table~\ref{tab:results} give the per-relation picture. Gemma-4-31B \emph{beats
-the official baseline on all six relations} and the 14B on four of six. The gains concentrate
-where headroom is largest: the biggest jumps are on
-\textsc{companyTradesAtStockExchange} ($0.62\!\to\!0.72$) and \textsc{hasCapacity}
-($0.09\!\to\!0.17$, nearly doubled but still low in absolute terms), while the
-near-saturated
+the official baseline on all six relations} and the 14B on four of six. Over the
+14B, the 30B's gains concentrate where the model already has usable knowledge: the
+biggest 14B\,$\to$\,30B jumps are on \textsc{companyTradesAtStockExchange}
+($0.62\!\to\!0.72$) and \textsc{hasCapacity} ($0.09\!\to\!0.17$, nearly doubled but
+still low in absolute terms), while the near-saturated
 \textsc{countryLandBordersCountry} reaches $0.953$. It ties the 14B on
 \textsc{hasArea} and trails only on \textsc{personHasCityOfDeath} ($0.46$ vs.\
 $0.48$), the sole relation where the single-sample 30B forgoes the abstention
 voting that the 14B uses, so the one loss is a deliberate consequence of the
 decoding budget rather than a knowledge gap. Strikingly, the 30B attains this
 overall lead \emph{without} self-consistency or abstention, from a single sample.
-At this budget model scale dominates these decode-time mechanisms, though the two
-are complementary levers whose balance shifts as models strengthen; we isolate each
-in Section~\ref{sec:analysis}.
+We could not run voting on the 30B, so we isolate the decode-time levers on the
+smaller models in Section~\ref{sec:analysis}.
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=0.64\textwidth]{figures/fig_bars.pdf}
+\includegraphics[width=0.56\textwidth]{figures/fig_bars.pdf}
 \caption{Per-relation validation macro-F\textsubscript{1}: empty baseline,
 official baseline, Qwen2.5-14B, and Gemma-4-31B. Gemma-4-31B beats the official
 baseline on all six relations.}

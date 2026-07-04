@@ -5,11 +5,13 @@ Our primary system uses \textbf{Gemma-4-31B-it} \citep{gemma2024}
 (\textbf{Gemma-4-31B} for brevity), a 30.7B-parameter open-weight model within the
 32B cap. It exceeds the memory of our
 single 16\,GB GPU, so we serve it through a hosted OpenAI-compatible API. The
-weights are open and we apply no fine-tuning, so the closed-book rules are
-respected: the API is used purely as compute. For the self-consistency ablations
-(Section~\ref{sec:analysis}) we additionally run \textbf{Qwen2.5-14B-Instruct}
-\citep{qwen2024} (14.7B) locally in 4-bit. Several nominally ``32B'' models in fact
-exceed the cap (Qwen2.5-32B at 32.5B, Qwen3-32B at 32.8B) and are ineligible.
+weights are open and we apply no fine-tuning; the endpoint serves the unmodified
+weights as a plain text-completion service (no retrieval, tools, or augmentation),
+so it is compute-only and the closed-book rules hold. For the self-consistency ablations (Section~\ref{sec:analysis}) we
+additionally run \textbf{Qwen2.5-14B-Instruct} \citep{qwen2024} (14.7B) locally in
+4-bit, together with a tiny \textbf{Qwen2.5-0.5B-Instruct} used to probe abstention
+on a poorly-calibrated model. Several nominally ``32B'' models in fact exceed the
+cap (Qwen2.5-32B at 32.5B, Qwen3-32B at 32.8B) and are ineligible.
 
 \paragraph{Decoding.}
 At decode time, the pipeline selects an aggregator per relation kind

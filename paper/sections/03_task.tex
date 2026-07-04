@@ -36,7 +36,7 @@ Predictions are scored against the gold object set by macro precision and recall
 A predicted string counts as a true positive if its normalised form (lower-cased,
 with diacritics and punctuation removed) matches any alias of a gold object, where
 each gold object is given as a set of surface aliases; a numeric prediction counts
-if it lies within 5\% of the gold value. Two boundary
+if it lies within a 5\% relative tolerance of the gold value. Two boundary
 conventions drive everything that follows: precision is defined as $1$ when the
 prediction is empty, and recall as $1$ when the gold set is empty. We report
 \emph{relation-averaged} macro-F\textsubscript{1} (the mean of the six per-relation
@@ -96,7 +96,7 @@ pulls exactly these two levers.
 \node[font=\scriptsize,below=17mm of inbox,text width=46mm,align=left] (leg)
  {\textbf{stages:}\ \tikz\fill[cPrompt]circle(1.1mm); prompt\ \ \tikz\fill[cDecode]circle(1.1mm); decode\ \ \tikz\fill[cAgg]circle(1.1mm); aggregate\ \ \tikz\fill[cOut]circle(1.1mm); output};
 \node[draw,rounded corners,fill=cAgg,inner sep=3pt,font=\scriptsize\bfseries,below right=13mm and 0mm of norm]
- {val: 0.459 avg-F$_1$ / 0.490 micro};
+ {val (30B, $N{=}1$): 0.459 / 0.490};
 \end{tikzpicture}}
 \caption{System pipeline (no trainable parameters). Real dataset instances (left,
 stage~1), shown with entity-type icons and their gold objects, are each rendered
@@ -109,6 +109,8 @@ for the null-heavy string relations, and \emph{enumeration} for
 boxes are real worked examples: the island country \textsc{Antigua \& Barbuda}
 correctly collapses to $\emptyset$, as does the still-living scientist
 \textsc{Joseph L.\ Goldstein} (no city of death). The design follows from the metric
-insight (lower-left badge). Reported score is Gemma-4-31B on validation.}
+insight (lower-left badge). The reported Gemma-4-31B score uses a single sample
+($N{=}1$, voting off); the $N$-sample voting path is exercised by the 14B ablation
+(Section~\ref{sec:analysis}).}
 \label{fig:pipeline}
 \end{figure*}

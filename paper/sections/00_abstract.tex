@@ -11,10 +11,11 @@ official baseline's $0.273$. We therefore treat \emph{when to answer} as a
 first-class decision and build a per-relation pipeline that grounds each prompt in
 the relation's exact scope, decides abstention from the sampled set rather than by
 instruction, and takes a median over samples for numeric relations. Our
-\textbf{Gemma-4-31B} system (30.7B, the strongest in the budget) scores
-$0.459$/$0.490$ (relation-averaged/micro) from a single sample, beating the
-official baseline on all six relations, while decode-time self-consistency on a
-smaller 4-bit Qwen2.5-14B reaches only $0.416$: here model scale outweighs voting.
+\textbf{Gemma-4-31B} system (30.7B, the strongest in-budget model we could access)
+scores $0.459$/$0.490$ (relation-averaged/micro) from a single sample, beating the
+official baseline on all six relations, while a smaller 4-bit Qwen2.5-14B, even with
+self-consistency voting, reaches only $0.416$: in this comparison a larger
+single-sample model outscores a smaller voted one.
 Generation is cached, so decoding reproduces without a GPU. We release our
 code.\footnote{\url{https://github.com/ANON/lm-kbc-2026}}
 \end{abstract}

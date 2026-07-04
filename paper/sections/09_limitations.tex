@@ -1,17 +1,17 @@
 \section*{Limitations}
 \paragraph{Held-out evaluation.}
-We report validation results only; no test-set numbers are available yet.
-Moreover, the abstention threshold $\theta$ is swept on the same validation split
-on which it is scored, so its per-relation optima are optimistic rather than
-held-out, and the reported gains should be read as an upper bound on what a fixed,
-pre-registered threshold would deliver.
+We report validation results only; no test-set numbers are available yet. Our
+reported systems use a fixed, a-priori $\theta{=}0.5$, but the diagnostic threshold
+sweep (Figure~\ref{fig:ablate}) is run on the same split it is scored on, so its
+per-relation optima are optimistic rather than held-out and should be read as
+diagnostic only.
 
 \paragraph{Decoding variance.}
 We did not measure the run-to-run variance of the stochastic decoding ($N{=}3$,
 $n{=}5$), and \textsc{awardWonBy} has only 10 subjects. Several margins are within
-plausible decoding noise, so sub-$0.03$ deltas, such as the $+0.03$ on
-\textsc{personHasCityOfDeath}, are indicative only and should not be read as
-reliable per-relation orderings.
+plausible decoding noise, so small deltas, such as the $0.02$ gap between the 14B
+and 30B on \textsc{personHasCityOfDeath}, are indicative only and should not be
+read as reliable per-relation orderings.
 
 \paragraph{Model coverage.}
 Being closed-book, the system inherits the base model's coverage and recency

@@ -48,10 +48,10 @@ follows from the metric but is easy to miss, and it shapes our design. Second, a
 simple, reproducible pipeline (Section~\ref{sec:method}) with no trainable
 parameters, combining standard parts: scope-grounded prompting, self-consistency
 voting for abstention (a fixed a-priori $\theta{=}0.5$), and median aggregation for
-numerics; the voting lifts a weak 0.5B model from $0.173$ to $0.372$ on the
-null-heavy relations. Third, and most useful, an empirical finding: at the
-${\le}$32B budget model scale outweighs decode-time self-consistency. A
-single-sample Gemma-4-31B reaches $0.459$/$0.490$ and beats the official baseline
-on all six relations, while the voting is validated only on the smaller 4-bit
-Qwen2.5-14B ($0.416$), which API limits kept off the 30B
-(Section~\ref{sec:analysis}).
+numerics; at the deployed $\theta{=}0.5$ the voting lifts a weak 0.5B model from
+$0.173$ to $0.363$ on the null-heavy relations. Third, and most useful, an
+empirical finding: in our one controlled comparison at the ${\le}$32B budget, a
+single-sample Gemma-4-31B ($0.459$/$0.490$, beating the official baseline on all
+six relations) outscores the smaller 4-bit Qwen2.5-14B even with self-consistency
+voting ($0.416$); whether voting also helps the 30B is untested, as API limits kept
+it off (Section~\ref{sec:analysis}).

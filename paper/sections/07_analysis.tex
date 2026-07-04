@@ -7,8 +7,9 @@ the same cached samples.
 \paragraph{Abstention.}
 Abstention rescues weak models and refines strong ones.
 Table~\ref{tab:ablation} isolates it on the three null-heavy relations. On a
-poorly-calibrated 0.5B model the effect is dramatic ($0.173\!\to\!0.372$): without
-voting it over-answers and falls \emph{below} the empty baseline ($0.350$). The
+poorly-calibrated 0.5B model the effect is dramatic ($0.173\!\to\!0.363$ at the
+deployed $\theta{=}0.5$, up to $0.372$ under the sweep): without voting it
+over-answers and falls \emph{below} the empty baseline ($0.350$). The
 14B is already above that baseline without voting ($0.652$), so voting adds less
 ($0.652\!\to\!0.666$) but still helps. Abstention buys precision: on
 \textsc{personHasCityOfDeath} it moves $P{=}0.77\!\to\!0.81\!\to\!0.89$ as $\theta$
@@ -34,17 +35,16 @@ If abstention drives the string relations, the natural next question is how to s
 its threshold. Our deployed systems use a single fixed $\theta{=}0.5$ (a simple
 majority of three samples); the sweep in Figure~\ref{fig:ablate} (left) is
 diagnostic, and since it is run on the split we report on, its per-relation optima
-are optimistic rather than values we tune back in. It still tells a consistent
-story: \textsc{personHasCityOfDeath} (45\% empty) peaks at a \emph{lower} $\theta$
-while the others tolerate aggressive voting, so a fixed majority leaves little on
-the table. Figure~\ref{fig:ablate} (right) varies the number of numeric samples:
+are optimistic rather than values we tune back in. Still,
+\textsc{personHasCityOfDeath} (45\% empty) peaks at a \emph{lower} $\theta$ while
+the others tolerate aggressive voting, so a fixed majority leaves little on the
+table. Figure~\ref{fig:ablate} (right) varies the number of numeric samples:
 median aggregation is non-monotonic on \textsc{hasArea} and actually slightly
-\emph{hurts} \textsc{hasCapacity} (single sample $0.10$ vs.\ median-5 $0.09$).
-Decode variance is not the bottleneck; the gap is knowledge-bound. The model's
-capacity guesses are the right order of magnitude but fall outside the 5\% band
-(e.g.\ Spartan Stadium: predicted $37{,}000$, gold $75{,}005$). Both stay low in
-absolute terms ($0.17$, $0.33$): the median guards against outliers but cannot
-supply missing knowledge.
+\emph{hurts} \textsc{hasCapacity} on the 14B (single sample $0.10$ vs.\ median-5
+$0.09$). Decode variance is not the bottleneck; the gap is knowledge-bound: the
+capacity guesses are the right order of magnitude but outside the 5\% band (e.g.\
+Spartan Stadium: predicted $37{,}000$ vs.\ gold $75{,}005$), and even for the 30B
+both numeric relations stay low ($0.17$, $0.33$).
 
 \begin{figure*}[t]
 \centering
@@ -69,12 +69,10 @@ bound this relation; within a closed-book single model it is largely unsolved, a
 a larger in-budget model or multi-step decomposition would help most.
 
 \paragraph{Qualitative behaviour.}
-Table~\ref{tab:qual} shows representative Gemma-4-31B outputs. The model is exact
-on well-known facts (\textsc{personHasCityOfDeath}, \textsc{hasCapacity}) and
-near-complete on borders, but the two error modes are visible: a numeric near-miss
-on \textsc{hasArea}, and on \textsc{awardWonBy} a list of globally famous names
-rather than the actual (obscurer) Stockholm honorary doctors, plausible but wrong,
-the recall/hallucination limit quantified above.
+Table~\ref{tab:qual} shows representative Gemma-4-31B outputs: exact on well-known
+facts and near-complete on borders, with the two error modes above visible, a
+numeric near-miss on \textsc{hasArea} and plausible-but-wrong famous names on
+\textsc{awardWonBy}.
 
 \begin{table*}[t]
 \centering\scriptsize

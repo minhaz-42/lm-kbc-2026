@@ -5,8 +5,6 @@ because macro-F\textsubscript{1} rewards a correct empty set, abstention pays of
 numeric recall is scarce, and scope grounding curbs over- and under-prediction.
 Instantiated with Gemma-4-31B, the system reaches $0.459$/$0.490$
 (relation-averaged/micro) and beats the official baseline on all six relations,
-reproducibly from a cached pass. The durable lesson is comparative: the 30B wins
-with single-sample decoding, while abstention and self-consistency chiefly rescue
-weaker models like the 14B, so at this budget model scale dominates decode-time
-voting even though the two remain complementary levers. Pairing the voting with the
-30B, which API limits blocked here, is the clearest next step.
+reproducibly from a cached pass. The durable lesson is comparative: a single-sample
+Gemma-4-31B outscores a smaller voted Qwen2.5-14B, while voting mainly rescues
+weaker models; pairing voting with the 30B is the clearest next step.
