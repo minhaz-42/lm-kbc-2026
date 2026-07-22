@@ -69,13 +69,16 @@ pulls exactly these two levers.
  call/.style={draw,dashed,rounded corners,fill=cBadge,inner sep=2.5pt,font=\scriptsize\itshape,text=black!70}]
 % --- input: real dataset instances, each with an entity-type icon ---
 \node[ex] (e1){\iconglobe~\textbf{Ethiopia} $\to$ Djibouti, Eritrea, \dots};
-\node[ex,below=2mm of e1] (e2){\iconbuilding~\textbf{Bharti Airtel} $\to$ Bombay Stock Exch.};
-\node[ex,below=2mm of e2] (e3){\iconperson~\textbf{Joseph L.\ Goldstein} $\to \emptyset$};
+\node[ex,below=1.5mm of e1] (e2){\iconperson~\textbf{Joseph L.\ Goldstein} $\to \emptyset$};
+\node[ex,below=1.5mm of e2] (e3){\iconbuilding~\textbf{Bharti Airtel} $\to$ Bombay Stock Exch.};
+\node[ex,below=1.5mm of e3] (e4){\icontrophy~\textbf{Stockholm hon.\ dr} $\to$ Torvalds, \dots};
+\node[ex,below=1.5mm of e4] (e5){\iconstadium~\textbf{Est.\ Gileno de Carli} $\to$ 5000};
+\node[ex,below=1.5mm of e5] (e6){\iconarea~\textbf{Lo\v{s}inj} $\to$ 74.36 km$^2$};
 \begin{scope}[on background layer]
- \node[draw,dotted,rounded corners,fit=(e1)(e3),inner sep=4pt,
+ \node[draw,dotted,rounded corners,fit=(e1)(e6),inner sep=4pt,
    label={[font=\scriptsize\bfseries,yshift=-1pt]above:dataset instances $(s,r)$}] (inbox){};
 \end{scope}
-\node[stg,fill=cPrompt,right=12mm of e2] (pr){scope-grounded\\prompt};
+\node[stg,fill=cPrompt,right=14mm of inbox] (pr){scope-grounded\\prompt};
 \node[stg,fill=cDecode,right=8mm of pr] (dec){LLM $\times N$\\\textbf{Gemma-4-31B}};
 \node[dia,right=8mm of dec] (d){relation\\kind?};
 \node[agg,above right=8mm and 8mm of d] (awd){\textsc{awardWonBy}: enumerate};
@@ -87,9 +90,7 @@ pulls exactly these two levers.
 \end{scope}
 \node[stg,fill=cOut,right=8mm of num,text width=15mm] (norm){normalise};
 \node[stg,fill=cOut,right=6mm of norm,text width=13mm] (out){object set\\\texttt{\{\dots\}}};
-\draw[fl](e1.east)--([yshift=3mm]pr.west);
-\draw[fl](e2.east)--(pr.west);
-\draw[fl](e3.east)--([yshift=-3mm]pr.west);
+\draw[fl](inbox.east)--(pr.west);
 \draw[fl](pr)--(dec);\draw[fl](dec)--(d);
 \draw[fl](d)|-(awd);\draw[fl](d)--(num);\draw[fl](d)|-(nul);
 \draw[fl](awd)-|(norm);\draw[fl](num)--(norm);\draw[fl](nul)-|(norm);
