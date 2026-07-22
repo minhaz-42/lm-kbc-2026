@@ -108,9 +108,10 @@ into a scope-grounded chat prompt (stage~2); the model is sampled $N$ times
 (keep an object only if it appears in $\ge\theta$ of samples, else $\emptyset$)
 for the null-heavy string relations, and \emph{enumeration} for
 \textsc{awardWonBy}; a final normalisation matches the evaluator exactly. Dashed
-boxes are real worked examples: the island country \textsc{Antigua \& Barbuda}
-correctly collapses to $\emptyset$, as does the still-living scientist
-\textsc{Joseph L.\ Goldstein} (no city of death). The design follows from the metric
+callouts give worked examples, e.g.\ the island country \textsc{Antigua \& Barbuda}
+correctly collapses to $\emptyset$; the input cards likewise include the
+still-living scientist \textsc{Joseph L.\ Goldstein}, mapped to $\emptyset$ (no city
+of death). The design follows from the metric
 insight (lower-left badge). The reported Gemma-4-31B score uses a single sample
 ($N{=}1$, voting off); the $N$-sample voting path is exercised by the 14B ablation
 (Section~\ref{sec:analysis}).}
