@@ -30,10 +30,10 @@ def save(fig, name):
 
 # ---- Fig: per-relation macro-F1, 4 systems ----
 rels = ["borders", "company", "death", "area", "capacity", "award"]
-empty = [0.25, 0.35, 0.45, 0.00, 0.00, 0.00]
-base  = [0.679, 0.320, 0.160, 0.310, 0.100, 0.069]
-m14   = [0.900, 0.616, 0.480, 0.330, 0.090, 0.081]
-m30   = [0.953, 0.722, 0.460, 0.330, 0.170, 0.120]
+empty = [0.265, 0.360, 0.390, 0.000, 0.000, 0.000]
+base  = [0.665, 0.354, 0.210, 0.290, 0.180, 0.101]
+m14   = [0.918, 0.609, 0.450, 0.330, 0.090, 0.096]
+m30   = [0.971, 0.737, 0.420, 0.330, 0.170, 0.140]
 x = np.arange(len(rels)); w = 0.2
 fig, ax = plt.subplots(figsize=(7.0, 2.7))
 for i, (vals, key, lab) in enumerate([(empty,"empty","Empty"),(base,"base","Baseline"),
@@ -43,25 +43,20 @@ ax.set_xticks(x); ax.set_xticklabels(rels); ax.set_ylabel("macro-F1"); ax.set_yl
 ax.legend(ncol=4, loc="upper center", bbox_to_anchor=(0.5, 1.22), frameon=False, columnspacing=1.1)
 save(fig, "fig_bars")
 
-# ---- Fig: two-panel ablations (threshold sweep + numeric n-sweep) ----
-fig, (a1, a2) = plt.subplots(1, 2, figsize=(7.0, 2.5))
+# ---- Fig: abstention threshold sweep (14B, 3 null-heavy) ----
+fig, a1 = plt.subplots(figsize=(3.4, 2.5))
 th = [0, 0.34, 0.5, 0.67, 1.0]
-a1.plot(th, [0.902,0.900,0.900,0.907,0.907], "o-", color=C["14b"], label="borders", ms=4)
-a1.plot(th, [0.603,0.616,0.616,0.621,0.621], "s-", color=C["base"], label="company", ms=4)
-a1.plot(th, [0.450,0.480,0.480,0.470,0.470], "^-", color=C3, label="death", ms=4)
-a1.set_xlabel(r"voting threshold $\theta$"); a1.set_ylabel("macro-F1"); a1.set_ylim(0.4,0.98)
-a1.set_title("null-heavy relations"); a1.legend(frameon=False, loc="center right")
-n = [1,2,3,4,5]
-a2.plot(n, [0.30,0.28,0.31,0.30,0.33], "o-", color=C["30b"], label="hasArea", ms=4)
-a2.plot(n, [0.10,0.04,0.08,0.06,0.09], "s-", color=C["base"], label="hasCapacity", ms=4)
-a2.set_xlabel(r"# median samples $n$"); a2.set_ylim(0,0.4); a2.set_xticks(n)
-a2.set_title("numeric relations"); a2.legend(frameon=False)
+a1.plot(th, [0.912,0.918,0.918,0.925,0.925], "o-", color=C["14b"], label="borders", ms=4)
+a1.plot(th, [0.590,0.609,0.609,0.613,0.613], "s-", color=C["base"], label="company", ms=4)
+a1.plot(th, [0.420,0.450,0.450,0.410,0.410], "^-", color=C3, label="death", ms=4)
+a1.set_xlabel(r"voting threshold $\theta$"); a1.set_ylabel("macro-F1"); a1.set_ylim(0.38,0.98)
+a1.legend(frameon=False, loc="center right")
 save(fig, "fig_ablation")
 
 # ---- Fig: model-scale (avg-of-6 macro-F1) ----
 fig, ax = plt.subplots(figsize=(3.3, 2.4))
 names = ["Empty", "Baseline", "0.5B", "14B", "30B"]
-avg6  = [0.175, 0.273, 0.108, 0.416, 0.459]
+avg6  = [0.169, 0.300, 0.108, 0.416, 0.461]
 cols  = [C["empty"], C["base"], "#C9CCD1", C["14b"], C["30b"]]
 b = ax.bar(names, avg6, color=cols, edgecolor="black", linewidth=0.3)
 ax.set_ylabel("avg-of-6 macro-F1"); ax.set_ylim(0, 0.52)

@@ -12,12 +12,13 @@ given a `(subject, relation)` pair, predict the *complete* set of object strings
 
 | System | avg-of-6 | micro | Notes |
 |---|---|---|---|
-| Empty baseline (predict nothing) | 0.175 | 0.203 | measured floor |
-| Official baseline | 0.273 | 0.284 | organiser few-shot |
-| **Qwen2.5-14B** (local, 4-bit) | 0.416 | 0.447 | with self-consistency voting |
-| **Gemma-4-31B** (API, single sample) | **0.459** | **0.490** | **primary system** |
+| Empty baseline (predict nothing) | 0.169 | 0.195 | measured floor |
+| Official baseline (Qwen3.5-9B) | 0.300 | 0.313 | organiser few-shot |
+| **Qwen2.5-14B** (local, 4-bit) | 0.416 | 0.442 | with self-consistency voting |
+| **Gemma-4-31B** (API, single sample) | **0.461** | **0.488** | **primary system** |
 
-Gemma-4-31B beats the official baseline on **all six relations**. The main
+Gemma-4-31B beats the official baseline on **five of the six relations** (all but
+hasCapacity). The main
 empirical finding: at the ≤ 32B budget, **model scale outweighs decode-time
 self-consistency** — a single-sample 30B beats a multi-sample 14B.
 

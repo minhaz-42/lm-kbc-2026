@@ -1,10 +1,9 @@
 \section{Conclusion}
 We treated \emph{when to answer} as the central decision in closed-book,
-set-valued KB construction, and derived each component from one metric fact:
-because macro-F\textsubscript{1} rewards a correct empty set, abstention pays off,
-numeric recall is scarce, and scope grounding curbs over- and under-prediction.
-Instantiated with Gemma-4-31B, the system reaches $0.459$/$0.490$
-(relation-averaged/micro) and beats the official baseline on all six relations,
-reproducibly from a cached pass. The durable lesson is comparative: a single-sample
-Gemma-4-31B outscores a smaller voted Qwen2.5-14B, while voting mainly rescues
-weaker models; pairing voting with the 30B is the clearest next step.
+set-valued KB construction: because macro-F\textsubscript{1} rewards a correct empty
+set, abstention pays off, numeric recall is scarce, and scope grounding curbs over-
+and under-prediction. Instantiated with Gemma-4-31B, the system reaches
+$0.461$/$0.488$ (relation-averaged/micro) and beats the official baseline on five of
+the six relations, reproducibly from a cached pass. The durable lesson is
+comparative: a single-sample 30B outscores a voted 14B, while voting mainly rescues
+weaker models, so pairing voting with the 30B is the clearest next step.

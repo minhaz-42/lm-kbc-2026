@@ -1,30 +1,29 @@
 \section{Results}
 \label{sec:results}
-Our primary system, \textbf{Gemma-4-31B}, scores \textbf{0.459}
-relation-averaged macro-F\textsubscript{1} (\textbf{0.490} micro) on validation,
-versus $0.175$/$0.203$ for the empty baseline, $0.273$/$0.284$ for the official
-baseline, and $0.416$/$0.447$ for the smaller Qwen2.5-14B. Figure~\ref{fig:bars}
-and Table~\ref{tab:results} give the per-relation picture. Gemma-4-31B \emph{beats
-the official baseline on all six relations} and the 14B on four of six. Over the
-14B, the 30B's gains concentrate where the model already has usable knowledge: the
-biggest 14B\,$\to$\,30B jumps are on \textsc{companyTradesAtStockExchange}
-($0.62\!\to\!0.72$) and \textsc{hasCapacity} ($0.09\!\to\!0.17$, nearly doubled but
-still low in absolute terms), while the near-saturated
-\textsc{countryLandBordersCountry} reaches $0.953$. It ties the 14B on
-\textsc{hasArea} and trails only on \textsc{personHasCityOfDeath} ($0.46$ vs.\
-$0.48$), the sole relation where the single-sample 30B forgoes the abstention
-voting that the 14B uses, so the one loss is a deliberate consequence of the
-decoding budget rather than a knowledge gap. Strikingly, the 30B attains this
-overall lead \emph{without} self-consistency or abstention, from a single sample.
-We could not run voting on the 30B, so we isolate the decode-time levers on the
-smaller models in Section~\ref{sec:analysis}.
+Our primary system, \textbf{Gemma-4-31B}, scores \textbf{0.461}
+relation-averaged macro-F\textsubscript{1} (\textbf{0.488} micro) on validation,
+versus $0.169$/$0.195$ for the empty baseline, $0.300$/$0.313$ for the official
+baseline, and $0.416$/$0.442$ for the smaller Qwen2.5-14B. Figure~\ref{fig:bars}
+and Table~\ref{tab:results} give the per-relation picture. Gemma-4-31B beats the
+official baseline on \emph{five of the six} relations, the exception being
+\textsc{hasCapacity} ($0.17$ vs.\ $0.18$, within decoding noise). Over the 14B, its
+gains concentrate where the model already has usable knowledge: the biggest
+14B\,$\to$\,30B jumps are on \textsc{companyTradesAtStockExchange}
+($0.61\!\to\!0.74$) and \textsc{hasCapacity} ($0.09\!\to\!0.17$), while the
+near-saturated \textsc{countryLandBordersCountry} reaches $0.971$. It ties the 14B
+on \textsc{hasArea} and trails it on \textsc{personHasCityOfDeath} ($0.42$ vs.\
+$0.45$), the relation where the single-sample 30B forgoes the abstention voting the
+14B uses. Strikingly, the 30B attains this overall lead \emph{without}
+self-consistency or abstention, from a single sample. We could not run voting on
+the 30B, so we isolate the decode-time levers on the smaller models in
+Section~\ref{sec:analysis}.
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=0.56\textwidth]{figures/fig_bars.pdf}
 \caption{Per-relation validation macro-F\textsubscript{1}: empty baseline,
 official baseline, Qwen2.5-14B, and Gemma-4-31B. Gemma-4-31B beats the official
-baseline on all six relations.}
+baseline on five of the six relations.}
 \label{fig:bars}
 \end{figure*}
 
@@ -35,20 +34,21 @@ baseline on all six relations.}
 \toprule
 Relation & Empty & Base & 14B & \textbf{30B} \\
 \midrule
-countryLandBorders  & 0.250 & 0.679 & 0.900 & \textbf{0.953} \\
-companyTrades       & 0.350 & 0.320 & 0.616 & \textbf{0.722} \\
-personCityOfDeath   & 0.450 & 0.160 & \textbf{0.480} & 0.460 \\
-hasArea             & 0.000 & 0.310 & 0.330 & 0.330 \\
-hasCapacity         & 0.000 & 0.100 & 0.090 & \textbf{0.170} \\
-awardWonBy          & 0.000 & 0.069 & 0.081 & \textbf{0.120} \\
+countryLandBorders  & 0.265 & 0.665 & 0.918 & \textbf{0.971} \\
+companyTrades       & 0.360 & 0.354 & 0.609 & \textbf{0.737} \\
+personCityOfDeath   & 0.390 & 0.210 & \textbf{0.450} & 0.420 \\
+hasArea             & 0.000 & 0.290 & \textbf{0.330} & \textbf{0.330} \\
+hasCapacity         & 0.000 & \textbf{0.180} & 0.090 & 0.170 \\
+awardWonBy          & 0.000 & 0.101 & 0.096 & \textbf{0.140} \\
 \midrule
-Avg.\ of relations  & 0.175 & 0.273 & 0.416 & \textbf{0.459} \\
-Micro (all inst.)   & 0.203 & 0.284 & 0.447 & \textbf{0.490} \\
+Avg.\ of relations  & 0.169 & 0.300 & 0.416 & \textbf{0.461} \\
+Micro (all inst.)   & 0.195 & 0.313 & 0.442 & \textbf{0.488} \\
 \bottomrule
 \end{tabular}
 \caption{Validation macro-F\textsubscript{1} by model. ``Empty'' is the measured
-empty baseline (predict nothing everywhere), ``Base'' the official baseline;
-\textbf{30B} is our primary Gemma-4-31B system, 14B is Qwen2.5-14B. Best per row
-in bold. Gemma-4-31B beats the official baseline on \emph{all six} relations.}
+empty baseline (predict nothing everywhere), ``Base'' the official baseline
+(Qwen3.5-9B); \textbf{30B} is our primary Gemma-4-31B system, 14B is Qwen2.5-14B.
+Best per row in bold. Gemma-4-31B beats the official baseline on five of the six
+relations (all but \textsc{hasCapacity}).}
 \label{tab:results}
 \end{table}

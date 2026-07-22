@@ -19,9 +19,9 @@ was constructed under.
 \toprule
 Relation & \#val & empty\% \\
 \midrule
-\textsc{countryLandBordersCountry} & 68 & 25 \\
-\textsc{personHasCityOfDeath} & 100 & 45 \\
-\textsc{companyTradesAtStockExchange} & 100 & 35 \\
+\textsc{countryLandBordersCountry} & 68 & 26 \\
+\textsc{personHasCityOfDeath} & 100 & 39 \\
+\textsc{companyTradesAtStockExchange} & 100 & 36 \\
 \textsc{awardWonBy} & 10 & 0 \\
 \textsc{hasCapacity} & 100 & 0 \\
 \textsc{hasArea} & 100 & 0 \\
@@ -46,10 +46,11 @@ These conventions follow directly from the metric definition, but their effect i
 easy to underestimate: because an empty prediction against an empty gold set is a
 perfect F\textsubscript{1}, predicting the empty set for \emph{every} validation
 instance already scores the ``Empty'' bars in Figure~\ref{fig:bars}, averaging
-$0.175$ relation-averaged macro-F\textsubscript{1} ($0.203$ micro). This nearly matches the official
-baseline's $0.273$ relation-averaged macro-F\textsubscript{1} and \emph{beats} it
-on the two most null-heavy relations (\textsc{personHasCityOfDeath} $0.45$ vs.\
-$0.16$; \textsc{companyTradesAtStockExchange} $0.35$ vs.\ $0.32$). The metric
+$0.169$ relation-averaged macro-F\textsubscript{1} ($0.195$ micro). Although this
+trails the official baseline overall ($0.300$), on the two most null-heavy
+relations doing nothing already \emph{beats} that baseline
+(\textsc{personHasCityOfDeath} $0.39$ vs.\ $0.21$;
+\textsc{companyTradesAtStockExchange} $0.36$ vs.\ $0.35$). The metric
 therefore rewards two narrow abilities rather than answering everything: recalling
 the numeric values, and abstaining precisely when no object exists. Our pipeline
 pulls exactly these two levers.
@@ -98,7 +99,7 @@ pulls exactly these two levers.
 \node[call,below=9mm of nul,text width=53mm]{Antigua \& Barbuda $\to \emptyset$ (island: no land border)};
 \node[call,below=13mm of dec,text width=44mm]{empty pred vs.\ empty gold $=$ perfect F$_1$ $\Rightarrow$ \textbf{abstain when unsure}};
 \node[draw=black!22,rounded corners=2.5pt,fill=cBadge,inner sep=3pt,font=\scriptsize\bfseries,below right=13mm and 0mm of norm,sh]
- {val (30B, $N{=}1$): 0.459 / 0.490};
+ {val (30B, $N{=}1$): 0.461 / 0.488};
 \end{tikzpicture}}
 \caption{System pipeline (no trainable parameters). Real dataset instances (left,
 stage~1), shown with entity-type icons and their gold objects, are each rendered

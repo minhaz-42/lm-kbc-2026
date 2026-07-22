@@ -1,72 +1,52 @@
 \section{Analysis}
 \label{sec:analysis}
-Because the headline 30B result is single-sample, we isolate the decode-time
-levers on the 14B and 0.5B models, which we can sample freely; all ablations use
-the same cached samples.
+Because the headline 30B result is single-sample, we isolate the decode-time levers
+on the 14B, which we can sample freely; all ablations use the same cached samples.
 
 \paragraph{Abstention.}
-Abstention rescues weak models and refines strong ones.
-Table~\ref{tab:ablation} isolates it on the three null-heavy relations. On a
-poorly-calibrated 0.5B model the effect is dramatic ($0.173\!\to\!0.363$ at the
-deployed $\theta{=}0.5$, up to $0.372$ under the sweep): without voting it
-over-answers and falls \emph{below} the empty baseline ($0.350$). The
-14B is already above that baseline without voting ($0.652$), so voting adds less
-($0.652\!\to\!0.666$) but still helps. Abstention buys precision: on
-\textsc{personHasCityOfDeath} it moves $P{=}0.77\!\to\!0.81\!\to\!0.89$ as $\theta$
-rises, trading a little recall. It suppresses wrong guesses, not correct answers.
-
-\begin{table}[t]
-\centering\small
-\begin{tabular}{lrrr}
-\toprule
- & Off & $\theta{=}0.5$ & $\theta{=}0.67$ \\
-\midrule
-0.5B (avg of 3 null-heavy) & 0.173 & 0.363 & \textbf{0.372} \\
-14B (avg of 3 null-heavy)  & 0.652 & 0.665 & \textbf{0.666} \\
-\bottomrule
-\end{tabular}
-\caption{Self-consistency abstention, relation-averaged over the three
-null-heavy relations only. ``Off'' decodes a single sample.}
-\label{tab:ablation}
-\end{table}
+Abstention matters most exactly where the metric rewards silence. On the three
+null-heavy relations, even predicting nothing beats the official 9B baseline
+(Section~\ref{sec:task}), so the question is whether a real model does better by
+abstaining \emph{selectively} rather than never. It does: decoding the 14B with
+consistency voting lifts its null-heavy average from $0.642$ (single sample) to
+$0.659$ at $\theta{=}0.5$. The gain is modest but consistent, and it comes from
+precision: raising $\theta$ collapses inconsistent (usually wrong) guesses to
+$\emptyset$, trading a little recall to suppress false positives.
 
 \paragraph{Setting the threshold.}
-If abstention drives the string relations, the natural next question is how to set
-its threshold. Our deployed systems use a single fixed $\theta{=}0.5$ (a simple
-majority of three samples); the sweep in Figure~\ref{fig:ablate} (left) is
-diagnostic, and since it is run on the split we report on, its per-relation optima
-are optimistic rather than values we tune back in. Still,
-\textsc{personHasCityOfDeath} (45\% empty) peaks at a \emph{lower} $\theta$ while
-the others tolerate aggressive voting, so a fixed majority leaves little on the
-table. Figure~\ref{fig:ablate} (right) varies the number of numeric samples:
-median aggregation is non-monotonic on \textsc{hasArea} and actually slightly
-\emph{hurts} \textsc{hasCapacity} on the 14B (single sample $0.10$ vs.\ median-5
-$0.09$). Decode variance is not the bottleneck; the gap is knowledge-bound: the
-capacity guesses are the right order of magnitude but outside the 5\% band (e.g.\
-Spartan Stadium: predicted $37{,}000$ vs.\ gold $75{,}005$), and even for the 30B
-both numeric relations stay low ($0.17$, $0.33$).
+How high should $\theta$ be? Figure~\ref{fig:ablate} sweeps it for the 14B on the
+null-heavy relations. Our deployed systems fix $\theta{=}0.5$; the sweep is
+diagnostic (run on the split we report on, so its optima are optimistic, not tuned
+back in). Even so, the pattern argues for per-relation thresholds:
+\textsc{personHasCityOfDeath} (39\% empty)
+peaks at a low $\theta$ and falls off as voting grows stricter, while
+\textsc{countryLandBordersCountry} and \textsc{companyTradesAtStockExchange}
+tolerate aggressive voting. Numeric relations are a different story: median
+aggregation is roughly neutral, so the gap there is knowledge-bound rather than
+variance-bound; the model's area and capacity guesses are often the right order of
+magnitude but fall outside the 5\% band (the \textsc{hasArea} miss in
+Table~\ref{tab:qual}).
 
-\begin{figure*}[t]
+\begin{figure}[t]
 \centering
-\includegraphics[width=0.74\textwidth]{figures/fig_ablation.pdf}
-\caption{Left: per-relation F\textsubscript{1} vs.\ voting threshold $\theta$
-(Qwen2.5-14B) for the three null-heavy relations (borders, company, death); the
-most null-heavy one (death, 45\% empty) peaks at a lower $\theta$ than the others.
-Right: numeric F\textsubscript{1} vs.\ number of median samples $n$ for
-\textsc{hasArea} and \textsc{hasCapacity}; aggregation is roughly neutral,
-indicating a knowledge-bound gap.}
+\includegraphics[width=\columnwidth]{figures/fig_ablation.pdf}
+\caption{Per-relation validation F\textsubscript{1} vs.\ the voting threshold
+$\theta$ (Qwen2.5-14B) on the three null-heavy relations. The most null-heavy
+relation (\textsc{death}, 39\% empty) peaks at a low $\theta$ and declines as
+voting grows stricter, while borders and company tolerate aggressive voting,
+arguing for per-relation thresholds.}
 \label{fig:ablate}
-\end{figure*}
+\end{figure}
 
 \paragraph{The \textsc{awardWonBy} recall cap.}
 The relation \textsc{awardWonBy}, which we beat the baseline on only narrowly, is
 recall-capped, and this limit constrains both models. Gold sets average
-${\sim}148$ recipients (max 641), but in the 14B ablation the model enumerates
-only ${\sim}11$ names; its outputs are \emph{not} truncated, it closes the JSON
-early, capping recall near $11/148\approx0.07$. The listed names are often
-plausible but wrong ($P{=}0.36$). Parametric recall and a reluctance to enumerate
-bound this relation; within a closed-book single model it is largely unsolved, and
-a larger in-budget model or multi-step decomposition would help most.
+${\sim}146$ recipients (max 610), but the 14B enumerates only ${\sim}11$ names; its
+outputs are \emph{not} truncated, it closes the JSON early, capping recall near
+$11/146\approx0.07$. The listed names are often plausible but wrong ($P{=}0.39$).
+Parametric recall and a reluctance to enumerate bound this relation; within a
+closed-book single model it is largely unsolved, and a larger in-budget model or
+multi-step decomposition would help most.
 
 \paragraph{Qualitative behaviour.}
 Table~\ref{tab:qual} shows representative Gemma-4-31B outputs: exact on well-known
@@ -83,7 +63,7 @@ Relation & Subject & Gold (abbrev.) & Gemma-4-31B output & \\
 \midrule
 borders & Ethiopia & Djibouti, Eritrea, Kenya, Somalia, S.\ Sudan, Sudan & Djibouti, Eritrea, Kenya, Somalia, S.\ Sudan & \checkmark\,5/6 \\
 death & Vito Acconci & New York City & New York City & \checkmark \\
-company & Bharti Airtel & Bombay Stock Exchange & NSE of India; Bombay Stock Exchange & \checkmark \\
+company & Bharti Airtel & Bombay Stock Exch., NSE of India & Bombay Stock Exchange, NSE of India & \checkmark \\
 capacity & Gileno de Carli & 5000 & 5000 & \checkmark \\
 area & Lo\v{s}inj & 74.36 & 123.3 & $\times$ \\
 award & Stockholm hon.\ dr & Torvalds, Hedlund, Trebst, \dots(40) & Mandela, Tutu, Annan, Yunus, \dots & $\times$ \\

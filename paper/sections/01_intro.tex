@@ -30,9 +30,9 @@ design as the only levers.
 
 We start from the evaluation metric rather than the model. Because
 macro-F\textsubscript{1} scores an empty prediction against an empty gold set as
-perfect, predicting nothing everywhere already attains $0.175$ relation-averaged
-macro-F\textsubscript{1}, competitive with the official baseline ($0.273$) and
-higher on the most null-heavy relations (Section~\ref{sec:task}). Points therefore
+perfect, predicting nothing everywhere already attains $0.169$ relation-averaged
+macro-F\textsubscript{1} and outscores the official baseline on the most null-heavy
+relations (Section~\ref{sec:task}). Points therefore
 come not from answering everything, but from recalling the few numeric values and,
 above all, from knowing when \emph{not} to answer. We make abstention a first-class
 decision: for each null-heavy relation we sample several times and keep an object
@@ -42,16 +42,18 @@ inconsistent, while scope-grounded prompts and median aggregation handle the res
 
 This is a shared-task system paper making three claims of decreasing generality.
 First, a metric observation (Section~\ref{sec:task}): since a correct empty set
-scores a perfect F\textsubscript{1}, the empty baseline already rivals the official
-one, so the task rewards \emph{when to answer} as much as what to answer. This
+scores a perfect F\textsubscript{1}, the empty baseline already beats the official
+one on the null-heavy relations, so the task rewards \emph{when to answer} as much
+as what to answer. This
 follows from the metric but is easy to miss, and it shapes our design. Second, a
 simple, reproducible pipeline (Section~\ref{sec:method}) with no trainable
 parameters, combining standard parts: scope-grounded prompting, self-consistency
 voting for abstention (a fixed a-priori $\theta{=}0.5$), and median aggregation for
-numerics; at the deployed $\theta{=}0.5$ the voting lifts a weak 0.5B model from
-$0.173$ to $0.363$ on the null-heavy relations. Third, and most useful, an
+numerics; on the null-heavy relations even predicting nothing beats the official
+baseline, and voting on top of the 14B adds a further, if modest, gain. Third, and
+most useful, an
 empirical finding: in our one controlled comparison at the ${\le}$32B budget, a
-single-sample Gemma-4-31B ($0.459$/$0.490$, beating the official baseline on all
-six relations) outscores the smaller 4-bit Qwen2.5-14B even with self-consistency
+single-sample Gemma-4-31B ($0.461$/$0.488$, beating the official baseline on five of
+the six relations) outscores the smaller 4-bit Qwen2.5-14B even with self-consistency
 voting ($0.416$); whether voting also helps the 30B is untested, as API limits kept
 it off (Section~\ref{sec:analysis}).

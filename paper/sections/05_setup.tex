@@ -9,9 +9,8 @@ weights are open and we apply no fine-tuning; the endpoint serves the unmodified
 weights as a plain text-completion service (no retrieval, tools, or augmentation),
 so it is compute-only and the closed-book rules hold. For the self-consistency ablations (Section~\ref{sec:analysis}) we
 additionally run \textbf{Qwen2.5-14B-Instruct} \citep{qwen2024} (14.7B) locally in
-4-bit, together with a tiny \textbf{Qwen2.5-0.5B-Instruct} used to probe abstention
-on a poorly-calibrated model. Several nominally ``32B'' models in fact exceed the
-cap (Qwen2.5-32B at 32.5B, Qwen3-32B at 32.8B) and are ineligible.
+4-bit. Several nominally ``32B'' models in fact exceed the cap (Qwen2.5-32B at
+32.5B, Qwen3-32B at 32.8B) and are ineligible.
 
 \paragraph{Decoding.}
 At decode time, the pipeline selects an aggregator per relation kind
@@ -36,7 +35,7 @@ from the same machine. Each model processes the full 478-instance validation set
 \paragraph{Baselines.}
 We compare against two references on the same validation split: the \emph{empty}
 baseline, which predicts $\emptyset$ for every instance (Section~\ref{sec:task}),
-and the \emph{official} organiser baseline, a few-shot prompting system whose
+and the \emph{official} organiser baseline (a few-shot Qwen3.5-9B system) whose
 per-relation scores we take from the task repository.
 
 \paragraph{Reproducibility.}
