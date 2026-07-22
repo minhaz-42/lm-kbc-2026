@@ -80,6 +80,10 @@ pulls exactly these two levers.
 \node[agg,above right=8mm and 8mm of d] (awd){\textsc{awardWonBy}: enumerate};
 \node[agg,right=9mm of d] (num){numeric: median of $n$};
 \node[agg,below right=8mm and 8mm of d] (nul){null-heavy: vote $\ge\theta$, else $\emptyset$};
+\begin{scope}[on background layer]
+ \node[draw=black!35,rounded corners,fill=cAgg!30,fit=(awd)(num)(nul),inner sep=2.6mm,
+   label={[font=\scriptsize\itshape,text=black!65,yshift=1pt]below:per-relation aggregation \textbf{(ours)}}] (aggbox){};
+\end{scope}
 \node[stg,fill=cOut,right=8mm of num,text width=15mm] (norm){normalise};
 \node[stg,fill=cOut,right=6mm of norm,text width=13mm] (out){object set\\\texttt{\{\dots\}}};
 \draw[fl](e1.east)--([yshift=3mm]pr.west);
@@ -91,10 +95,8 @@ pulls exactly these two levers.
 \draw[fl](norm)--(out);
 \foreach \n/\nd in {1/inbox,2/pr,3/dec,4/num,5/norm,6/out}{\node[num] at (\nd.north west){\n};}
 \node[call,above=4mm of awd,text width=53mm]{honorary doctor of Stockholm Univ.\ $\to$ \{Torvalds, Hedlund, \dots\} (40)};
-\node[call,below=4mm of nul,text width=53mm]{Antigua \& Barbuda $\to \emptyset$ (island: no land border)};
+\node[call,below=9mm of nul,text width=53mm]{Antigua \& Barbuda $\to \emptyset$ (island: no land border)};
 \node[call,below=13mm of dec,text width=44mm]{empty pred vs.\ empty gold $=$ perfect F$_1$ $\Rightarrow$ \textbf{abstain when unsure}};
-\node[font=\scriptsize,below=17mm of inbox,text width=46mm,align=left] (leg)
- {\textbf{stages:}\ \tikz\fill[cPrompt]circle(1.1mm); prompt\ \ \tikz\fill[cDecode]circle(1.1mm); decode\ \ \tikz\fill[cAgg]circle(1.1mm); aggregate\ \ \tikz\fill[cOut]circle(1.1mm); output};
 \node[draw,rounded corners,fill=cAgg,inner sep=3pt,font=\scriptsize\bfseries,below right=13mm and 0mm of norm]
  {val (30B, $N{=}1$): 0.459 / 0.490};
 \end{tikzpicture}}
