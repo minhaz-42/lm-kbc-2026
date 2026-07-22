@@ -1,0 +1,477 @@
+{"SubjectEntity": "Niutao", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"4.5\"]}"]}
+{"SubjectEntity": "Lake Lucerne", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"109\"]}"]}
+{"SubjectEntity": "Lake Bangweulu", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Tinian", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"103\"]}"]}
+{"SubjectEntity": "Samosir Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"400\"]}"]}
+{"SubjectEntity": "Malawi", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"118493\"]}"]}
+{"SubjectEntity": "Bawean Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"191.1\"]}"]}
+{"SubjectEntity": "Niger", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"1267000\"]}"]}
+{"SubjectEntity": "Windermere", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"14.7\"]}"]}
+{"SubjectEntity": "São Tomé Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"952\"]}"]}
+{"SubjectEntity": "Fair Isle", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"11.1\"]}"]}
+{"SubjectEntity": "North Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"113729\"]}"]}
+{"SubjectEntity": "Lake Tengiz", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"630\"]}"]}
+{"SubjectEntity": "Ivory Coast", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"322462\"]}"]}
+{"SubjectEntity": "Bolshevik Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"1100\"]}"]}
+{"SubjectEntity": "Djerba", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"212\"]}"]}
+{"SubjectEntity": "Pohnpei", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"3082\"]}"]}
+{"SubjectEntity": "Bali Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"5780\"]}"]}
+{"SubjectEntity": "Neuwerk", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"2.1\"]}"]}
+{"SubjectEntity": "Lake Balaton", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"594\"]}"]}
+{"SubjectEntity": "Penang Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"281\"]}"]}
+{"SubjectEntity": "Uzbekistan", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"447400\"]}"]}
+{"SubjectEntity": "Stóra Dímun", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"1.5\"]}"]}
+{"SubjectEntity": "Vilsandi", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"11.1\"]}"]}
+{"SubjectEntity": "Ko Chang", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"162.5\"]}"]}
+{"SubjectEntity": "Malden Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"2.5\"]}"]}
+{"SubjectEntity": "Lake Rakshastal", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"437\"]}"]}
+{"SubjectEntity": "Hispaniola", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"76192\"]}"]}
+{"SubjectEntity": "Wrangel Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"15100\"]}"]}
+{"SubjectEntity": "Hiva-Oa", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"142\"]}"]}
+{"SubjectEntity": "Cameroon", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"475442\"]}"]}
+{"SubjectEntity": "Lake of the Woods", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"11300\"]}"]}
+{"SubjectEntity": "Lake Alaotra", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"210\"]}"]}
+{"SubjectEntity": "Euboea", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"3681\"]}"]}
+{"SubjectEntity": "Taiwan Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"35803\"]}"]}
+{"SubjectEntity": "Lake Champlain", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"2225\"]}"]}
+{"SubjectEntity": "New Britain", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"36520\"]}"]}
+{"SubjectEntity": "Turkmenistan", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"488100\"]}"]}
+{"SubjectEntity": "Cabrera", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"13.1\"]}"]}
+{"SubjectEntity": "Prince Charles Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"11000\"]}"]}
+{"SubjectEntity": "Banaba Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"6\"]}"]}
+{"SubjectEntity": "Aruba", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"180\"]}"]}
+{"SubjectEntity": "Rodrigues", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"108\"]}"]}
+{"SubjectEntity": "Kalsoy", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"12.1\"]}"]}
+{"SubjectEntity": "Funen", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"1401\"]}"]}
+{"SubjectEntity": "Mälaren", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"1140\"]}"]}
+{"SubjectEntity": "Vanuatu", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"12189\"]}"]}
+{"SubjectEntity": "Yeonpyeong", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"10.3\"]}"]}
+{"SubjectEntity": "Senegal", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"196722\"]}"]}
+{"SubjectEntity": "East Rennell", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"1100\"]}"]}
+{"SubjectEntity": "Vágar", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"40.1\"]}"]}
+{"SubjectEntity": "North Sentinel Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"60\"]}"]}
+{"SubjectEntity": "Bhutan", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"38394\"]}"]}
+{"SubjectEntity": "Boa Vista", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"3520\"]}"]}
+{"SubjectEntity": "October Revolution Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"11100\"]}"]}
+{"SubjectEntity": "Malaita", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"4840\"]}"]}
+{"SubjectEntity": "Iona", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"10.3\"]}"]}
+{"SubjectEntity": "Minamitorishima", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"0.12\"]}"]}
+{"SubjectEntity": "Borneo", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"743330\"]}"]}
+{"SubjectEntity": "Yuzhny Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"1100\"]}"]}
+{"SubjectEntity": "Island of Mozambique", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"2.1\"]}"]}
+{"SubjectEntity": "Tyrifjorden", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"110\"]}"]}
+{"SubjectEntity": "Bangka Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"2820\"]}"]}
+{"SubjectEntity": "Lake Huron", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"59600\"]}"]}
+{"SubjectEntity": "Capraia", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"26.3\"]}"]}
+{"SubjectEntity": "Agathonisi", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"2.1\"]}"]}
+{"SubjectEntity": "Rathlin Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"17.5\"]}"]}
+{"SubjectEntity": "Vietnam", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"331210\"]}"]}
+{"SubjectEntity": "Kastellorizo", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"12.1\"]}"]}
+{"SubjectEntity": "Tortuga", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"71\"]}"]}
+{"SubjectEntity": "Marie-Galante", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"164\"]}"]}
+{"SubjectEntity": "Sint Eustatius", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"21\"]}"]}
+{"SubjectEntity": "Lemnos", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"412\"]}"]}
+{"SubjectEntity": "South Africa", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"1221037\"]}"]}
+{"SubjectEntity": "Venezuela", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"912050\"]}"]}
+{"SubjectEntity": "Samos", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"473.3\"]}"]}
+{"SubjectEntity": "Ireland", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"84421\"]}"]}
+{"SubjectEntity": "Jan Mayen", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"3870\"]}"]}
+{"SubjectEntity": "Mali", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"1240192\"]}"]}
+{"SubjectEntity": "Kiritimati", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"337\"]}"]}
+{"SubjectEntity": "Lake Superior", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"82100\"]}"]}
+{"SubjectEntity": "Libya", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"1759540\"]}"]}
+{"SubjectEntity": "Kythnos", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"144.1\"]}"]}
+{"SubjectEntity": "Näsijärvi", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"256.5\"]}"]}
+{"SubjectEntity": "Kavaratti", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"10.1\"]}"]}
+{"SubjectEntity": "Henderson Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"37\"]}"]}
+{"SubjectEntity": "Magerøya", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"1111\"]}"]}
+{"SubjectEntity": "Gorgona", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"11.5\"]}"]}
+{"SubjectEntity": "Salamis Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"111.5\"]}"]}
+{"SubjectEntity": "Kosrae", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"374\"]}"]}
+{"SubjectEntity": "Kahoolawe", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"123.5\"]}"]}
+{"SubjectEntity": "Lake Ohrid", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"296\"]}"]}
+{"SubjectEntity": "ʻEua", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"148\"]}"]}
+{"SubjectEntity": "Ibiza", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"153.8\"]}"]}
+{"SubjectEntity": "Brava", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"106\"]}"]}
+{"SubjectEntity": "Lake Orta", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"10.3\"]}"]}
+{"SubjectEntity": "Nevis", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"36\"]}"]}
+{"SubjectEntity": "Tanegashima", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"61.5\"]}"]}
+{"SubjectEntity": "Lake Edward", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"2325\"]}"]}
+{"SubjectEntity": "Malpelo Island", "Relation": "hasArea", "RawSamples": ["{\"answers\": [\"10\"]}"]}
+{"SubjectEntity": "Pitt Stadium in Pennsylvania", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"63441\"]}"]}
+{"SubjectEntity": "Reese Stadium in Connecticut", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"5000\"]}"]}
+{"SubjectEntity": "John F. Kennedy Stadium in Philadelphia", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Estadio Los Manantiales in Málaga Province", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Estádio Municipal Nildo Pereira de Menezes in Pernambuco", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"5000\"]}"]}
+{"SubjectEntity": "Buyant Ukhaa Sport Palace in Ulaanbaatar", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"12000\"]}"]}
+{"SubjectEntity": "Stade Mamadou Konaté in Bamako", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Baenão in Belém", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"45000\"]}"]}
+{"SubjectEntity": "Al-Hamadaniah Stadium in Aleppo", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Henry Fok Stadium in Guangzhou", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"55000\"]}"]}
+{"SubjectEntity": "Sports Backers Stadium in Virginia", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Wuhan Sports Center in Wuhan", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"54000\"]}"]}
+{"SubjectEntity": "Estadio Juan Carlos Durán in Santa Cruz de la Sierra", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Don and Nona Williams Stadium in Wisconsin", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Roebuck Stadium in North Carolina", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Spartakovets Stadium in Moscow", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"5000\"]}"]}
+{"SubjectEntity": "Estadio Alejandro Ponce Noboa in Guayaquil", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"20000\"]}"]}
+{"SubjectEntity": "Lad Krabang 54 Stadium in Samut Prakan", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"5000\"]}"]}
+{"SubjectEntity": "Kyiv velotrack in Kyiv", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"5000\"]}"]}
+{"SubjectEntity": "Güngören M.Yahya Baş Stadium in Istanbul", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"3000\"]}"]}
+{"SubjectEntity": "Stade Sidi Bernoussi in Casablanca", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "McMahon Stadium in Calgary", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"45000\"]}"]}
+{"SubjectEntity": "Bafra Stadium in Samsun", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"5000\"]}"]}
+{"SubjectEntity": "Alvear y Tagle Stadium in Buenos Aires", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"5000\"]}"]}
+{"SubjectEntity": "Obafemi Awolowo Stadium in Ibadan", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"15000\"]}"]}
+{"SubjectEntity": "New Plaza Stadium in Foshan", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"30000\"]}"]}
+{"SubjectEntity": "Shahid Shiroudi Stadium in Tehran", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"15000\"]}"]}
+{"SubjectEntity": "Huadu Stadium in Guangdong", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"30000\"]}"]}
+{"SubjectEntity": "stade du Port autonome d'Abidjan in Abidjan", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Harbin Sports City Center Stadium in Harbin", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"65000\"]}"]}
+{"SubjectEntity": "Shamsul Huda Stadium in Jashore District", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"15000\"]}"]}
+{"SubjectEntity": "Mohammed Bin Zayed Stadium in Abu Dhabi", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"25000\"]}"]}
+{"SubjectEntity": "Xinhua Road Sports Center in Hubei", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"3000\"]}"]}
+{"SubjectEntity": "Al-Ettifaq Club Stadium in Eastern Province", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"12000\"]}"]}
+{"SubjectEntity": "PAT Stadium in Bangkok", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"16000\"]}"]}
+{"SubjectEntity": "Comerica Park in Michigan", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"50000\"]}"]}
+{"SubjectEntity": "Carl Wooten Field in Oklahoma", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"2000\"]}"]}
+{"SubjectEntity": "Akademik Stadium in Sofia", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"15000\"]}"]}
+{"SubjectEntity": "Tianjin Olympic Center Stadium in Nankai District", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"70000\"]}"]}
+{"SubjectEntity": "Dornblaser Field II in Montana", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"1000\"]}"]}
+{"SubjectEntity": "Heri Sudrajat Stadium in Depok", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"15000\"]}"]}
+{"SubjectEntity": "Reinhart Field in Bronx County", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"1000\"]}"]}
+{"SubjectEntity": "Suwon World Cup Stadium in Suwon", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"64241\"]}"]}
+{"SubjectEntity": "Tarpeda Stadium in Minsk", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Titan Stadium in Wisconsin", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"5000\"]}"]}
+{"SubjectEntity": "Goyang Stadium in Goyang", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"42000\"]}"]}
+{"SubjectEntity": "Arthur Ashe Stadium in Queens", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"23771\"]}"]}
+{"SubjectEntity": "Joe Albi Stadium in Washington", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Stade 1er Novembre 1954 in Algiers", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Punjab Agricultural University Stadium in Ludhiana", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Mission Stadium in San Antonio", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Kishoreganj Football Stadium in Kishoreganj District", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Ghadir Stadium in Ahvaz", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"40000\"]}"]}
+{"SubjectEntity": "Roy Rike Field in Ohio", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"1000\"]}"]}
+{"SubjectEntity": "MNP Park in Ottawa", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"24500\"]}"]}
+{"SubjectEntity": "Lebak Bulus Stadium in Jakarta", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"15000\"]}"]}
+{"SubjectEntity": "Bergen Ballpark in New Jersey", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"5000\"]}"]}
+{"SubjectEntity": "Moacyrzão in Rio de Janeiro", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"20000\"]}"]}
+{"SubjectEntity": "Paul Brown Tiger Stadium in Ohio", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Biemesderfer Stadium in Pennsylvania", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"3000\"]}"]}
+{"SubjectEntity": "Enyimba International Stadium in Aba", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"30000\"]}"]}
+{"SubjectEntity": "Hughes Stadium in Maryland", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"5000\"]}"]}
+{"SubjectEntity": "Clarke Stadium in Alberta", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"5000\"]}"]}
+{"SubjectEntity": "Jayne Stadium in Kentucky", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"5000\"]}"]}
+{"SubjectEntity": "Adair–Austin Stadium in Kansas", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"5000\"]}"]}
+{"SubjectEntity": "Fuling Stadium in Chongqing", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"20000\"]}"]}
+{"SubjectEntity": "Triangle Park in Ohio", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"1000\"]}"]}
+{"SubjectEntity": "Tianhe Stadium in Tianhe District", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"54000\"]}"]}
+{"SubjectEntity": "Leonidoff Field in New York", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"1000\"]}"]}
+{"SubjectEntity": "Plaza de toros Monumental de Maracaibo in Municipio Maracaibo", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"20000\"]}"]}
+{"SubjectEntity": "Charger Stadium in Texas", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "East Pyongyang Stadium in Pyongyang", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"25000\"]}"]}
+{"SubjectEntity": "Antiguo canódromo de Carabanchel in Madrid", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Samara Arena in Samara", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"45299\"]}"]}
+{"SubjectEntity": "Ross–Ade Stadium in Indiana", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"52000\"]}"]}
+{"SubjectEntity": "Banadir Stadium in Mogadishu", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"20000\"]}"]}
+{"SubjectEntity": "M. A. Aziz Stadium in Chittagong", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"15000\"]}"]}
+{"SubjectEntity": "Peden Stadium in Ohio", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"24000\"]}"]}
+{"SubjectEntity": "Sheikh Zayed Cricket Stadium in Abu Dhabi", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"40000\"]}"]}
+{"SubjectEntity": "Waldo Stadium in Michigan", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"25000\"]}"]}
+{"SubjectEntity": "Saluki Stadium in Illinois", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"15000\"]}"]}
+{"SubjectEntity": "Stade Pere Jego in Casablanca", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Morrone Stadium in Connecticut", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Barombong Stadium in Makassar", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"30000\"]}"]}
+{"SubjectEntity": "Estadio Caballeros del Deporte in Lima", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Yiannis Pathiakakis Stadium in Attica Region", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"3000\"]}"]}
+{"SubjectEntity": "Vila Olímpica do Sesc in Pernambuco", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"1000\"]}"]}
+{"SubjectEntity": "Chalerm Prakiat Klong 6 Stadium in Pathum Thani", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Estadio Edgar Peña Gutierrez in Santa Cruz de la Sierra", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"10000\"]}"]}
+{"SubjectEntity": "Cougars Den in Virginia", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"5000\"]}"]}
+{"SubjectEntity": "Al-Merrikh Stadium in Omdurman", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"20000\"]}"]}
+{"SubjectEntity": "Smisor Stadium in Kansas", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"5000\"]}"]}
+{"SubjectEntity": "Estadio José Pérez Colmenares in Maracay", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"15000\"]}"]}
+{"SubjectEntity": "Dongdaemun Stadium in Seoul", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"30000\"]}"]}
+{"SubjectEntity": "Amman International Stadium in Amman", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"25000\"]}"]}
+{"SubjectEntity": "Perkins Stadium in Wisconsin", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"7000\"]}"]}
+{"SubjectEntity": "Estádio Mané Garrincha in Rio de Janeiro", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"64841\"]}"]}
+{"SubjectEntity": "Campanelli Stadium in Massachusetts", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"3000\"]}"]}
+{"SubjectEntity": "Sunan Stadium in Pyongyang", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"25000\"]}"]}
+{"SubjectEntity": "Iran Khodro Stadium in Karaj", "Relation": "hasCapacity", "RawSamples": ["{\"answers\": [\"15000\"]}"]}
+{"SubjectEntity": "Max Planck Medal", "Relation": "awardWonBy", "RawSamples": ["{\"answers\": [\"Max Planck\", \"Albert Einstein\", \"Niels Bohr\", \"Werner Heisenberg\", \"Max Born\", \"Erwin Schrödinger\", \"Wolfgang Pauli\", \"Paul Dirac\", \"Enrico Fermi\", \"Richard Feynman\", \"Julian Schwinger\", \"Shin'ichiro Tomonaga\", \"Freeman Dyson\", \"Abdus Salam\", \"Steven Weinberg\", \"Sheldon Glashow\", \"Peter Higgs\", \"David Gross\", \"Frank Wilczek\", \"H. David Politzer\", \"Stephen Hawking\", \"Roger Penrose\", \"Kip Thorne\", \"Barry Barish\", \"Rainer Weiss\", \"Andre Geimes\", \"Konstantin Novoselov\", \"Philip Anderson\", \"John Bardeen\", \"Leon Cooper\", \"Robert Schrieffer\", \"Vitaly Ginzburg\", \"Lev Landau\", \"Claude Cohen-Tannoudji\", \"William D. Phillips\", \"Eric Cornell\", \"Carl Wieman\", \"Wolfgang Ketterle\", \"Anton Zeilinger\", \"Alain Aspect\", \"John Clauser\"]}"]}
+{"SubjectEntity": "Best Female Tennis Player ESPY Award", "Relation": "awardWonBy", "RawSamples": ["{\"answers\": [\"Serena Williams\", \"Venus Williams\", \"Maria Sharapova\", \"Kim Clijsters\", \"Justine Henin\", \"Simona Halep\", \"Naomi Osaka\", \"Ashleigh Barty\", \"Iga Swiatek\", \"Aryna Sabalenka\", \"Caroline Wozniacki\", \"Angelique Kerber\", \"Garbiñe Muguruza\"]}"]}
+{"SubjectEntity": "Franklin Medal", "Relation": "awardWonBy", "RawSamples": ["{\"answers\": [\"Albert Einstein\", \"Marie Curie\", \"Max Planck\", \"Niels Bohr\", \"Ernest Rutherford\", \"Enrico Fermi\", \"Linus Pauling\", \"Richard Feynman\", \"John Bardeen\", \"Leo Esaki\", \"William Shockley\", \"Claude Shannon\", \"Alan Turing\", \"John von Neumann\", \"Robert Oppenheimer\", \"Werner Heisenberg\", \"Max Born\", \"Wolfgang Pauli\", \"Paul Dirac\", \"Stephen Hawking\", \"Roger Penrose\", \"Kip Thorne\", \"Barry Barish\", \"Steven Weinberg\", \"Abdus Salam\", \"Sheldon Glashow\", \"Carl Sagan\", \"Edwin Hubble\", \"Arthur Eddington\", \"Subrahmanyan Chandrasekhar\", \"Hans Bethe\", \"Maria Goeppert Mayer\", \"J. Robert Oppenheimer\", \"Freeman Dyson\", \"Philip Anderson\", \"John Wheeler\", \"Murray Gell-Mann\", \"Steven Weinberg\", \"Peter Higgs\", \"Frank Wilczek\", \"David Gross\", \"Kenneth Wilson\", \"Steven Chu\", \"Claude Cohen-Tannoudji\", \"William Phillips\", \"Ahmed Zewail\", \"K. Alan chopsticks\", \"Charles Kuenle\"]}"]}
+{"SubjectEntity": "BBC World Sport Star of the Year", "Relation": "awardWonBy", "RawSamples": ["{\"answers\": [\"Lionel Messi\", \"Cristiano Ronaldo\", \"Tiger Woods\", \"Usain Bolt\", \"Lewis Hamilton\", \"Roger Federer\", \"Novak Djokovic\", \"Rafael Nadal\", \"Tyson Fury\", \"Kylian Mbappé\", \"Max Verstappen\", \"Stephen Curry\", \"Serena Williams\", \"Simone Biles\", \"Eliud Kipchoge\"]}"]}
+{"SubjectEntity": "Pulitzer Prize for Biography", "Relation": "awardWonBy", "RawSamples": ["{\"answers\": [\"Robert Caro\", \"David McCullough\", \"Ron Chernow\", \"Kai Bird\", \"Martin Sherburn\", \"Diana Athill\", \"Laura Three\", \"Stacy Schiff\", \"Walter Isaacson\", \"David Maraniss\", \"Sarah Vowell\", \"Megan Marshall\", \"Jonathan Eig\", \"Heather Cox Richardson\", \"Jill Lepore\", \"Tina Brown\", \" Geoffrey C. Ward\", \"David Herbert Donald\", \"Robert A. Caro\", \"David McCullough\", \"Ron Chernow\", \"Kai Bird\", \"Martin Sherburn\", \"Diana Athill\", \"Stacy Schiff\", \"Walter Isaacson\", \"David Maraniss\", \"Sarah Vowell\", \"Megan Marshall\", \"Jonathan Eig\", \"Heather Cox Richardson\", \"Jill Lepore\", \"Tina Brown\", \"Geoffrey C. Ward\", \"David Herbert Donald\"]}"]}
+{"SubjectEntity": "Nobel Prize in Literature", "Relation": "awardWonBy", "RawSamples": ["{\"answers\": [\"T.S. Eliot\", \"Ernest Hemingway\", \"Gabriel García Márquez\", \"Toni Morrison\", \"Albert Camus\", \"Samuel Beckett\", \"Pablo Neruda\", \"Winston Churchill\", \"George Bernard Shaw\", \"Thomas Mann\", \"William Faulkner\", \"Pearl S. Buck\", \"Sigrid Undset\", \"Rabindranath Tagore\", \"Hermann Hesse\", \"André Gide\", \" Grazia Deledda\", \" bojhad\", \"Rudyard Kipling\", \"Henrik Ibsen\", \"Selma Lagerlöf\", \"Ivo Andrić\", \"Knut Hamsun\", \"Yasunari Kawabata\", \"Octavio Paz\", \"Derek Walcott\", \"Wisława Szymborska\", \"Seamus Heaney\", \"Jean-Paul Sartre\", \"Alice Munro\", \"Kazuo Ishiguro\", \"Bob Dylan\", \"Louise Glück\", \"Annie Ernaux\", \"Patrick Modiano\", \"Olga Tokarczuk\", \"Peter Handke\", \" Svetlana Alexievich\", \"Mo Yan\", \"Mario Vargas Llosa\", \"Jean-Marie Gustave Le Clézio\", \"Doris Lessing\", \"Imre Kertész\", \"Harold Pinter\", \"Elfriede Jelinek\", \"Gao Xingjian\", \"Wole Soyinka\", \"Nadine Gordimer\", \"Kenzaburō Ōe\", \"Czesław Miłosz\", \"Octavio Paz\", \"Derek Walcott\", \"Naguib Mahfouz\", \"Samuel Beckett\", \"Albert Camus\", \"Eugene Ionesco\", \"Heinrich Böll\", \"Isaac Bashevis Singer\", \"Harry Martinson\", \"Yannis Ritsos\", \"Vladimir Nabokov\", \"Jorge Luis Borges\", \"Vladimir Georgiev\"]}"]}
+{"SubjectEntity": "Sydney Peace Prize", "Relation": "awardWonBy", "RawSamples": ["{\"answers\": [\"The Dalai Lama\", \"Kofi Annan\", \"Nelson Mandela\", \"Desmond Tutu\", \"Rigoberta Menchú\", \"Jimmy Carter\", \"Muhammad Yunus\", \"Mary Robinson\", \"Aung San Suu Kyi\", \"Malala Yousafzai\", \"Ban Ki-moon\", \"Ellen Johnson Sirleaf\", \"The International Campaign to Abolish Nuclear Weapons\"]}"]}
+{"SubjectEntity": "Aga Khan Award for Architecture", "Relation": "awardWonBy", "RawSamples": ["{\"answers\": [\"Hassan Fathy\", \"The Aga Khan Award for Architecture\", \"The National Museum of Qatar\", \"The King Faisal Foundation\", \"The Islamic Centre in Islamabad\", \"The National Library of the Kingdom of Saudi Arabia\", \"The Museum of Islamic Art\", \"The Great Mosque of Djenné\", \"The National Library of Egypt\", \"The Cultural Center of the World Trade Center\", \"The Islamic Center of Washington\", \"The National Museum of Afghanistan\", \"The Aga Khan University Hospital\", \"The National Museum of Oman\", \"The Islamic Center of the Maldives\", \"The National Library of Jordan\", \"The Islamic Center of Morocco\", \"The National Museum of Iraq\", \"The Islamic Center of Tunisia\", \"The National Library of Kuwait\", \"The Islamic Center of Senegal\", \"The National Museum of Mali\", \"The Islamic Center of Niger\", \"The National Library of Mauritania\", \"The Islamic Center of Chad\", \"The National Museum of Sudan\", \"The Islamic Center of Ethiopia\", \"The National Library of Somalia\", \"The Islamic Center of Djibouti\", \"The National Museum of Eritrea\"]}"]}
+{"SubjectEntity": "Mark Twain Prize for American Humor", "Relation": "awardWonBy", "RawSamples": ["{\"answers\": [\"Richard Pryor\", \"Whoopi Goldberg\", \"Carl Reiner\", \"Bob Hope\", \"Lily Tomlin\", \"George Carlin\", \"Robin Williams\", \"Chris Rock\", \"Drew Carey\", \"Steve Martin\", \"Tina Fey\", \"Jerry Seinfeld\", \"Joan Rivers\", \"Ben Stein\", \"Louis C.K.\", \"Amy Poehler\", \"Dave Chappelle\", \"Julia Louis-Dreyfus\", \"Ellen DeGeneres\", \"Jay Leno\", \"George Burns\", \"Lucille Ball\", \"Norm Macdonald\", \"Adam Sandler\", \"Sebastian Maniscalco\"]}"]}
+{"SubjectEntity": "iF product design award", "Relation": "awardWonBy", "RawSamples": ["{\"answers\": [\"Apple\", \"Samsung\", \"Sony\", \"Dyson\", \"Tesla\", \"BMW\", \"Mercedes-Benz\", \"Audi\", \"Volkswagen\", \"Philips\", \"Panasonic\", \"LG\", \"Xiaomi\", \"Huawei\", \"Microsoft\", \"Google\", \"Amazon\", \"Nike\", \"Adidas\", \" Logitech\", \"Braun\", \"Miele\", \"Bosch\", \"Siemens\", \"Nokia\", \"Canon\", \"Nikon\", \"Fujitsu\", \"Sharp\", \"Toshiba\", \"HP\", \"Dell\", \"Lenovo\", \"Acer\", \"Asus\", \"Razer\", \"SteelSeries\", \"Bang & Olufsen\", \"Bose\", \"Sennheiser\", \"Beats Electronics\", \"JBL\", \" Harman Kardon\", \"Tissot\", \"Rolex\", \"Omega\", \"Tag Heuer\", \"Swatch\", \"Casio\", \"Seiko\", \"Citizen\", \"IKEA\", \"Herman Miller\", \"Steelcase\", \"Knoll\", \"Vitra\", \"Kartell\", \"Magis\", \"Alessi\", \"Georg Jensen\", \"Stelton\", \"Bang & Olufsen\", \"Rimowa\", \"Samsonite\", \"Tumi\"]}"]}
+{"SubjectEntity": "TORM", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Nasdaq Copenhagen\"]}"]}
+{"SubjectEntity": "Allgemeine Gold- und Silberscheideanstalt", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Bosch Engineering", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Entertainment One", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"London Stock Exchange\"]}"]}
+{"SubjectEntity": "WORLD FLEX PUBLIC COMPANY LIMITED", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Stock Exchange of Thailand\"]}"]}
+{"SubjectEntity": "Tucows", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Shaw Communications", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Toronto Stock Exchange\", \"New York Stock Exchange\"]}"]}
+{"SubjectEntity": "Herbert Kannegiesser GmbH", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Bridgestone", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Tokyo Stock Exchange\"]}"]}
+{"SubjectEntity": "Chinlink International Holdings Limited", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Hong Kong Stock Exchange\"]}"]}
+{"SubjectEntity": "Groupon", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"New York Stock Exchange\"]}"]}
+{"SubjectEntity": "Color Line", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Oslo Stock Exchange\"]}"]}
+{"SubjectEntity": "ITE Group", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"London Stock Exchange\"]}"]}
+{"SubjectEntity": "Isar Aerospace", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "SSE Composite Index", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Lürssen", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Jutal Offshore Oil Services Limited", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Dhaka Stock Exchange\", \"Chittagong Stock Exchange\"]}"]}
+{"SubjectEntity": "Bourns, Inc.", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Simon Property Group", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"New York Stock Exchange\"]}"]}
+{"SubjectEntity": "Cummins", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"New York Stock Exchange\"]}"]}
+{"SubjectEntity": "Patagonia Bank", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Community Health Systems", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"New York Stock Exchange\"]}"]}
+{"SubjectEntity": "Centracom", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Makita", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Tokyo Stock Exchange\"]}"]}
+{"SubjectEntity": "Tekpro Steel", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "CBS Corporation", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Caltagirone", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Borsa Italiana\"]}"]}
+{"SubjectEntity": "AXA RON fund 2, otevřeny podilovy fond AXA investiční společnosti", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Syneron Medical", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Land Warfare Resources Corporation", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "United Microelectronics Corporation", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Taiwan Stock Exchange\", \"New York Stock Exchange\"]}"]}
+{"SubjectEntity": "o.tel.o", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Clarisonic", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Hydro One", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Toronto Stock Exchange\", \"New York Stock Exchange\"]}"]}
+{"SubjectEntity": "Santander Group", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Madrid Stock Exchange\", \"New York Stock Exchange\", \"Bolsa Mexicana de Valores\"]}"]}
+{"SubjectEntity": "Zühlke Technology Group", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Planet Internet", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Bloomsbury Publishing", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"London Stock Exchange\"]}"]}
+{"SubjectEntity": "Harley-Davidson", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"New York Stock Exchange\"]}"]}
+{"SubjectEntity": "Canadian National Railway", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"New York Stock Exchange\", \"Toronto Stock Exchange\"]}"]}
+{"SubjectEntity": "Ostindustrie", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Foxtel", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Suzano Papel e Celulose", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"B3\", \"New York Stock Exchange\"]}"]}
+{"SubjectEntity": "PQube", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "ASKLEPION-Trade", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "La Pavoni", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Enel", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Borsa Italiana\", \"New York Stock Exchange\"]}"]}
+{"SubjectEntity": "Keisei Electric Railway", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Tokyo Stock Exchange\"]}"]}
+{"SubjectEntity": "Versace", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Monongahela River Consolidated Coal and Coke Company", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Polaris Finance SICAV p.l.c. - Polaris Omega", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Uni-Bio Science Group Limited", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Hong Kong Stock Exchange\"]}"]}
+{"SubjectEntity": "ASM International", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Euronext Amsterdam\"]}"]}
+{"SubjectEntity": "FlexIT", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "SAIC Motor", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Shanghai Stock Exchange\"]}"]}
+{"SubjectEntity": "Telrad Networks Ltd", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Tel Aviv Stock Exchange\"]}"]}
+{"SubjectEntity": "Fenryll", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Quest Diagnostics", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"New York Stock Exchange\"]}"]}
+{"SubjectEntity": "CPFL Energia", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"B3\"]}"]}
+{"SubjectEntity": "Focus Media Holding", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Hong Kong Stock Exchange\"]}"]}
+{"SubjectEntity": "Alfred Sternjakob", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "AT Compus", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Bank of Sicily", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Compañía Española de Minas del Rif", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "TEDDIES", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "HD Korea Shipbuilding & Offshore Engineering", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Korea Exchange\"]}"]}
+{"SubjectEntity": "Les Films Jean-Pierre Lefebvre", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Encompass Health", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"New York Stock Exchange\"]}"]}
+{"SubjectEntity": "TD Ameritrade", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Orlen Unipetrol", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Prague Stock Exchange\"]}"]}
+{"SubjectEntity": "Silicon Laboratories", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Nasdaq\"]}"]}
+{"SubjectEntity": "A + Z Rišňovský, Halász", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Silicon Image", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Fairchild Semiconductor", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "United Aircraft Corporation", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Vedanta Limited", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"National Stock Exchange of India\", \"Bombay Stock Exchange\"]}"]}
+{"SubjectEntity": "Aersud elicotteri", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "AAC Technologies Holdings Inc", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Hong Kong Stock Exchange\"]}"]}
+{"SubjectEntity": "Elkar", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "North Atlantic Refining", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Future plc", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"London Stock Exchange\"]}"]}
+{"SubjectEntity": "Linde Material Handling", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Gree Electric", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Shenzhen Stock Exchange\"]}"]}
+{"SubjectEntity": "Romaero", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Bursa de Valori București\"]}"]}
+{"SubjectEntity": "Ōita Bank", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Tokyo Stock Exchange\"]}"]}
+{"SubjectEntity": "Regeneron Pharmaceuticals", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Nasdaq\"]}"]}
+{"SubjectEntity": "Rosneft", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Moscow Exchange\"]}"]}
+{"SubjectEntity": "RusHydro", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Moscow Exchange\"]}"]}
+{"SubjectEntity": "Tata Motors Ltd", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"National Stock Exchange of India\", \"Bombay Stock Exchange\"]}"]}
+{"SubjectEntity": "Khartsyzsk pipe plant", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Spotify Technology", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"New York Stock Exchange\"]}"]}
+{"SubjectEntity": "GMR Group", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "El Alami Group", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Verband der Anbieter von Telekommunikations- und Mehrwertdiensten", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Coca-Cola Amatil", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Australian Securities Exchange\"]}"]}
+{"SubjectEntity": "Okamoto Glass", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "BioNTech", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Nasdaq\"]}"]}
+{"SubjectEntity": "Vizas", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "LG Display", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": [\"Korea Exchange\"]}"]}
+{"SubjectEntity": "STP plast", "Relation": "companyTradesAtStockExchange", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Somalia", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Djibouti\", \"Ethiopia\", \"Kenya\"]}"]}
+{"SubjectEntity": "Montenegro", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Albania\", \"Bosnia and Herzegovina\", \"Croatia\", \"Kosovo\", \"Serbia\"]}"]}
+{"SubjectEntity": "Mozambique", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Malawi\", \"South Africa\", \"Swaziland\", \"Tanzania\", \"Zimbabwe\"]}"]}
+{"SubjectEntity": "Bulgaria", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Greece\", \"North Macedonia\", \"Romania\", \"Serbia\", \"Turkey\"]}"]}
+{"SubjectEntity": "Burundi", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Democratic Republic of the Congo\", \"Rwanda\", \"Tanzania\"]}"]}
+{"SubjectEntity": "Madagascar", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Hungary", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Austria\", \"Croatia\", \"Romania\", \"Serbia\", \"Slovakia\", \"Ukraine\"]}"]}
+{"SubjectEntity": "Italy", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Austria\", \"France\", \"San Marino\", \"Slovenia\", \"Switzerland\", \"Vatican City\"]}"]}
+{"SubjectEntity": "Lithuania", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Belarus\", \"Latvia\", \"Poland\"]}"]}
+{"SubjectEntity": "Iceland", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Benin", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Burkina Faso\", \"Niger\", \"Nigeria\", \"Togo\"]}"]}
+{"SubjectEntity": "North Macedonia", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Albania\", \"Bulgaria\", \"Greece\", \"Kosovo\", \"Serbia\"]}"]}
+{"SubjectEntity": "United Kingdom", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Ireland\"]}"]}
+{"SubjectEntity": "India", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Afghanistan\", \"Bangladesh\", \"Bhutan\", \"China\", \"Myanmar\", \"Nepal\", \"Pakistan\"]}"]}
+{"SubjectEntity": "Bahrain", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Saudi Arabia\"]}"]}
+{"SubjectEntity": "France", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Andorra\", \"Belgium\", \"Germany\", \"Italy\", \"Luxembourg\", \"Monaco\", \"Spain\", \"Switzerland\"]}"]}
+{"SubjectEntity": "Morocco", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Algeria\", \"Western Sahara\"]}"]}
+{"SubjectEntity": "Cameroon", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Central African Republic\", \"Chad\", \"Equatorial Guinea\", \"Gabon\", \"Nigeria\"]}"]}
+{"SubjectEntity": "Hong Kong", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"China\"]}"]}
+{"SubjectEntity": "Chad", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Cameroon\", \"Central African Republic\", \"Libya\", \"Niger\", \"Nigeria\", \"Sudan\"]}"]}
+{"SubjectEntity": "Papua New Guinea", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Indonesia\"]}"]}
+{"SubjectEntity": "Libya", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Algeria\", \"Chad\", \"Egypt\", \"Niger\", \"Sudan\", \"Tunisia\"]}"]}
+{"SubjectEntity": "South Korea", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"North Korea\"]}"]}
+{"SubjectEntity": "Switzerland", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Austria\", \"France\", \"Germany\", \"Italy\", \"Liechtenstein\"]}"]}
+{"SubjectEntity": "Rwanda", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Burundi\", \"Democratic Republic of the Congo\", \"Tanzania\", \"Uganda\"]}"]}
+{"SubjectEntity": "Sudan", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Central African Republic\", \"Chad\", \"Egypt\", \"Ethiopia\", \"South Sudan\"]}"]}
+{"SubjectEntity": "Côte d'Ivoire", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Burkina Faso\", \"Ghana\", \"Guinea\", \"Liberia\", \"Mali\"]}"]}
+{"SubjectEntity": "Sri Lanka", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "United States", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Canada\", \"Mexico\"]}"]}
+{"SubjectEntity": "Austria", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Czech Republic\", \"Germany\", \"Hungary\", \"Italy\", \"Liechtenstein\", \"Slovakia\", \"Slovenia\", \"Switzerland\"]}"]}
+{"SubjectEntity": "Senegal", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"The Gambia\", \"Guinea\", \"Guinea-Bissau\", \" Mali\"]}"]}
+{"SubjectEntity": "South Sudan", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Central African Republic\", \"Democratic Republic of the Congo\", \"Ethiopia\", \"Kenya\", \"Sudan\", \"Uganda\"]}"]}
+{"SubjectEntity": "Brazil", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Argentina\", \"Bolivia\", \"Colombia\", \"French Guiana\", \"Guyana\", \"Paraguay\", \"Peru\", \"Suriname\", \"Uruguay\"]}"]}
+{"SubjectEntity": "Kuwait", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Iraq\", \"Saudi Arabia\"]}"]}
+{"SubjectEntity": "Japan", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Jamaica", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Guatemala", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Belize\", \"El Salvador\", \"Mexico\"]}"]}
+{"SubjectEntity": "Democratic Republic of the Congo", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Angola\", \"Burundi\", \"Central African Republic\", \"Republic of the Congo\", \"Rwanda\", \"South Sudan\", \"Tanzania\", \"Uganda\", \"Zambia\"]}"]}
+{"SubjectEntity": "People's Republic of China", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Afghanistan\", \"Bhutan\", \"India\", \"Kazakhstan\", \"Kyrgyzstan\", \"Laos\", \"Mongolia\", \"Myanmar\", \"North Korea\", \"Pakistan\", \"Russia\", \"Tajikistan\", \"Vietnam\"]}"]}
+{"SubjectEntity": "Algeria", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Libya\", \"Mali\", \"Mauritania\", \"Morocco\", \"Niger\", \"Tunisia\"]}"]}
+{"SubjectEntity": "Honduras", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"El Salvador\", \"Nicaragua\"]}"]}
+{"SubjectEntity": "Saint Kitts and Nevis", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Laos", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Cambodia\", \"China\", \"Myanmar\", \"Thailand\", \"Vietnam\"]}"]}
+{"SubjectEntity": "El Salvador", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Guatemala\", \"Honduras\"]}"]}
+{"SubjectEntity": "Czech Republic", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Austria\", \"Germany\", \"Poland\", \"Slovakia\"]}"]}
+{"SubjectEntity": "Palau", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Kyrgyzstan", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"China\", \"Kazakhstan\", \"Tajikistan\", \"Uzbekistan\"]}"]}
+{"SubjectEntity": "Mali", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Algeria\", \"Burkina Faso\", \"Guinea\", \"Ivory Coast\", \"Mauritania\", \"Niger\", \"Senegal\"]}"]}
+{"SubjectEntity": "Slovakia", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Austria\", \"Czech Republic\", \"Hungary\", \"Poland\", \"Ukraine\"]}"]}
+{"SubjectEntity": "Federated States of Micronesia", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Slovenia", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Austria\", \"Croatia\", \"Hungary\", \"Italy\"]}"]}
+{"SubjectEntity": "Trinidad and Tobago", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Nauru", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "South Africa", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Botswana\", \"Lesotho\", \"Mozambique\", \"Namibia\", \"Zimbabwe\"]}"]}
+{"SubjectEntity": "San Marino", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Italy\"]}"]}
+{"SubjectEntity": "Thailand", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Cambodia\", \"Laos\", \"Malaysia\", \"Myanmar\"]}"]}
+{"SubjectEntity": "Yemen", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Oman\", \"Saudi Arabia\"]}"]}
+{"SubjectEntity": "Portugal", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Spain\"]}"]}
+{"SubjectEntity": "Kosovo", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Albania\", \"Montenegro\", \"North Macedonia\", \"Serbia\"]}"]}
+{"SubjectEntity": "Iran", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Afghanistan\", \"Armenia\", \"Iraq\", \"Pakistan\", \"Turkey\", \"Turkmenistan\"]}"]}
+{"SubjectEntity": "Peru", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Bolivia\", \"Brazil\", \"Chile\", \"Colombia\", \"Ecuador\"]}"]}
+{"SubjectEntity": "Ghana", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Burkina Faso\", \"Ivory Coast\", \"Togo\"]}"]}
+{"SubjectEntity": "Sweden", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Finland\", \"Norway\"]}"]}
+{"SubjectEntity": "Egypt", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Libya\", \"Sudan\", \"Israel\"]}"]}
+{"SubjectEntity": "Zambia", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Angola\", \"Botswana\", \"Democratic Republic of the Congo\", \"Malawi\", \"Mozambique\", \"Namibia\", \"Tanzania\"]}"]}
+{"SubjectEntity": "Azerbaijan", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Armenia\", \"Georgia\", \"Iran\", \"Russia\"]}"]}
+{"SubjectEntity": "Angola", "Relation": "countryLandBordersCountry", "RawSamples": ["{\"answers\": [\"Namibia\", \"Democratic Republic of the Congo\", \"Zambia\"]}"]}
+{"SubjectEntity": "Ad Gerritsen", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Mircea Costache II", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Kamal Əhmədov", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": [\"Baku\"]}"]}
+{"SubjectEntity": "Maciej Moszew", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": [\"Warsaw\"]}"]}
+{"SubjectEntity": "Edward K. Reedy", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Viktor Savinykh", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Jan Sandorski", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Hans-Otto Wilhelm", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Lajos Cs. Németh", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": [\"Budapest\"]}"]}
+{"SubjectEntity": "Gerard J. Foschini", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Ochir Kikeyev", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Virgil Ogășanu", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Margrethe II of Denmark", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Bill Koch", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Luis Racionero", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Igor Romishevsky", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Margret Middell", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Johnnie Keyes", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Giorgio Moroder", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Francesc Vendrell i Vendrell", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": [\"Barcelona\"]}"]}
+{"SubjectEntity": "Gilles Villemure", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Anatoly Pavlenko", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Yury Yershov", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Denis Law", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "James L. Brooks", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Alevtina Fedulova", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Giorgi Shkhvatsabaya", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Robby Müller", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": [\"Berlin\"]}"]}
+{"SubjectEntity": "Claudie Hunzinger", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Imre Kozma", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Lothar de Maizière", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": [\"Berlin\"]}"]}
+{"SubjectEntity": "Bohumil Doležal", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": [\"Prague\"]}"]}
+{"SubjectEntity": "Bruce Chatwin", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": [\"Nice\"]}"]}
+{"SubjectEntity": "George A. Romero", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": [\"Pittsburgh\"]}"]}
+{"SubjectEntity": "Jean-Paul Proust", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Gao Xingjian", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Tony Tan Keng Yam", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": [\"Singapore\"]}"]}
+{"SubjectEntity": "Sid Ganis", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Vittorio Storaro", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Antonio Brack Egg", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": [\"Lima\"]}"]}
+{"SubjectEntity": "Anatolii Bondarchuk", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Małgorzata Szpakowska", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Mary Ellen Mark", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": [\"New York City\"]}"]}
+{"SubjectEntity": "Krishnam Raju", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Petru Lucinschi", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Yüksel Pazarkaya", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Veronica P. Kruglova", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Anatolii Khunov", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "John Lewis", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": [\"Atlanta\"]}"]}
+{"SubjectEntity": "Allen Lee", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Antanas Šurna", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Thelma Schoonmaker", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Oleg Konstantinovitsj Stoekalov", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Alfred Znamierowski", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Kip S. Thorne", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Petr Hájek", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Herbie Hancock", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Brian David Josephson", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Friedel Rausch", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Helga Reidemeister", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Jim Roberts", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Alexei Fridman", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Petru Gherghel", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Garth Fagan", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "John L. Borling", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Dzintars Lācis", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Mari Jose Urruzola", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Muhammad Yunus", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Maeve Binchy", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": [\"London\"]}"]}
+{"SubjectEntity": "Frank Chin", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": [\"New York City\"]}"]}
+{"SubjectEntity": "Nancy Pelosi", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Vladimir Zhitlov", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Katalin Sólyom", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Claude Piard", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Vladimir", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Haing S. Ngor", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": [\"Los Angeles\"]}"]}
+{"SubjectEntity": "Helmut Denk", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Don Mischer", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Betty Elizalde", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "J. H. Binford Peay III", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Peter Cartwright", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Jean Ichbiah", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Murali Mohan", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Mária Pozsonec", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Anja Silja", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "William Owens", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Jacob Palis", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Michael Parks", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": [\"Los Angeles\"]}"]}
+{"SubjectEntity": "Angela Carter", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": [\"London\"]}"]}
+{"SubjectEntity": "József Tóth", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Ted Green", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Gennady Merkulov", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Bob Mackie", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "James E. Livingston", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Gillian Shephard", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Anson Chan", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Uladzimir Basalyha", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Robert Saladrigas", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Janusz Kochanowski", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": []}"]}
+{"SubjectEntity": "Svetlana Svetlichnaya", "Relation": "personHasCityOfDeath", "RawSamples": ["{\"answers\": [\"Moscow\"]}"]}
