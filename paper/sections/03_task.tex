@@ -62,7 +62,7 @@ pulls exactly these two levers.
  fl/.style={->,line width=1.0pt,draw=black!78},
  ex/.style={draw,rounded corners,align=left,inner sep=3pt,minimum height=7mm,text width=36mm,font=\scriptsize,fill=cIn},
  stg/.style={draw,rounded corners,align=center,inner sep=4pt,minimum height=13mm,text width=20mm},
- agg/.style={draw,rounded corners,align=center,inner sep=3pt,minimum height=9mm,text width=27mm,fill=cAgg,font=\scriptsize},
+ agg/.style={draw=cOurs!60!black,rounded corners,align=center,inner sep=3pt,minimum height=9mm,text width=27mm,fill=white,font=\scriptsize},
  dia/.style={draw,diamond,aspect=1.6,align=center,inner sep=0pt,font=\scriptsize,fill=cDecode,text width=11mm},
  num/.style={circle,draw,fill=black!80,text=white,font=\bfseries\tiny,inner sep=1pt,minimum size=4mm},
  call/.style={draw,dashed,rounded corners,fill=cBadge,inner sep=2.5pt,font=\scriptsize\itshape,text=black!70}]
@@ -81,11 +81,11 @@ pulls exactly these two levers.
 \node[agg,right=9mm of d] (num){numeric: median of $n$};
 \node[agg,below right=8mm and 8mm of d] (nul){null-heavy: vote $\ge\theta$, else $\emptyset$};
 \begin{scope}[on background layer]
- \node[draw=black!35,rounded corners,fill=cAgg!30,fit=(awd)(num)(nul),inner sep=2.6mm,
-   label={[font=\scriptsize\itshape,text=black!65,yshift=1pt]below:per-relation aggregation \textbf{(ours)}}] (aggbox){};
+ \node[draw=cOurs,line width=1.2pt,rounded corners,fill=cOursBg,fit=(awd)(num)(nul),inner sep=2.8mm,
+   label={[font=\scriptsize\itshape,text=cOurs,yshift=1pt]below:per-relation aggregation \textbf{(ours)}}] (aggbox){};
 \end{scope}
-\node[stg,fill=cOut,right=8mm of num,text width=15mm] (norm){normalise};
-\node[stg,fill=cOut,right=6mm of norm,text width=13mm] (out){object set\\\texttt{\{\dots\}}};
+\node[stg,fill=cAgg,right=8mm of num,text width=15mm] (norm){normalise};
+\node[stg,fill=cAgg,right=6mm of norm,text width=13mm] (out){object set\\\texttt{\{\dots\}}};
 \draw[fl](e1.east)--([yshift=3mm]pr.west);
 \draw[fl](e2.east)--(pr.west);
 \draw[fl](e3.east)--([yshift=-3mm]pr.west);
@@ -97,7 +97,7 @@ pulls exactly these two levers.
 \node[call,above=4mm of awd,text width=53mm]{honorary doctor of Stockholm Univ.\ $\to$ \{Torvalds, Hedlund, \dots\} (40)};
 \node[call,below=9mm of nul,text width=53mm]{Antigua \& Barbuda $\to \emptyset$ (island: no land border)};
 \node[call,below=13mm of dec,text width=44mm]{empty pred vs.\ empty gold $=$ perfect F$_1$ $\Rightarrow$ \textbf{abstain when unsure}};
-\node[draw,rounded corners,fill=cAgg,inner sep=3pt,font=\scriptsize\bfseries,below right=13mm and 0mm of norm]
+\node[draw=black!55,rounded corners,fill=cBadge,inner sep=3pt,font=\scriptsize\bfseries,below right=13mm and 0mm of norm]
  {val (30B, $N{=}1$): 0.459 / 0.490};
 \end{tikzpicture}}
 \caption{System pipeline (no trainable parameters). Real dataset instances (left,
