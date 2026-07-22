@@ -35,6 +35,16 @@
 \newcommand{\iconstadium}{\ichip{icStadium}{\draw(0,0)ellipse(0.88 and 0.52);\draw(0,0)ellipse(0.4 and 0.23);}}
 \newcommand{\icontrophy}{\ichip{icAward}{\draw[fill=white](-0.5,0.86)--(0.5,0.86)--(0.34,0.12) .. controls (0.18,-0.1) and (-0.18,-0.1) .. (-0.34,0.12)--cycle;\draw(0,-0.1)--(0,-0.56);\draw(-0.3,-0.78)--(0.3,-0.78);\draw(-0.5,0.74) .. controls (-1.04,0.64) and (-0.98,0.12) .. (-0.5,0.32);\draw(0.5,0.74) .. controls (1.04,0.64) and (0.98,0.12) .. (0.5,0.32);}}
 \newcommand{\iconarea}{\ichip{icArea}{\draw[fill=white](-0.78,-0.28) .. controls (-0.58,0.56) and (0.16,0.62) .. (0.52,0.26) .. controls (0.84,-0.08) and (0.42,-0.64) .. (-0.16,-0.56) .. controls (-0.52,-0.5) and (-0.86,-0.52) .. (-0.78,-0.28)--cycle;}}
+% ---- functional (pipeline-stage) icon chips ----
+\definecolor{icPrompt}{HTML}{3B82C4}\definecolor{icLLM}{HTML}{6C5CE7}
+\definecolor{icNorm}{HTML}{5D6D7E}\definecolor{icKB}{HTML}{1B9AAA}
+\newcommand{\icprompt}{\ichip{icPrompt}{\draw(-0.58,-0.82)rectangle(0.58,0.82);\foreach\y in{-0.42,0,0.42}\draw(-0.3,\y)--(0.3,\y);}}
+\newcommand{\icllm}{\ichip{icLLM}{\fill(0,0.9)--(0.22,0.22)--(0.9,0)--(0.22,-0.22)--(0,-0.9)--(-0.22,-0.22)--(-0.9,0)--(-0.22,0.22)--cycle;}}
+\newcommand{\icnorm}{\ichip{icNorm}{\draw[fill=white](-0.72,0.7)--(0.72,0.7)--(0.16,-0.02)--(0.16,-0.72)--(-0.16,-0.72)--(-0.16,-0.02)--cycle;}}
+\newcommand{\ickb}{\ichip{icKB}{\draw(0,0.55)--(-0.56,-0.46);\draw(0,0.55)--(0.56,-0.46);\draw(-0.56,-0.46)--(0.56,-0.46);\fill(0,0.58)circle(0.2);\fill(-0.58,-0.48)circle(0.2);\fill(0.58,-0.48)circle(0.2);}}
+\newcommand{\icenum}{\ichip{cOurs}{\foreach\y in{-0.52,0,0.52}{\fill(-0.62,\y)circle(0.12);\draw(-0.32,\y)--(0.62,\y);}}}
+\newcommand{\icmed}{\ichip{cOurs}{\fill(-0.66,-0.6)rectangle(-0.28,0.16);\fill(-0.18,-0.6)rectangle(0.2,0.64);\fill(0.3,-0.6)rectangle(0.68,-0.08);}}
+\newcommand{\icvote}{\ichip{cOurs}{\draw[line width=1.7pt](-0.58,0.02)--(-0.14,-0.46)--(0.62,0.56);}}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 \usepackage{algorithm}

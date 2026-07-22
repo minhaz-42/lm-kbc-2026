@@ -69,27 +69,25 @@ pulls exactly these two levers.
  call/.style={draw,dashed,rounded corners,fill=cBadge,inner sep=2.5pt,font=\scriptsize\itshape,text=black!70}]
 % --- input: real dataset instances, each with an entity-type icon ---
 \node[ex] (e1){\iconglobe~\textbf{Ethiopia} $\to$ Djibouti, Eritrea, \dots};
-\node[ex,below=1.5mm of e1] (e2){\iconperson~\textbf{Joseph L.\ Goldstein} $\to \emptyset$};
-\node[ex,below=1.5mm of e2] (e3){\iconbuilding~\textbf{Bharti Airtel} $\to$ Bombay Stock Exch.};
-\node[ex,below=1.5mm of e3] (e4){\icontrophy~\textbf{Stockholm hon.\ dr} $\to$ Torvalds, \dots};
-\node[ex,below=1.5mm of e4] (e5){\iconstadium~\textbf{Est.\ Gileno de Carli} $\to$ 5000};
-\node[ex,below=1.5mm of e5] (e6){\iconarea~\textbf{Lo\v{s}inj} $\to$ 74.36 km$^2$};
+\node[ex,below=1.7mm of e1] (e2){\iconbuilding~\textbf{Bharti Airtel} $\to$ Bombay Stock Exch.};
+\node[ex,below=1.7mm of e2] (e3){\iconstadium~\textbf{Est.\ Gileno de Carli} $\to$ 5000};
+\node[ex,below=1.7mm of e3] (e4){\iconperson~\textbf{Joseph L.\ Goldstein} $\to \emptyset$};
 \begin{scope}[on background layer]
- \node[draw,dotted,rounded corners,fit=(e1)(e6),inner sep=4pt,
+ \node[draw,dotted,rounded corners,fit=(e1)(e4),inner sep=4pt,
    label={[font=\scriptsize\bfseries,yshift=-1pt]above:dataset instances $(s,r)$}] (inbox){};
 \end{scope}
-\node[stg,fill=cPrompt,right=14mm of inbox] (pr){scope-grounded\\prompt};
-\node[stg,fill=cDecode,right=8mm of pr] (dec){LLM $\times N$\\\textbf{Gemma-4-31B}};
+\node[stg,fill=cPrompt,right=14mm of inbox] (pr){\icprompt\\[2pt]scope-grounded\\prompt};
+\node[stg,fill=cDecode,right=8mm of pr] (dec){\icllm\\[2pt]LLM $\times N$\\\textbf{Gemma-4-31B}};
 \node[dia,right=8mm of dec] (d){relation\\kind?};
-\node[agg,above right=8mm and 8mm of d] (awd){\textsc{awardWonBy}: enumerate};
-\node[agg,right=9mm of d] (num){numeric: median of $n$};
-\node[agg,below right=8mm and 8mm of d] (nul){null-heavy: vote $\ge\theta$, else $\emptyset$};
+\node[agg,above right=8mm and 8mm of d] (awd){\icenum~\textsc{awardWonBy}: enumerate};
+\node[agg,right=9mm of d] (num){\icmed~numeric: median of $n$};
+\node[agg,below right=8mm and 8mm of d] (nul){\icvote~null-heavy: vote $\ge\theta$, else $\emptyset$};
 \begin{scope}[on background layer]
  \node[draw=black!25,rounded corners=3pt,fill=cAgg!22,fit=(awd)(num)(nul),inner sep=3mm,
    label={[font=\scriptsize\itshape,text=black!65,yshift=1pt]below:per-relation aggregation \textbf{(ours)}}] (aggbox){};
 \end{scope}
-\node[stg,fill=cOut,right=8mm of num,text width=15mm] (norm){normalise};
-\node[stg,fill=cOut,right=6mm of norm,text width=13mm] (out){object set\\\texttt{\{\dots\}}};
+\node[stg,fill=cOut,right=8mm of num,text width=15mm] (norm){\icnorm\\[2pt]normalise};
+\node[stg,fill=cOut,right=6mm of norm,text width=13mm] (out){\ickb\\[2pt]object set\\\texttt{\{\dots\}}};
 \draw[fl](inbox.east)--(pr.west);
 \draw[fl](pr)--(dec);\draw[fl](dec)--(d);
 \draw[fl](d)|-(awd);\draw[fl](d)--(num);\draw[fl](d)|-(nul);
