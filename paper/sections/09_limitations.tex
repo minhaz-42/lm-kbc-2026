@@ -7,11 +7,13 @@ per-relation optima are optimistic rather than held-out and should be read as
 diagnostic only.
 
 \paragraph{Decoding variance.}
-We did not measure the run-to-run variance of the stochastic decoding ($N{=}3$,
-$n{=}5$), and \textsc{awardWonBy} has only 10 subjects. Several margins are within
-plausible decoding noise, so small deltas, such as the $0.03$ gap between the 14B
-and 30B on \textsc{personHasCityOfDeath}, are indicative only and should not be
-read as reliable per-relation orderings.
+We measure run-to-run variance for the 14B only (Section~\ref{sec:analysis}), by
+scoring each cached draw separately; this covers five of the six relations, since
+\textsc{awardWonBy} was decoded once. The estimate uses three to five runs, so the
+per-relation standard deviations are themselves noisy, and \textsc{awardWonBy} has
+only 10 subjects. Because the 30B is single-sample we cannot measure its variance
+directly and assume it is comparable. Small per-relation deltas should accordingly
+be read as indicative only.
 
 \paragraph{Model coverage.}
 Being closed-book, the system inherits the base model's coverage and recency

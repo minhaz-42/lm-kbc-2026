@@ -3,7 +3,7 @@
 Our primary system, \textbf{Gemma-4-31B}, scores \textbf{0.461}
 relation-averaged macro-F\textsubscript{1} (\textbf{0.488} micro) on validation,
 versus $0.169$/$0.195$ for the empty baseline, $0.300$/$0.313$ for the official
-baseline, and $0.416$/$0.442$ for the smaller Qwen2.5-14B. Figure~\ref{fig:bars}
+baseline, and $0.415$/$0.442$ for the smaller Qwen2.5-14B. Figure~\ref{fig:bars}
 and Table~\ref{tab:results} give the per-relation picture. Gemma-4-31B beats the
 official baseline on \emph{five of the six} relations, the exception being
 \textsc{hasCapacity} ($0.17$ vs.\ $0.18$, within decoding noise). Over the 14B, its
@@ -16,16 +16,18 @@ $0.45$), the relation where the single-sample 30B forgoes the abstention voting 
 14B uses. Strikingly, the 30B attains this overall lead \emph{without}
 self-consistency or abstention, from a single sample. We could not run voting on
 the 30B, so we isolate the decode-time levers on the smaller models in
-Section~\ref{sec:analysis}.
+Section~\ref{sec:analysis}, where a matched single-sample comparison separates the
+backbone effect ($+0.057$) from the decoding effect ($+0.011$) and shows the
+ordering is not an artefact of the two systems being decoded differently.
 
-\begin{figure*}[t]
+\begin{figure}[t]
 \centering
-\includegraphics[width=0.56\textwidth]{figures/fig_bars.pdf}
+\includegraphics[width=\columnwidth]{figures/fig_bars.pdf}
 \caption{Per-relation validation macro-F\textsubscript{1}: empty baseline,
 official baseline, Qwen2.5-14B, and Gemma-4-31B. Gemma-4-31B beats the official
 baseline on five of the six relations.}
 \label{fig:bars}
-\end{figure*}
+\end{figure}
 
 \begin{table}[t]
 \centering\footnotesize
@@ -41,7 +43,7 @@ hasArea             & 0.000 & 0.290 & \textbf{0.330} & \textbf{0.330} \\
 hasCapacity         & 0.000 & \textbf{0.180} & 0.090 & 0.170 \\
 awardWonBy          & 0.000 & 0.101 & 0.096 & \textbf{0.140} \\
 \midrule
-Avg.\ of relations  & 0.169 & 0.300 & 0.416 & \textbf{0.461} \\
+Avg.\ of relations  & 0.169 & 0.300 & 0.415 & \textbf{0.461} \\
 Micro (all inst.)   & 0.195 & 0.313 & 0.442 & \textbf{0.488} \\
 \bottomrule
 \end{tabular}

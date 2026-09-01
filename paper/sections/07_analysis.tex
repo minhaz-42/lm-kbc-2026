@@ -3,6 +3,34 @@
 Because the headline 30B result is single-sample, we isolate the decode-time levers
 on the 14B, which we can sample freely; all ablations use the same cached samples.
 
+\paragraph{Run-to-run variance.}
+Decoding is stochastic ($\tau{=}0.7$), so no margin should be read before knowing
+how far a score moves between runs. The cached 14B draws are independent, so
+scoring the pipeline on each draw \emph{separately} yields repeated single-sample
+runs at no extra cost. Across them the relation-averaged
+macro-F\textsubscript{1} is $0.404\pm0.006$ (micro $0.428\pm0.008$; sd over five
+runs), but the per-relation spread is very uneven:
+\textsc{countryLandBordersCountry} is nearly deterministic (sd $0.002$), whereas
+\textsc{hasCapacity} ranges over $0.04$--$0.11$ (sd $0.030$) and
+\textsc{personHasCityOfDeath} over $0.41$--$0.44$ (sd $0.017$). Small per-relation
+gaps in Table~\ref{tab:results} are therefore not interpretable: the $0.03$ by
+which the 14B leads the 30B on \textsc{personHasCityOfDeath} is inside that
+relation's own run-to-run range, as is the $0.01$ separating the 30B from the
+official baseline on \textsc{hasCapacity}. The aggregate ordering, by contrast, is
+stable: the $0.057$ by which the 30B leads is roughly nine times the aggregate sd.
+
+\paragraph{Backbone or decoding?}
+Our headline comparison could conflate two factors, since the 30B is decoded with a
+single sample and the 14B with the full aggregation. Holding decoding fixed
+separates them. At \emph{matched} single-sample decoding ($N{=}1$, no voting, no
+median) the 30B scores $0.461$ and the 14B $0.404\pm0.006$, a $+0.057$ backbone
+effect; switching the 14B's full decode-time machinery on moves it from $0.404$ to
+$0.415$, a $+0.011$ decoding effect. The backbone gap is about five times the
+largest decoding gain available on the 14B, so the model-scale conclusion does not
+rest on the two systems having been decoded differently. It also bounds what voting
+could plausibly add to the 30B: were it to gain what the 14B gains, it would reach
+roughly $0.47$, which would widen rather than overturn the ordering.
+
 \paragraph{Abstention.}
 Abstention matters most exactly where the metric rewards silence. On the three
 null-heavy relations, even predicting nothing beats the official 9B baseline
@@ -18,14 +46,12 @@ How high should $\theta$ be? Figure~\ref{fig:ablate} sweeps it for the 14B on th
 null-heavy relations. Our deployed systems fix $\theta{=}0.5$; the sweep is
 diagnostic (run on the split we report on, so its optima are optimistic, not tuned
 back in). Even so, the pattern argues for per-relation thresholds:
-\textsc{personHasCityOfDeath} (39\% empty)
-peaks at a low $\theta$ and falls off as voting grows stricter, while
-\textsc{countryLandBordersCountry} and \textsc{companyTradesAtStockExchange}
-tolerate aggressive voting. Numeric relations are a different story: median
-aggregation is roughly neutral, so the gap there is knowledge-bound rather than
-variance-bound; the model's area and capacity guesses are often the right order of
-magnitude but fall outside the 5\% band (the \textsc{hasArea} miss in
-Table~\ref{tab:qual}).
+\textsc{personHasCityOfDeath} (39\% empty) peaks at a low $\theta$ and falls off as
+voting grows stricter, while \textsc{countryLandBordersCountry} and
+\textsc{companyTradesAtStockExchange} tolerate aggressive voting. Numerics differ:
+median aggregation is roughly neutral, so their gap is knowledge- rather than
+variance-bound, with area and capacity guesses often the right order of magnitude
+but outside the 5\% band (Appendix~\ref{sec:appendix-qual}).
 
 \begin{figure}[t]
 \centering
@@ -39,39 +65,10 @@ arguing for per-relation thresholds.}
 \end{figure}
 
 \paragraph{The \textsc{awardWonBy} recall cap.}
-The relation \textsc{awardWonBy}, which we beat the baseline on only narrowly, is
-recall-capped, and this limit constrains both models. Gold sets average
-${\sim}146$ recipients (max 610), but the 14B enumerates only ${\sim}11$ names; its
-outputs are \emph{not} truncated, it closes the JSON early, capping recall near
-$11/146\approx0.07$. The listed names are often plausible but wrong ($P{=}0.39$).
-Parametric recall and a reluctance to enumerate bound this relation; within a
-closed-book single model it is largely unsolved, and a larger in-budget model or
-multi-step decomposition would help most.
-
-\paragraph{Qualitative behaviour.}
-Table~\ref{tab:qual} shows representative Gemma-4-31B outputs: exact on well-known
-facts and near-complete on borders, with the two error modes above visible, a
-numeric near-miss on \textsc{hasArea} and plausible-but-wrong famous names on
-\textsc{awardWonBy}.
-
-\begin{table*}[t]
-\centering\scriptsize
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{@{}llp{4.2cm}p{4.9cm}c@{}}
-\toprule
-Relation & Subject & Gold (abbrev.) & Gemma-4-31B output & \\
-\midrule
-borders & Ethiopia & Djibouti, Eritrea, Kenya, Somalia, S.\ Sudan, Sudan & Djibouti, Eritrea, Kenya, Somalia, S.\ Sudan & \checkmark\,5/6 \\
-death & Vito Acconci & New York City & New York City & \checkmark \\
-company & Bharti Airtel & Bombay Stock Exch., NSE of India & Bombay Stock Exchange, NSE of India & \checkmark \\
-capacity & Gileno de Carli & 5000 & 5000 & \checkmark \\
-area & Lo\v{s}inj & 74.36 & 123.3 & $\times$ \\
-award & Stockholm hon.\ dr & Torvalds, Hedlund, Trebst, \dots(40) & Mandela, Tutu, Annan, Yunus, \dots & $\times$ \\
-\bottomrule
-\end{tabular}
-\caption{Qualitative examples: Gemma-4-31B vs.\ gold. Exact hits on
-\textsc{personHasCityOfDeath}/\textsc{hasCapacity}, near-complete borders; the
-numeric near-miss (\textsc{hasArea}) and plausible-but-wrong enumeration
-(\textsc{awardWonBy}) are the knowledge-bound errors discussed above.}
-\label{tab:qual}
-\end{table*}
+\textsc{awardWonBy}, which we beat the baseline on only narrowly, is recall-capped
+for both models. Gold sets average ${\sim}146$ recipients (max 610), but the 14B
+enumerates only ${\sim}11$ names: its outputs are \emph{not} truncated, it closes
+the JSON early, capping recall near $11/146\approx0.07$, and the names it does list
+are often plausible but wrong ($P{=}0.39$). Within a closed-book single model this
+relation is largely unsolved; a larger in-budget model or multi-step decomposition
+would help most.

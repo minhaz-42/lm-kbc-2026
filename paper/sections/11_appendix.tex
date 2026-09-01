@@ -1,0 +1,30 @@
+\appendix
+\section{Qualitative Examples}
+\label{sec:appendix-qual}
+\paragraph{Qualitative behaviour.}
+Table~\ref{tab:qual} shows representative Gemma-4-31B outputs: exact on well-known
+facts and near-complete on borders, with the two error modes above visible, a
+numeric near-miss on \textsc{hasArea} and plausible-but-wrong famous names on
+\textsc{awardWonBy}.
+
+\begin{table*}[t]
+\centering\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llp{4.2cm}p{4.9cm}c@{}}
+\toprule
+Relation & Subject & Gold (abbrev.) & Gemma-4-31B output & \\
+\midrule
+borders & Ethiopia & Djibouti, Eritrea, Kenya, Somalia, S.\ Sudan, Sudan & Djibouti, Eritrea, Kenya, Somalia, S.\ Sudan & \checkmark\,5/6 \\
+death & Vito Acconci & New York City & New York City & \checkmark \\
+company & Bharti Airtel & Bombay Stock Exch., NSE of India & Bombay Stock Exchange, NSE of India & \checkmark \\
+capacity & Gileno de Carli & 5000 & 5000 & \checkmark \\
+area & Lo\v{s}inj & 74.36 & 123.3 & $\times$ \\
+award & Stockholm hon.\ dr & Torvalds, Hedlund, Trebst, \dots(40) & Mandela, Tutu, Annan, Yunus, \dots & $\times$ \\
+\bottomrule
+\end{tabular}
+\caption{Qualitative examples: Gemma-4-31B vs.\ gold. Exact hits on
+\textsc{personHasCityOfDeath}/\textsc{hasCapacity}, near-complete borders; the
+numeric near-miss (\textsc{hasArea}) and plausible-but-wrong enumeration
+(\textsc{awardWonBy}) are the knowledge-bound errors discussed above.}
+\label{tab:qual}
+\end{table*}

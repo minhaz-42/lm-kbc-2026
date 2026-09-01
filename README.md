@@ -6,7 +6,7 @@ given a `(subject, relation)` pair, predict the *complete* set of object strings
 **no retrieval, no fine-tuning**.
 
 > Task page: <https://www.akbc.ws/2026/shared-task.html> · Leaderboard: Codabench ·
-> Paper: [`paper/`](paper/) (ACL format, ≤ 6 pages, double-blind)
+> Paper: [`paper/`](paper/) (ACL format, ≤ 6 pages of main content; camera-ready)
 
 ## Headline results (validation, relation-averaged macro-F1 / micro-F1)
 
@@ -14,7 +14,7 @@ given a `(subject, relation)` pair, predict the *complete* set of object strings
 |---|---|---|---|
 | Empty baseline (predict nothing) | 0.169 | 0.195 | measured floor |
 | Official baseline (Qwen3.5-9B) | 0.300 | 0.313 | organiser few-shot |
-| **Qwen2.5-14B** (local, 4-bit) | 0.416 | 0.442 | with self-consistency voting |
+| **Qwen2.5-14B** (local, 4-bit) | 0.415 | 0.442 | with self-consistency voting |
 | **Gemma-4-31B** (API, single sample) | **0.461** | **0.488** | **primary system** |
 
 Gemma-4-31B beats the official baseline on **five of the six relations** (all but

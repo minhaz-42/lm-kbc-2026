@@ -8,7 +8,8 @@ Doing so is harder than answering a single factual question: a KB entry is a
 \emph{complete set} of facts, so the model must decide not only what is true but
 how many objects, possibly none, a subject and relation admit.
 
-The LM-KBC~2026 shared task \citep{alivanistos2022prompting,kalo2023lmkbc,kalo2025lmkbc}
+The AKBC~2026 shared task \citep{kalo2026akbc}, the latest edition of the LM-KBC
+challenge \citep{alivanistos2022prompting,kalo2023lmkbc,kalo2025lmkbc},
 formalises this: given a subject $s$ and relation $r$, predict the complete object
 set $\{o_1,\dots,o_k\}$, where $k$ may be zero, one, or many (Section~\ref{sec:task}).
 Predictions are scored by macro precision, recall, and F\textsubscript{1}, with
@@ -41,19 +42,16 @@ inconsistent, while scope-grounded prompts and median aggregation handle the res
 (Figure~\ref{fig:pipeline}).
 
 This is a shared-task system paper making three claims of decreasing generality.
-First, a metric observation (Section~\ref{sec:task}): since a correct empty set
+First, a metric observation (Section~\ref{sec:task}): because a correct empty set
 scores a perfect F\textsubscript{1}, the empty baseline already beats the official
 one on the null-heavy relations, so the task rewards \emph{when to answer} as much
-as what to answer. This
-follows from the metric but is easy to miss, and it shapes our design. Second, a
-simple, reproducible pipeline (Section~\ref{sec:method}) with no trainable
-parameters, combining standard parts: scope-grounded prompting, self-consistency
-voting for abstention (a fixed a-priori $\theta{=}0.5$), and median aggregation for
-numerics; on the null-heavy relations even predicting nothing beats the official
-baseline, and voting on top of the 14B adds a further, if modest, gain. Third, and
-most useful, an
-empirical finding: in our one controlled comparison at the ${\le}$32B budget, a
-single-sample Gemma-4-31B ($0.461$/$0.488$, beating the official baseline on five of
-the six relations) outscores the smaller 4-bit Qwen2.5-14B even with self-consistency
-voting ($0.416$); whether voting also helps the 30B is untested, as API limits kept
-it off (Section~\ref{sec:analysis}).
+as what to answer. It follows from the metric but is easy to miss, and it shapes
+our design. Second, a reproducible pipeline with no trainable parameters
+(Section~\ref{sec:method}), combining standard parts: scope-grounded prompting,
+self-consistency voting for abstention (a fixed a-priori $\theta{=}0.5$), and
+median aggregation for numerics. Third, and most useful, an empirical finding: at
+the ${\le}$32B budget a single-sample Gemma-4-31B ($0.461$/$0.488$, beating the
+official baseline on five of the six relations) outscores a 4-bit Qwen2.5-14B even
+with voting ($0.415$); holding decoding fixed, the backbone accounts for $+0.057$
+against decoding's $+0.011$, so scale rather than decode-time machinery drives the
+gap (Section~\ref{sec:analysis}).

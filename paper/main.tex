@@ -1,11 +1,10 @@
 % LM-KBC 2026 shared-task system paper.
 % Build: cd paper && tectonic main.tex   (acl.sty + acl_natbib.bst vendored here)
-% NB: mode = review => DOUBLE-BLIND (author hidden, line numbers on). The AKBC@EMNLP
-% 2026 shared task requires all submissions be double-blind. For the camera-ready
-% AFTER acceptance, change [review] to [final] to reveal the author block below.
+% NB: mode = final => CAMERA-READY (author block revealed, no line numbers).
+% Accepted to the AKBC 2026 shared task; camera-ready due 2026-09-15.
 % NB: do NOT add \bibliographystyle{acl_natbib} -- acl.sty sets it (duplicate => bibtex error).
 \documentclass[11pt]{article}
-\usepackage[review]{acl}
+\usepackage[final]{acl}
 \usepackage{times}
 \usepackage{latexsym}
 \usepackage[T1]{fontenc}
@@ -73,5 +72,7 @@ and Numeric Self-Consistency}
 \input{sections/10_ethics}
 
 \bibliography{references}
+
+\input{sections/11_appendix}
 
 \end{document}
