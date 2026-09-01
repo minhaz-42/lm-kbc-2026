@@ -90,3 +90,12 @@ Every result in the paper is a deterministic, GPU-free function of the cached
 Open-weight models only (≤ 32B total parameters, counting quantization-free);
 closed-book (no web search / RAG / external corpus / KB lookup); no fine-tuning or
 continued pretraining. API hosting is used purely as compute for the open weights.
+
+## Citation and license
+
+If you use this code, please cite the shared task
+([Kalo et al., 2026](https://lm-kbc.github.io/challenge2026/)) and this system paper.
+
+Code in this repository is released under the [MIT License](LICENSE). The LM-KBC
+2026 dataset is **not** redistributed here; download it from the organisers, where
+it is licensed CC BY 4.0.
