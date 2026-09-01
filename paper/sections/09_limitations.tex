@@ -1,10 +1,16 @@
 \section*{Limitations}
-\paragraph{Held-out evaluation.}
-We report validation results only; no test-set numbers are available yet. Our
-reported systems use a fixed, a-priori $\theta{=}0.5$, but the diagnostic threshold
-sweep (Figure~\ref{fig:ablate}) is run on the same split it is scored on, so its
-per-relation optima are optimistic rather than held-out and should be read as
-diagnostic only.
+\paragraph{No held-out evaluation.}
+Every number we report is measured on validation. We did not obtain an official
+test score: predictions for the 477 test instances were generated and are released
+with our code, but they were not scored on the shared task's evaluation server, and
+the test gold labels are not public, so we cannot score them ourselves. Our results
+are therefore not independently verifiable, and since the validation split informed
+our design decisions, they should be read as an optimistic estimate of held-out
+performance rather than a held-out measurement. This bears most on the comparisons
+we draw between models: the ranking we report may not survive on test. The caveat
+applies with more force to the threshold sweep (Figure~\ref{fig:ablate}), which is
+run on the very split it is scored on, so its per-relation optima are diagnostic
+only; our deployed systems avoid tuning on it by fixing $\theta{=}0.5$ a priori.
 
 \paragraph{Decoding variance.}
 We measure run-to-run variance for the 14B only (Section~\ref{sec:analysis}), by

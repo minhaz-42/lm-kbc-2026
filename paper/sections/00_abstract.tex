@@ -12,8 +12,8 @@ null-heavy relations even beats the official baseline. We therefore treat
 that grounds each prompt in the relation's exact scope, decides abstention from the
 sampled set rather than by instruction, and takes a median over samples for numeric
 relations. Our \textbf{Gemma-4-31B} system (30.7B, the strongest in-budget model we
-could access) scores $0.461$/$0.488$ (relation-averaged/micro) from a single
-sample, beating the official baseline on five of the six relations, while a smaller
+could access) scores $0.461$/$0.488$ (relation-averaged/micro) on validation from
+a single sample, beating the official baseline on five of the six relations, while a smaller
 4-bit Qwen2.5-14B, even with self-consistency voting, reaches only $0.415$: in this
 comparison a larger single-sample model outscores a smaller voted one.
 Generation is cached, so decoding reproduces without a GPU. We release all code,
