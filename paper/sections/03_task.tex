@@ -42,8 +42,8 @@ prediction is empty, and recall as $1$ when the gold set is empty. We report
 \emph{relation-averaged} macro-F\textsubscript{1} (the mean of the six per-relation
 scores) and \emph{micro-averaged} F\textsubscript{1} (over all instances).
 
-These conventions follow directly from the metric definition, but their effect is
-easy to underestimate: because an empty prediction against an empty gold set is a
+Their effect is easy to underestimate: because an empty prediction against an
+empty gold set is a
 perfect F\textsubscript{1}, predicting the empty set for \emph{every} validation
 instance already scores the ``Empty'' bars in Figure~\ref{fig:bars}, averaging
 $0.169$ relation-averaged macro-F\textsubscript{1} ($0.195$ micro). Although this
@@ -52,8 +52,8 @@ relations doing nothing already \emph{beats} that baseline
 (\textsc{personHasCityOfDeath} $0.39$ vs.\ $0.21$;
 \textsc{companyTradesAtStockExchange} $0.36$ vs.\ $0.35$). The metric
 therefore rewards two narrow abilities rather than answering everything: recalling
-the numeric values, and abstaining precisely when no object exists. Our pipeline
-pulls exactly these two levers.
+numeric values, and abstaining precisely when no object exists---the two levers our
+pipeline pulls.
 
 \begin{figure*}[t]
 \centering\footnotesize
@@ -109,12 +109,8 @@ into a scope-grounded chat prompt (stage~2); the model is sampled $N$ times
 (keep an object only if it appears in $\ge\theta$ of samples, else $\emptyset$)
 for the null-heavy string relations, and \emph{enumeration} for
 \textsc{awardWonBy}; a final normalisation matches the evaluator exactly. Dashed
-callouts give worked examples, e.g.\ the island country \textsc{Antigua \& Barbuda}
-correctly collapses to $\emptyset$; the input cards likewise include the
-still-living scientist \textsc{Joseph L.\ Goldstein}, mapped to $\emptyset$ (no city
-of death). The design follows from the metric
-insight (lower-left badge). The reported Gemma-4-31B score uses a single sample
-($N{=}1$, voting off); the $N$-sample voting path is exercised by the 14B ablation
-(Section~\ref{sec:analysis}).}
+callouts give worked examples of the abstention cases. The reported Gemma-4-31B
+score uses a single sample ($N{=}1$, voting off); the $N$-sample voting path is
+exercised by the 14B ablation (Section~\ref{sec:analysis}).}
 \label{fig:pipeline}
 \end{figure*}

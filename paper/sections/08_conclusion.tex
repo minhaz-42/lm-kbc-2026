@@ -2,8 +2,7 @@
 We treated \emph{when to answer} as the central decision in closed-book,
 set-valued KB construction: because macro-F\textsubscript{1} rewards a correct empty
 set, abstention pays off, numeric recall is scarce, and scope grounding curbs over-
-and under-prediction. Instantiated with Gemma-4-31B, the system reaches
-$0.461$/$0.488$ (relation-averaged/micro) and beats the official baseline on five of
-the six relations, reproducibly from a cached pass. The durable lesson is
-comparative: a single-sample 30B outscores a voted 14B, while voting mainly rescues
-weaker models, so pairing voting with the 30B is the clearest next step.
+and under-prediction. With Gemma-4-31B it reaches $0.461$/$0.488$
+(relation-averaged/micro), beating the official baseline on five of six relations,
+reproducibly from a cached pass. Comparatively, a single-sample 30B outscores a
+voted 14B, so pairing the two is the clearest next step.
